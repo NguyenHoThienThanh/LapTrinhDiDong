@@ -37,7 +37,6 @@ public class ComboBapNuocActivity extends AppCompatActivity {
         setContentView(R.layout.activity_food_and_beverage);
         comboBapNuocDAO = new ComboBapNuocDAO(this);
         toolBarFAndB();
-        fakeData();
         getAddWidgets();
         foodAndBeverageAdapter();
     }
@@ -80,6 +79,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
             public void onPlusClick(int position) {
                 ComboBapNuoc foodAndBeverage = foodAndBeverageList.get(position);
                 int numberOrder = foodAndBeverage.getSoLuongDat();
+                int number = foodAndBeverage.getSoLuong();
                 if (numberOrder < foodAndBeverage.getSoLuong()) {
                     numberOrder = numberOrder + 1;
                     foodAndBeverage.setSoLuongDat(numberOrder);
@@ -92,6 +92,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
             public void onMinusClick(int position) {
                 ComboBapNuoc foodAndBeverage = foodAndBeverageList.get(position);
                 int numberOrder = foodAndBeverage.getSoLuongDat();
+                int number = foodAndBeverage.getSoLuong();
                 if (numberOrder > 0) {
                     numberOrder = numberOrder - 1;
                     foodAndBeverage.setSoLuongDat(numberOrder);
@@ -116,25 +117,8 @@ public class ComboBapNuocActivity extends AppCompatActivity {
     }
 
     public List<ComboBapNuoc> getListFoodAndBeverage(){
-        List<ComboBapNuoc> foodAndBeverage;
-        foodAndBeverage = comboBapNuocDAO.findAllCombo();
+        List<ComboBapNuoc> foodAndBeverage = null;
         return foodAndBeverage;
     }
 
-    public void fakeData(){
-        List<ComboBapNuoc> comboBapNuocList = new ArrayList<>();
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"01", "GOLDEN 1", 135000, 8));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"02", "GOLDEN 2", 192000, 5 ));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"03", "GOLDEN 3", 259000, 30 ));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"04", "GOLDEN 4", 98000, 20 ));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"05", "GOLDEN 5", 155000, 35 ));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"06", "GOLDEN 6", 125000, 40 ));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"07", "GOLDEN 7", 178000, 25 ));
-        comboBapNuocList.add(new ComboBapNuoc(R.drawable.corn,"08", "GOLDEN 8", 198000, 30 ));
-
-        for (ComboBapNuoc comboBapNuoc : comboBapNuocList) {
-            comboBapNuocDAO.insertCombo(comboBapNuoc);
-        }
-        
-    }
 }

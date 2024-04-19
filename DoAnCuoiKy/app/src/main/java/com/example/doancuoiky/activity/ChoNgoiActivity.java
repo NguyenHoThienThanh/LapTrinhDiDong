@@ -11,12 +11,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.ChoNgoiAdapter;
 import com.example.doancuoiky.dao.ChoNgoiDAO;
 import com.example.doancuoiky.model.ChoNgoi;
+import com.example.doancuoiky.model.ComboBapNuoc;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,14 +31,17 @@ public class ChoNgoiActivity extends AppCompatActivity {
     Button btn_continue;
 
     ChoNgoiDAO choNgoiDAO;
+    TextView txt_tempTotal;
+
+    double tongTien = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cho_ngoi);
         choNgoiDAO = new ChoNgoiDAO(this);
+        txt_tempTotal = findViewById(R.id.txt_TempTotal);
         toolBarSeat();
-        fakeData();
         seatAdapter();
         buttonContinue();
     }
@@ -49,18 +55,20 @@ public class ChoNgoiActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Kiểm tra nếu home button được chọn
-        if(item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    public void toolBarSeat(){
+
+    public void toolBarSeat() {
         Toolbar toolbar = findViewById(R.id.toolbar_seat);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    public void seatAdapter(){
+
+    public void seatAdapter() {
         recyclerView = findViewById(R.id.rcv_seat);
         // Khởi tạo adapter và gán vào recyclerView
         adapter = new ChoNgoiAdapter(this);
@@ -69,10 +77,35 @@ public class ChoNgoiActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 8);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        adapter.setData(getListSeat());
+        arraySeats = (ArrayList<ChoNgoi>) getListSeat();
+        adapter.setData(arraySeats, new ChoNgoiAdapter.IOnSeatClickListener() {
+            @Override
+            public void onSeatClick(int position) {
+                ChoNgoi choNgoi = arraySeats.get(position);
+                double giaGhe = 55000; // Đơn vị tiền
+                if (choNgoi.isSelected()) {
+                    // Nếu ghế đã được chọn trước đó, giảm tiền đi
+                    tongTien += giaGhe;
+                } else {
+                    // Nếu ghế chưa được chọn trước đó, tăng tiền lên
+                    tongTien -= giaGhe;
+                }
+                // Cập nhật giao diện hiển thị tổng tiền
+                updateTotalPrice(tongTien);
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
-    public void buttonContinue(){
+
+    private void updateTotalPrice(double totalPrice) {
+        // Đây là nơi để bạn cập nhật giao diện hiển thị tổng tiền, có thể là TextView hoặc bất kỳ phần tử giao diện nào khác
+        // Ví dụ:
+        DecimalFormat decimalFormat = new DecimalFormat("#,###.###");
+        String formattedMoney = decimalFormat.format(totalPrice);
+        txt_tempTotal.setText(String.valueOf(formattedMoney + "đ"));
+    }
+
+    public void buttonContinue() {
         btn_continue = findViewById(R.id.btn_Continue);
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,42 +114,5 @@ public class ChoNgoiActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-
-    public void fakeData(){
-
-        // Tạo dữ liệu giả mạo cho chỗ ngồi
-        ArrayList<ChoNgoi> fakeChoNgoiList = new ArrayList<>();
-
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-1", "A", 1, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-2", "A", 2, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-3", "A", 3, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-4", "A", 4, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-5", "A", 5, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-6", "A", 6, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-7", "A", 7, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-8", "A", 8, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-9", "B", 1, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-10", "B", 2, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-11", "B", 3, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-12", "B", 4, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-13", "B", 5, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-14", "B", 6, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-15", "B", 7, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-16", "B", 8, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-17", "C", 1, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-18", "C", 2, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-19", "C", 3, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-20", "C", 4, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-21", "C", 5, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-22", "C", 6, 0, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-23", "C", 7, 1, "P1"));
-        fakeChoNgoiList.add(new ChoNgoi("LVVP1-24", "C", 8, 0, "P1"));
-
-        // Chèn dữ liệu vào cơ sở dữ liệu
-        for (ChoNgoi choNgoi : fakeChoNgoiList) {
-            choNgoiDAO.insertChoNgoi(choNgoi);
-        }
     }
 }

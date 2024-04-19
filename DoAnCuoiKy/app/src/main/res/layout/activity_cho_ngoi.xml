@@ -23,6 +23,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp">
 
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_seat"
             android:layout_width="wrap_content"
@@ -62,8 +64,7 @@
                 android:id="@+id/seatFrameBooked"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/seat_background"
-                android:backgroundTint="#00ff5e"
+                android:background="@drawable/seat_background_selected"
                 android:padding="8dp"></FrameLayout>
 
             <TextView
@@ -106,8 +107,7 @@
                 android:id="@+id/seatFrameYourBooked"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/seat_background"
-                android:backgroundTint="#00ff5e"
+                android:background="@drawable/seat_background_click"
                 android:padding="8dp"></FrameLayout>
 
             <TextView
@@ -250,7 +250,7 @@
                 android:id="@+id/txt_TempTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="145.000đ"
+                android:text="0đ"
                 android:textStyle="bold" />
         </LinearLayout>
 

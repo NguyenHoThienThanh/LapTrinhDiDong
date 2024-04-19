@@ -8,6 +8,7 @@ public class ChoNgoi implements Serializable {
     private int soGhe;
     private int tinhTrang;
     private String maPhongChieu;
+    private boolean isSelected;
     public ChoNgoi() {
     }
 
@@ -57,5 +58,13 @@ public class ChoNgoi implements Serializable {
 
     public void setTinhTrang(int tinhTrang) {
         this.tinhTrang = tinhTrang;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

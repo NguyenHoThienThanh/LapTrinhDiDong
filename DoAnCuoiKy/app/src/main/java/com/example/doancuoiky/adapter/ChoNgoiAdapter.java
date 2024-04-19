@@ -1,10 +1,12 @@
 package com.example.doancuoiky.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +25,13 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
         this.context = context;
     }
 
-    public void setData(List<ChoNgoi> list){
+    private IOnSeatClickListener iOnSeatClickListener;
+    public interface IOnSeatClickListener {
+        void onSeatClick(int position);
+    }
+    public void setData(List<ChoNgoi> list, IOnSeatClickListener iOnSeatClickListener){
         this.seatList = list;
+        this.iOnSeatClickListener = iOnSeatClickListener;
         notifyDataSetChanged();
     }
 
@@ -37,25 +44,47 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SeatViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull SeatViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ChoNgoi seat = seatList.get(position);
         if(seat == null)
             return;
         holder.btn_seatNumber.setText(seat.getHangGhe() + seat.getSoGhe());
 
+        // Kiểm tra trạng thái của ghế và xử lý màu sắc và sự kiện click tương ứng
+        if (seat.isSelected()) {
+            // Ghế đã được chọn bởi bạn
+            holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background_click); // Màu khi ghế bạn đang chọn
+        } else if (seat.getTinhTrang() == 1) {
+            // Ghế đã được chọn bởi người khác
+            holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background_selected); // Màu khi ghế đã được chọn bởi người khác
+            holder.btn_seatNumber.setEnabled(false); // Vô hiệu hóa nút
+        } else if(seat.getTinhTrang() == 0) {
+            // Ghế chưa được chọn
+            holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background); // Màu khi ghế chưa được chọn
+            holder.btn_seatNumber.setEnabled(true); // Kích hoạt nút
+        }
+
         // Sự kiện click cho Button
         holder.btn_seatNumber.setOnClickListener(new View.OnClickListener() {
-            boolean check = false;
             @Override
             public void onClick(View v) {
-                // Kiểm tra giá trị của biến check
-                if(check == false) {
-                    holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background);
-                    check = true;
-                } else {
+                // Kiểm tra trạng thái của ghế
+                if (seat.getTinhTrang() == 1) {
+                    // Nếu ghế đã được chọn bởi người khác, không làm gì cả
+                    return;
+                }
+                // Đảo ngược trạng thái isSelected của ghế
+                seat.setSelected(!seat.isSelected());
+                // Cập nhật giao diện tương ứng với trạng thái mới của ghế
+                if (seat.isSelected()) {
                     holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background_click);
-                    check = false;
+//                    Toast.makeText(context, seat.getHangGhe() + seat.getSoGhe(), Toast.LENGTH_SHORT).show();// Màu khi ghế bạn đang chọn
+                } else {
+                    holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background); // Màu khi ghế không được chọn
+                }
+                // Gọi callback nếu có
+                if(iOnSeatClickListener != null){
+                    iOnSeatClickListener.onSeatClick(position);
                 }
             }
         });
