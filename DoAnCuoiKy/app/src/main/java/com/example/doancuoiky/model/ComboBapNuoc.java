@@ -3,30 +3,34 @@ package com.example.doancuoiky.model;
 import java.io.Serializable;
 
 public class ComboBapNuoc implements Serializable {
-    private int hinhAnh;
+    private byte[] hinhAnh;
     private String maCombo;
     private String tenCombo;
+    private String moTa;
     private float gia;
     private int soLuong = 0;
 
     private int soLuongDat = 0;
 
-    public ComboBapNuoc(int hinhAnh, String maCombo, String tenCombo, float gia, int soLuong) {
-        this.hinhAnh = hinhAnh;
-        this.maCombo = maCombo;
-        this.tenCombo = tenCombo;
-        this.gia = gia;
-        this.soLuong = soLuong;
-    }
 
     public ComboBapNuoc() {
     }
 
-    public int getHinhAnh() {
+    public ComboBapNuoc(byte[] hinhAnh, String maCombo, String tenCombo, String moTa, float gia, int soLuong, int soLuongDat) {
+        this.hinhAnh = hinhAnh;
+        this.maCombo = maCombo;
+        this.tenCombo = tenCombo;
+        this.moTa = moTa;
+        this.gia = gia;
+        this.soLuong = soLuong;
+        this.soLuongDat = soLuongDat;
+    }
+
+    public byte[] getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(int hinhAnh) {
+    public void setHinhAnh(byte[] hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 
@@ -44,6 +48,14 @@ public class ComboBapNuoc implements Serializable {
 
     public void setTenCombo(String tenCombo) {
         this.tenCombo = tenCombo;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
     public float getGia() {

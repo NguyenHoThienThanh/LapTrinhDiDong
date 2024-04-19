@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.doancuoiky.model.ChoNgoi;
 import com.example.doancuoiky.model.PhongChieuPhim;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class PhongChieuPhimDAO {
     private SQLHelper helper;
     public PhongChieuPhimDAO(Context context) {
         helper = new SQLHelper(context);
-        sqlDB = helper.openDatabase();
+        sqlDB = helper.getWritableDatabase();
     }
 
     public ArrayList<PhongChieuPhim> findAllPhongChieuPhim(){

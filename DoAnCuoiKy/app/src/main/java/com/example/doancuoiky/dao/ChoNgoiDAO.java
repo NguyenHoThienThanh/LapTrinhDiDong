@@ -15,7 +15,7 @@ public class ChoNgoiDAO {
 
     public ChoNgoiDAO(Context context) {
         helper = new SQLHelper(context);
-        sqlDB = helper.openDatabase();
+        sqlDB = helper.getWritableDatabase();
     }
 
     public ArrayList<ChoNgoi> findAllChoNgoi() {

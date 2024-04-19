@@ -16,30 +16,30 @@ public class ComboBapNuocDAO {
     private Context context;
 
     public ComboBapNuocDAO(Context context) {
-        this.context = context;
         helper = new SQLHelper(context);
-        sqlDB = helper.openDatabase();
+        sqlDB = helper.getWritableDatabase();
     }
 
-//    public ArrayList<ComboBapNuoc> findAllCombo(){
-//        ArrayList<ComboBapNuoc> comboBapNuocArrayList = new ArrayList<>();
-//        Cursor c = sqlDB.query(SQLHelper.TABLE_COMBO_BAP_NUOC, null,null,
-//                null,null,null,null);
-//        c.moveToFirst();
-//        while(!c.isAfterLast()){
-//            ComboBapNuoc cb = new ComboBapNuoc();
-//            cb.setHinhAnh(c.getInt(0));
-//            cb.setMaCombo(c.getString(1));
-//            cb.setTenCombo(c.getString(2));
-//            cb.setSoLuong(c.getInt(3));
-//            cb.setGia(c.getFloat(4));
-//            comboBapNuocArrayList.add(cb);
-//
-//            c.moveToNext();
-//        }
-//        c.close();
-//        return comboBapNuocArrayList;
-//    }
+    public ArrayList<ComboBapNuoc> findAllCombo(){
+        ArrayList<ComboBapNuoc> comboBapNuocArrayList = new ArrayList<>();
+        Cursor c = sqlDB.query("ComboBapNuoc", null,null,
+                null,null,null,null);
+        c.moveToFirst();
+        while(!c.isAfterLast()){
+            ComboBapNuoc cb = new ComboBapNuoc();
+            cb.setHinhAnh(c.getBlob(0));
+            cb.setMaCombo(c.getString(1));
+            cb.setTenCombo(c.getString(2));
+            cb.setMoTa(c.getString(3));
+            cb.setSoLuong(c.getInt(4));
+            cb.setGia(c.getFloat(5));
+            comboBapNuocArrayList.add(cb);
+
+            c.moveToNext();
+        }
+        c.close();
+        return comboBapNuocArrayList;
+    }
 //
 //    public boolean insertCombo(ComboBapNuoc comboBapNuoc){
 //        ContentValues values = new ContentValues();
