@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size android:width="40dp" android:height="40dp" /> <!-- Kích thước mong muốn -->
+            <solid android:color="#00FF0D" />
+            <corners android:radius="10dp" /> <!-- Điều chỉnh độ cong ở đây -->
+            <stroke android:width="2dp" android:color="#00FF0D" /> <!-- Viền -->
+        </shape>
+    </item>
+</selector>

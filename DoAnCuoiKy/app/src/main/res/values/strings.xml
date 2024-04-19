@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DoAnCuoiKy</string>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:gravity">center</item>
+    </style>
+</resources>
+
+
+
