@@ -14,10 +14,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.doancuoiky.R;
-import com.example.doancuoiky.adapter.ChoNgoiAdapter;
+import com.example.doancuoiky.adapter.DanhSachGheAdapter;
 import com.example.doancuoiky.dao.ChoNgoiDAO;
 import com.example.doancuoiky.model.ChoNgoi;
-import com.example.doancuoiky.model.ComboBapNuoc;
+import com.example.doancuoiky.model.DanhSachGhe;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -26,29 +26,30 @@ import java.util.List;
 public class ChoNgoiActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    ChoNgoiAdapter adapter;
-    ArrayList<ChoNgoi> arraySeats = new ArrayList<>();
+    DanhSachGheAdapter adapter;
+    ArrayList<DanhSachGhe> arraySeats = new ArrayList<>();
     Button btn_continue;
 
-    ChoNgoiDAO choNgoiDAO;
+    ChoNgoiDAO danhSachGheDAO;
     TextView txt_tempTotal;
 
     double tongTien = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cho_ngoi);
-        choNgoiDAO = new ChoNgoiDAO(this);
+        danhSachGheDAO = new ChoNgoiDAO(this);
         txt_tempTotal = findViewById(R.id.txt_TempTotal);
         toolBarSeat();
         seatAdapter();
         buttonContinue();
     }
 
-    private List<ChoNgoi> getListSeat() {
-        List<ChoNgoi> list = new ArrayList<>();
-        list = choNgoiDAO.findAllChoNgoi();
+    private List<DanhSachGhe> getListSeat() {
+        ArrayList<DanhSachGhe> list = new ArrayList<>();
+        list = danhSachGheDAO.getSeatBySuatChieu("MSC002", "PC02");
         return list;
     }
 
@@ -71,19 +72,19 @@ public class ChoNgoiActivity extends AppCompatActivity {
     public void seatAdapter() {
         recyclerView = findViewById(R.id.rcv_seat);
         // Khởi tạo adapter và gán vào recyclerView
-        adapter = new ChoNgoiAdapter(this);
+        adapter = new DanhSachGheAdapter(this);
 
         // Tạo một đối tượng SpanSizeLookup
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 8);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        arraySeats = (ArrayList<ChoNgoi>) getListSeat();
-        adapter.setData(arraySeats, new ChoNgoiAdapter.IOnSeatClickListener() {
+        arraySeats = (ArrayList<DanhSachGhe>) getListSeat();
+        adapter.setData(arraySeats, new DanhSachGheAdapter.IOnSeatClickListener() {
             @Override
             public void onSeatClick(int position) {
-                ChoNgoi choNgoi = arraySeats.get(position);
+                DanhSachGhe seat = arraySeats.get(position);
                 double giaGhe = 55000; // Đơn vị tiền
-                if (choNgoi.isSelected()) {
+                if (seat.isSelected()) {
                     // Nếu ghế đã được chọn trước đó, giảm tiền đi
                     tongTien += giaGhe;
                 } else {

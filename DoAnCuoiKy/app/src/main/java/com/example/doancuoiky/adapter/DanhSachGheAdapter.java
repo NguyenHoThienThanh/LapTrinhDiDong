@@ -12,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doancuoiky.R;
-import com.example.doancuoiky.model.ChoNgoi;
+import com.example.doancuoiky.model.DanhSachGhe;
 
 import java.util.List;
 
-public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatViewHolder> {
+public class DanhSachGheAdapter extends RecyclerView.Adapter<DanhSachGheAdapter.SeatViewHolder> {
 
     private Context context;
-    private List<ChoNgoi> seatList;
+    private List<DanhSachGhe> seatList;
 
-    public ChoNgoiAdapter(Context context) {
+    public DanhSachGheAdapter(Context context) {
         this.context = context;
     }
 
@@ -29,7 +29,7 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
     public interface IOnSeatClickListener {
         void onSeatClick(int position);
     }
-    public void setData(List<ChoNgoi> list, IOnSeatClickListener iOnSeatClickListener){
+    public void setData(List<DanhSachGhe> list, IOnSeatClickListener iOnSeatClickListener){
         this.seatList = list;
         this.iOnSeatClickListener = iOnSeatClickListener;
         notifyDataSetChanged();
@@ -45,12 +45,11 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
 
     @Override
     public void onBindViewHolder(@NonNull SeatViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        ChoNgoi seat = seatList.get(position);
+        DanhSachGhe seat = seatList.get(position);
         if(seat == null)
             return;
         holder.btn_seatNumber.setText(seat.getHangGhe() + seat.getSoGhe());
 
-        // Kiểm tra trạng thái của ghế và xử lý màu sắc và sự kiện click tương ứng
         if (seat.isSelected()) {
             // Ghế đã được chọn bởi bạn
             holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background_click); // Màu khi ghế bạn đang chọn
@@ -58,7 +57,7 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
             // Ghế đã được chọn bởi người khác
             holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background_selected); // Màu khi ghế đã được chọn bởi người khác
             holder.btn_seatNumber.setEnabled(false); // Vô hiệu hóa nút
-        } else if(seat.getTinhTrang() == 0) {
+        } else {
             // Ghế chưa được chọn
             holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background); // Màu khi ghế chưa được chọn
             holder.btn_seatNumber.setEnabled(true); // Kích hoạt nút
@@ -78,7 +77,7 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
                 // Cập nhật giao diện tương ứng với trạng thái mới của ghế
                 if (seat.isSelected()) {
                     holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background_click);
-//                    Toast.makeText(context, seat.getHangGhe() + seat.getSoGhe(), Toast.LENGTH_SHORT).show();// Màu khi ghế bạn đang chọn
+//                    Toast.makeText(context, seat.getHangGhe() + seat.getSoGhe() + seat.getTinhTrang() + seat.getMaSuatChieu(), Toast.LENGTH_SHORT).show();// Màu khi ghế bạn đang chọn
                 } else {
                     holder.btn_seatNumber.setBackgroundResource(R.drawable.seat_background); // Màu khi ghế không được chọn
                 }
@@ -89,6 +88,7 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
@@ -105,6 +105,4 @@ public class ChoNgoiAdapter extends RecyclerView.Adapter<ChoNgoiAdapter.SeatView
             btn_seatNumber = itemView.findViewById(R.id.btn_seatNumber);
         }
     }
-
-
 }

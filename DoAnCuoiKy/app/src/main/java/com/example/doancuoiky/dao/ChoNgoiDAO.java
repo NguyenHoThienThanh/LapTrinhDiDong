@@ -1,11 +1,13 @@
 package com.example.doancuoiky.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.doancuoiky.model.ChoNgoi;
+import com.example.doancuoiky.model.DanhSachGhe;
 
 import java.util.ArrayList;
 
@@ -15,26 +17,39 @@ public class ChoNgoiDAO {
 
     public ChoNgoiDAO(Context context) {
         helper = new SQLHelper(context);
+        helper.processCopy();
         sqlDB = helper.getWritableDatabase();
     }
 
-    public ArrayList<ChoNgoi> findAllChoNgoi() {
-        ArrayList<ChoNgoi> choNgoiArrayList = new ArrayList<>();
-        Cursor c = sqlDB.query("ChoNgoi", null, null,
-                null, null, null, null);
+    @SuppressLint("Range")
+    public ArrayList<DanhSachGhe> getSeatBySuatChieu(String maSuatChieu, String maPhongChieu) {
+        ArrayList<DanhSachGhe> seatList = new ArrayList<>();
+        sqlDB = helper.getReadableDatabase();
+
+        String query = "SELECT ChoNgoi.maChoNgoi, hangGhe, soGhe, maPhongChieu, maSuatChieu, tinhTrang FROM ChoNgoi LEFT OUTER JOIN (SELECT *FROM ChiTietGheDaDat WHERE ChiTietGheDaDat.maSuatChieu = ?) AS Q ON ChoNgoi.maChoNgoi = Q.maChoNgoi WHERE ChoNgoi.maPhongChieu = ?";
+
+        // Thêm tham số vào câu lệnh truy vấn
+        Cursor c = sqlDB.rawQuery(query, new String[]{maSuatChieu, maPhongChieu});
         c.moveToFirst();
         while (!c.isAfterLast()) {
-            ChoNgoi cn = new ChoNgoi();
-            cn.setMaChoNgoi(c.getString(0));
-            cn.setHangGhe(c.getString(1));
-            cn.setSoGhe(c.getInt(2));
-            cn.setMaPhongChieu(c.getString(3));
-            choNgoiArrayList.add(cn);
+            DanhSachGhe dsg = new DanhSachGhe();
+            dsg.setMaChoNgoi(c.getString(0));
+            dsg.setHangGhe(c.getString(1));
+            dsg.setSoGhe(c.getInt(2));
+            dsg.setMaPhongChieu(c.getString(3));
+            dsg.setMaSuatChieu(c.getString(4));
+            if(c.isNull(5)){
+                dsg.setTinhTrang(0);
+            }
+            else{
+                dsg.setTinhTrang(c.getInt(5));
+            }
+            seatList.add(dsg);
             c.moveToNext();
         }
         // Đóng Cursor sau khi sử dụng
         c.close();
-        return choNgoiArrayList;
+        return seatList;
     }
 
 //    public boolean insertChoNgoi(ChoNgoi choNgoi){
