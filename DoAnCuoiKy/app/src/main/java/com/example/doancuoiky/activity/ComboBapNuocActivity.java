@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,7 @@ import android.widget.TextView;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.ComboBapNuocAdapter;
-import com.example.doancuoiky.dao.ChoNgoiDAO;
 import com.example.doancuoiky.dao.ComboBapNuocDAO;
-import com.example.doancuoiky.model.ChoNgoi;
 import com.example.doancuoiky.model.ComboBapNuoc;
 
 import java.text.DecimalFormat;
@@ -27,19 +26,27 @@ public class ComboBapNuocActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ComboBapNuocAdapter adapter;
     ArrayList<ComboBapNuoc> foodAndBeverageList = new ArrayList<>();
+    ArrayList<ComboBapNuoc> fandBList = new ArrayList<>();
     Button btn_continue;
     TextView tv_1, tv_2, tv_labelTotal, tv_total, tv_number;
     ComboBapNuocDAO comboBapNuocDAO;
     double total = 0;
+    double totalPrice = 0;
+    ArrayList<String> selectedSeats;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_and_beverage);
         comboBapNuocDAO = new ComboBapNuocDAO(this);
+        Intent intent = getIntent();
+        totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
+        selectedSeats = intent.getStringArrayListExtra("selectedSeats");
         toolBarFAndB();
         getAddWidgets();
         foodAndBeverageAdapter();
+        buttonContinue();
     }
+
 
     public void toolBarFAndB() {
         Toolbar toolbar = findViewById(R.id.toolbar_fandb);
@@ -79,7 +86,6 @@ public class ComboBapNuocActivity extends AppCompatActivity {
             public void onPlusClick(int position) {
                 ComboBapNuoc foodAndBeverage = foodAndBeverageList.get(position);
                 int numberOrder = foodAndBeverage.getSoLuongDat();
-                int number = foodAndBeverage.getSoLuong();
                 if (numberOrder < foodAndBeverage.getSoLuong()) {
                     numberOrder = numberOrder + 1;
                     foodAndBeverage.setSoLuongDat(numberOrder);
@@ -87,12 +93,12 @@ public class ComboBapNuocActivity extends AppCompatActivity {
                     total = total + (foodAndBeverage.getSoLuongDat() * foodAndBeverage.getGia());
                     calculateTotal();
                 }
+                if(numberOrder > 0 && !fandBList.contains(foodAndBeverage)) fandBList.add(foodAndBeverage);
             }
             @Override
             public void onMinusClick(int position) {
                 ComboBapNuoc foodAndBeverage = foodAndBeverageList.get(position);
                 int numberOrder = foodAndBeverage.getSoLuongDat();
-                int number = foodAndBeverage.getSoLuong();
                 if (numberOrder > 0) {
                     numberOrder = numberOrder - 1;
                     foodAndBeverage.setSoLuongDat(numberOrder);
@@ -100,6 +106,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
                     total += (foodAndBeverage.getSoLuongDat() * foodAndBeverage.getGia());
                     calculateTotal();
                 }
+                if(numberOrder == 0 && fandBList.contains(foodAndBeverage)) fandBList.remove(foodAndBeverage);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -120,6 +127,23 @@ public class ComboBapNuocActivity extends AppCompatActivity {
         List<ComboBapNuoc> foodAndBeverage = new ArrayList<>();
         foodAndBeverage = comboBapNuocDAO.findAllCombo();
         return foodAndBeverage;
+    }
+
+    public void buttonContinue() {
+        btn_continue = findViewById(R.id.btn_continue);
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ComboBapNuocActivity.this, ThanhToanActivity.class);
+                // Gửi danh sách ghế đã chọn qua Intent
+                intent.putStringArrayListExtra("selectedSeats", selectedSeats);
+                intent.putExtra("selectedCombos", fandBList);
+                intent.putExtra("totalPrice", totalPrice);
+                intent.putExtra("total", total);
+                // Khởi chạy TestActivity
+                startActivity(intent);
+            }
+        });
     }
 
 }

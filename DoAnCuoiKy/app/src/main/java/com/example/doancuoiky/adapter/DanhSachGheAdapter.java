@@ -39,7 +39,6 @@ public class DanhSachGheAdapter extends RecyclerView.Adapter<DanhSachGheAdapter.
     @Override
     public SeatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_seats, parent, false);
-
         return new SeatViewHolder(view);
     }
 
@@ -105,4 +104,6 @@ public class DanhSachGheAdapter extends RecyclerView.Adapter<DanhSachGheAdapter.
             btn_seatNumber = itemView.findViewById(R.id.btn_seatNumber);
         }
     }
+
+
 }

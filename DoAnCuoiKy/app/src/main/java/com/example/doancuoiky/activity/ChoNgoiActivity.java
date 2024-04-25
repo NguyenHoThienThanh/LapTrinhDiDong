@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.DanhSachGheAdapter;
@@ -34,6 +35,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
     TextView txt_tempTotal;
 
     double tongTien = 0;
+    List<String> seatSelected = new ArrayList<>();
 
 
     @Override
@@ -49,7 +51,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
 
     private List<DanhSachGhe> getListSeat() {
         ArrayList<DanhSachGhe> list = new ArrayList<>();
-        list = danhSachGheDAO.getSeatBySuatChieu("MSC002", "PC02");
+        list = danhSachGheDAO.getSeatBySuatChieu("MSC001", "PC01");
         return list;
     }
 
@@ -83,13 +85,16 @@ public class ChoNgoiActivity extends AppCompatActivity {
             @Override
             public void onSeatClick(int position) {
                 DanhSachGhe seat = arraySeats.get(position);
+                String hangGheVaSoGhe = seat.getHangGhe() + seat.getSoGhe();
                 double giaGhe = 55000; // Đơn vị tiền
                 if (seat.isSelected()) {
                     // Nếu ghế đã được chọn trước đó, giảm tiền đi
                     tongTien += giaGhe;
+                    seatSelected.add(hangGheVaSoGhe);
                 } else {
                     // Nếu ghế chưa được chọn trước đó, tăng tiền lên
                     tongTien -= giaGhe;
+                    seatSelected.remove(hangGheVaSoGhe);
                 }
                 // Cập nhật giao diện hiển thị tổng tiền
                 updateTotalPrice(tongTien);
@@ -111,7 +116,15 @@ public class ChoNgoiActivity extends AppCompatActivity {
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(tongTien <= 0){
+                    Toast.makeText(ChoNgoiActivity.this, "Vui lòng chọn ghế!!!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(ChoNgoiActivity.this, ComboBapNuocActivity.class);
+                // Gửi danh sách ghế đã chọn qua Intent
+                intent.putStringArrayListExtra("selectedSeats", (ArrayList<String>) seatSelected);
+                intent.putExtra("totalPrice", tongTien);
+                // Khởi chạy TestActivity
                 startActivity(intent);
             }
         });
