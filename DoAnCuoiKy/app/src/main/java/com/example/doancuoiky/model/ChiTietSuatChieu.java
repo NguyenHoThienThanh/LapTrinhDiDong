@@ -3,28 +3,37 @@ package com.example.doancuoiky.model;
 import java.util.Date;
 
 public class ChiTietSuatChieu {
-    private int idSuatChieu;
+    private String maSuatChieu;
+    private String maPhongChieu;
     private String maPhim;
-    private Date ngayChieu;
+    private String ngayChieu;
     private String gioChieu;
-    private String rapChieu;
-    private int soGheConLai;
 
-    public ChiTietSuatChieu(int idSuatChieu, String maPhim, Date ngayChieu, String gioChieu, String rapChieu, int soGheConLai) {
-        this.idSuatChieu = idSuatChieu;
+    public ChiTietSuatChieu(String maSuatChieu, String maPhongChieu, String maPhim, String ngayChieu, String gioChieu) {
+        this.maSuatChieu = maSuatChieu;
+        this.maPhongChieu = maPhongChieu;
         this.maPhim = maPhim;
         this.ngayChieu = ngayChieu;
         this.gioChieu = gioChieu;
-        this.rapChieu = rapChieu;
-        this.soGheConLai = soGheConLai;
     }
 
-    public int getIdSuatChieu() {
-        return idSuatChieu;
+    public ChiTietSuatChieu() {
     }
 
-    public void setIdSuatChieu(int idSuatChieu) {
-        this.idSuatChieu = idSuatChieu;
+    public String getMaSuatChieu() {
+        return maSuatChieu;
+    }
+
+    public void setMaSuatChieu(String maSuatChieu) {
+        this.maSuatChieu = maSuatChieu;
+    }
+
+    public String getMaPhongChieu() {
+        return maPhongChieu;
+    }
+
+    public void setMaPhongChieu(String maPhongChieu) {
+        this.maPhongChieu = maPhongChieu;
     }
 
     public String getMaPhim() {
@@ -35,11 +44,11 @@ public class ChiTietSuatChieu {
         this.maPhim = maPhim;
     }
 
-    public Date getNgayChieu() {
+    public String getNgayChieu() {
         return ngayChieu;
     }
 
-    public void setNgayChieu(Date ngayChieu) {
+    public void setNgayChieu(String ngayChieu) {
         this.ngayChieu = ngayChieu;
     }
 
@@ -49,33 +58,5 @@ public class ChiTietSuatChieu {
 
     public void setGioChieu(String gioChieu) {
         this.gioChieu = gioChieu;
-    }
-
-    public String getRapChieu() {
-        return rapChieu;
-    }
-
-    public void setRapChieu(String rapChieu) {
-        this.rapChieu = rapChieu;
-    }
-
-    public int getSoGheConLai() {
-        return soGheConLai;
-    }
-
-    public void setSoGheConLai(int soGheConLai) {
-        this.soGheConLai = soGheConLai;
-    }
-
-    @Override
-    public String toString() {
-        return "ChiTietSuatChieu{" +
-                "idSuatChieu=" + idSuatChieu +
-                ", maPhim='" + maPhim + '\'' +
-                ", ngayChieu=" + ngayChieu +
-                ", gioChieu='" + gioChieu + '\'' +
-                ", rapChieu='" + rapChieu + '\'' +
-                ", soGheConLai=" + soGheConLai +
-                '}';
     }
 }

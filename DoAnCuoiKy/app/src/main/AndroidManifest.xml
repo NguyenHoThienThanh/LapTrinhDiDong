@@ -13,26 +13,25 @@
         android:theme="@style/Theme.DoAnCuoiKy"
         tools:targetApi="31">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.ChiTietSuatChieuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false"></activity>
+        <activity
             android:name=".activity.ChoNgoiActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".activity.ComboBapNuocActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

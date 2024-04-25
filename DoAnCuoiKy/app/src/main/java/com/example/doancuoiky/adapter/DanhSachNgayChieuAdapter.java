@@ -1,10 +1,11 @@
 package com.example.doancuoiky.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.model.ChiTietSuatChieu;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DanhSachNgayChieuAdapter extends RecyclerView.Adapter<DanhSachNgayChieuAdapter.DateViewHolder>{
@@ -23,9 +26,9 @@ public class DanhSachNgayChieuAdapter extends RecyclerView.Adapter<DanhSachNgayC
     }
     private DanhSachNgayChieuAdapter.IOnDateClickListener iOnDateClickListener;
     public interface IOnDateClickListener {
-        void onSeatClick(int position);
+        void onDateClick(int position);
     }
-    public void setData(List<ChiTietSuatChieu> list, DanhSachNgayChieuAdapter.IOnDateClickListener iOnDateClickListener){
+    public void setData(List<ChiTietSuatChieu> list, IOnDateClickListener iOnDateClickListener){
         this.dateList = list;
         this.iOnDateClickListener = iOnDateClickListener;
         notifyDataSetChanged();
@@ -33,15 +36,25 @@ public class DanhSachNgayChieuAdapter extends RecyclerView.Adapter<DanhSachNgayC
     @NonNull
     @Override
     public DateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_seats, parent, false);
-        return new DanhSachNgayChieuAdapter.DateViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_date, parent, false);
+        return new DateViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DateViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull DateViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        ChiTietSuatChieu ctsc = dateList.get(position);
+        if(ctsc==null) return;
+        holder.item_date.setText(ctsc.getNgayChieu());
+        holder.item_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Gọi callback nếu có
+                if(iOnDateClickListener != null){
+                    iOnDateClickListener.onDateClick(position);
+                }
+            }
+        });
     }
-
     @Override
     public int getItemCount() {
         if(dateList != null){
@@ -51,10 +64,10 @@ public class DanhSachNgayChieuAdapter extends RecyclerView.Adapter<DanhSachNgayC
     }
 
     public class DateViewHolder extends RecyclerView.ViewHolder{
-        private TextView item_date;
+        private Button item_date;
         public DateViewHolder(@NonNull View itemView) {
             super(itemView);
-            TextView item_date = itemView.findViewById(R.id.item_date);
+            item_date = itemView.findViewById(R.id.btn_date);
         }
     }
 }
