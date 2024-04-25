@@ -30,6 +30,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
     DanhSachGheAdapter adapter;
     ArrayList<DanhSachGhe> arraySeats = new ArrayList<>();
     Button btn_continue;
+    String maSuatChieu, maPhongChieu, gioChieu, ngayChieu;
 
     ChoNgoiDAO danhSachGheDAO;
     TextView txt_tempTotal;
@@ -44,6 +45,11 @@ public class ChoNgoiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cho_ngoi);
         danhSachGheDAO = new ChoNgoiDAO(this);
         txt_tempTotal = findViewById(R.id.txt_TempTotal);
+        Intent intent = getIntent();
+        maSuatChieu = intent.getStringExtra("maSuatChieu");
+        maPhongChieu = intent.getStringExtra("maPhongChieu");
+        gioChieu = intent.getStringExtra("gioChieu");
+        ngayChieu = intent.getStringExtra("ngayChieu");
         toolBarSeat();
         seatAdapter();
         buttonContinue();
@@ -51,7 +57,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
 
     private List<DanhSachGhe> getListSeat() {
         ArrayList<DanhSachGhe> list = new ArrayList<>();
-        list = danhSachGheDAO.getSeatBySuatChieu("MSC001", "PC01");
+        list = danhSachGheDAO.getSeatBySuatChieu(maSuatChieu, maPhongChieu);
         return list;
     }
 
@@ -122,8 +128,14 @@ public class ChoNgoiActivity extends AppCompatActivity {
                 }
                 Intent intent = new Intent(ChoNgoiActivity.this, ComboBapNuocActivity.class);
                 // Gửi danh sách ghế đã chọn qua Intent
+                Toast.makeText(ChoNgoiActivity.this, "a" + gioChieu + ngayChieu, Toast.LENGTH_SHORT).show();
+
                 intent.putStringArrayListExtra("selectedSeats", (ArrayList<String>) seatSelected);
                 intent.putExtra("totalPrice", tongTien);
+                intent.putExtra("maSuatChieu", maSuatChieu);
+                intent.putExtra("maPhongChieu", maPhongChieu);
+                intent.putExtra("gioChieu", gioChieu);
+                intent.putExtra("ngayChieu", ngayChieu);
                 // Khởi chạy TestActivity
                 startActivity(intent);
             }

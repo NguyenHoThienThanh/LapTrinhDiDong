@@ -156,6 +156,7 @@
                 android:layout_margin="20px"
                 android:background="@drawable/white_background"
                 android:padding="20dp"/>
+
         </LinearLayout>
     </ScrollView>
 

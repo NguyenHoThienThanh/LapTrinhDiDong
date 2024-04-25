@@ -22,17 +22,17 @@ public class DanhSachGioChieuAdapter extends RecyclerView.Adapter<DanhSachGioChi
     private Context context;
     private List<ChiTietSuatChieu> timeList;
 
-//    private IOnTimeClickListener iOnTimeClickListener;
-//    public interface IOnTimeClickListener {
-//        void onTimeClick(int position);
-//    }
+    private IOnTimeClickListener iOnTimeClickListener;
+    public interface IOnTimeClickListener {
+        void onTimeClick(int position);
+    }
 
     public DanhSachGioChieuAdapter(Context context) {
         this.context = context;
     }
-    public void setData(List<ChiTietSuatChieu> list){
+    public void setData(List<ChiTietSuatChieu> list, IOnTimeClickListener iOnTimeClickListener){
         this.timeList = list;
-//        this.iOnTimeClickListener = iOnTimeClickListener;
+        this.iOnTimeClickListener = iOnTimeClickListener;
         notifyDataSetChanged();
     }
     @NonNull
@@ -47,15 +47,15 @@ public class DanhSachGioChieuAdapter extends RecyclerView.Adapter<DanhSachGioChi
         ChiTietSuatChieu ctsc = timeList.get(position);
         if(ctsc==null) return;
         holder.item_time.setText(ctsc.getGioChieu());
-//        holder.item_time.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Gọi callback nếu có
-//                if(iOnTimeClickListener != null){
-//                    iOnTimeClickListener.onTimeClick(position);
-//                }
-//            }
-//        });
+        holder.item_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Gọi callback nếu có
+                if(iOnTimeClickListener != null){
+                    iOnTimeClickListener.onTimeClick(position);
+                }
+            }
+        });
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.doancuoiky.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,6 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
         suatChieuDao = new SuatChieuDao(this);
         mappingControl();
         dateAdapter();
-//        Toast.makeText(this, "a"+danhSachNgayChieuAdapter.getItemCount(), Toast.LENGTH_SHORT).show();
     }
 
     private void mappingControl() {
@@ -46,29 +46,30 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rcv_ngay.setLayoutManager(layoutManager);
         listCtsc = (ArrayList<ChiTietSuatChieu>) getDateList();
-        ChiTietSuatChieu chiTietSuatChieu = listCtsc.get(0);
-        ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
-        list =suatChieuDao.getTimeBySuatChieu(chiTietSuatChieu.getMaPhim(),chiTietSuatChieu.getNgayChieu());
-        tv_rapdexuat.setText(list.size());
         danhSachNgayChieuAdapter.setData(listCtsc, new DanhSachNgayChieuAdapter.IOnDateClickListener() {
-
-
-
             @Override
             public void onDateClick(int position) {
-
-//                Toast.makeText(ChiTietSuatChieuActivity.this, ""+listCtsc.toString(), Toast.LENGTH_LONG).show();
-//                ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
-//                list = suatChieuDao.getTimeBySuatChieu(chiTietSuatChieu.getMaPhim(), chiTietSuatChieu.getNgayChieu());
-//                rcv_gio = findViewById(R.id.rcv_gio);
-
-                //Toast.makeText(ChiTietSuatChieuActivity.this, "a"+chiTietSuatChieu.getNgayChieu(), Toast.LENGTH_SHORT).show();
-//                danhSachGioChieuAdapter.setData(list);
-//                    @Override
-//                    public void onTimeClick(int position) {
-//
-//                    }
-//                });
+                rcv_gio = findViewById(R.id.rcv_gio);
+                danhSachGioChieuAdapter = new DanhSachGioChieuAdapter(ChiTietSuatChieuActivity.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(ChiTietSuatChieuActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                rcv_gio.setLayoutManager(layoutManager);
+                ChiTietSuatChieu chiTietSuatChieu = listCtsc.get(position);
+                ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
+                list = suatChieuDao.getTimeBySuatChieu(chiTietSuatChieu.getMaPhim(), chiTietSuatChieu.getNgayChieu());
+                ArrayList<ChiTietSuatChieu> finalList = list;
+                danhSachGioChieuAdapter.setData(list, new DanhSachGioChieuAdapter.IOnTimeClickListener() {
+                    @Override
+                    public void onTimeClick(int position) {
+                        ChiTietSuatChieu chiTietSuatChieu1 = finalList.get(position);
+                        Toast.makeText(ChiTietSuatChieuActivity.this, "" + chiTietSuatChieu1.getGioChieu() + chiTietSuatChieu1.getNgayChieu(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ChiTietSuatChieuActivity.this, ChoNgoiActivity.class);
+                        intent.putExtra("maSuatChieu", chiTietSuatChieu1.getMaSuatChieu());
+                        intent.putExtra("maPhongChieu", chiTietSuatChieu1.getMaPhongChieu());
+                        intent.putExtra("gioChieu", chiTietSuatChieu1.getGioChieu());
+                        intent.putExtra("ngayChieu", chiTietSuatChieu1.getNgayChieu());
+                        startActivity(intent);
+                    }
+                });
                 rcv_gio.setAdapter(danhSachGioChieuAdapter);
             }
         });

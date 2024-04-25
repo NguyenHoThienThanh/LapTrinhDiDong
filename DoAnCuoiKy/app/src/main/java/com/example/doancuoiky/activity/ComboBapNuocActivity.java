@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.ComboBapNuocAdapter;
@@ -30,6 +31,8 @@ public class ComboBapNuocActivity extends AppCompatActivity {
     Button btn_continue;
     TextView tv_1, tv_2, tv_labelTotal, tv_total, tv_number;
     ComboBapNuocDAO comboBapNuocDAO;
+
+    String  maPhongChieu, gioChieu, ngayChieu;
     double total = 0;
     double totalPrice = 0;
     ArrayList<String> selectedSeats;
@@ -41,6 +44,9 @@ public class ComboBapNuocActivity extends AppCompatActivity {
         Intent intent = getIntent();
         totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
         selectedSeats = intent.getStringArrayListExtra("selectedSeats");
+        maPhongChieu = intent.getStringExtra("maPhongChieu");
+        gioChieu = intent.getStringExtra("gioChieu");
+        ngayChieu = intent.getStringExtra("ngayChieu");
         toolBarFAndB();
         getAddWidgets();
         foodAndBeverageAdapter();
@@ -140,6 +146,12 @@ public class ComboBapNuocActivity extends AppCompatActivity {
                 intent.putExtra("selectedCombos", fandBList);
                 intent.putExtra("totalPrice", totalPrice);
                 intent.putExtra("total", total);
+
+                Toast.makeText(ComboBapNuocActivity.this, "a" +maPhongChieu + gioChieu + ngayChieu, Toast.LENGTH_LONG).show();
+
+                intent.putExtra("maPhongChieu", maPhongChieu);
+                intent.putExtra("gioChieu", gioChieu);
+                intent.putExtra("ngayChieu", ngayChieu);
                 // Khởi chạy TestActivity
                 startActivity(intent);
             }

@@ -20,13 +20,14 @@ import java.util.ArrayList;
 
 public class ThanhToanActivity extends AppCompatActivity {
     ArrayList<ComboBapNuoc> selectedCombos;
-    TextView tv_seatselecter, tv_totalmoney_thanhtoan, tv_totalmoneyseat_thanhtoan;
+    TextView tv_seatselecter, tv_totalmoney_thanhtoan, tv_totalmoneyseat_thanhtoan, tv_infofilm_thanhtoan, tv_movieroom_thanhtoan;
     RecyclerView rcv;
 
     ThanhToanAdapter thanhToanAdapter;
     double totalPrice = 0;
     double total = 0;
 
+    String maPhongChieu, gioChieu, ngayChieu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +39,10 @@ public class ThanhToanActivity extends AppCompatActivity {
             selectedCombos = (ArrayList<ComboBapNuoc>) intent.getSerializableExtra("selectedCombos");
             totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
             total = intent.getDoubleExtra("total", 0.0);
-            tv_seatselecter = findViewById(R.id.tv_seatselected_thanhtoan);
-            tv_totalmoney_thanhtoan = findViewById(R.id.tv_totalmoney_thanhtoan);
-            tv_totalmoneyseat_thanhtoan = findViewById(R.id.tv_totalmoneyseat_thanhtoan);
+            maPhongChieu = intent.getStringExtra("maPhongChieu");
+            gioChieu = intent.getStringExtra("gioChieu");
+            ngayChieu = intent.getStringExtra("ngayChieu");
+            mappingControl();
             StringBuilder seatString = new StringBuilder();
             // Lặp qua từng phần tử trong danh sách selectedSeats
             for (int i = 0; i < selectedSeats.size(); i++) {
@@ -56,6 +58,9 @@ public class ThanhToanActivity extends AppCompatActivity {
             String formattedMoney1 = decimalFormat1.format(total + totalPrice);
             tv_totalmoney_thanhtoan.setText(formattedMoney1 + "đ");
 
+            tv_infofilm_thanhtoan.setText(ngayChieu + " | " + gioChieu + " | ");
+            tv_movieroom_thanhtoan.setText("Phòng chiếu: " + maPhongChieu);
+
             tv_seatselecter.setText("Danh sách ghế đã chọn: " + seatString.toString());
 
             DecimalFormat decimalFormat2 = new DecimalFormat("#,###.###");
@@ -64,6 +69,13 @@ public class ThanhToanActivity extends AppCompatActivity {
 
         }
         comBoAdapter();
+    }
+    public void mappingControl(){
+        tv_seatselecter = findViewById(R.id.tv_seatselected_thanhtoan);
+        tv_totalmoney_thanhtoan = findViewById(R.id.tv_totalmoney_thanhtoan);
+        tv_totalmoneyseat_thanhtoan = findViewById(R.id.tv_totalmoneyseat_thanhtoan);
+        tv_infofilm_thanhtoan = findViewById(R.id.tv_infofilm_thanhtoan);
+        tv_movieroom_thanhtoan = findViewById(R.id.tv_movieroom_thanhtoan);
     }
     public void toolBarThanhToan() {
         Toolbar toolbar = findViewById(R.id.toolbar_thanhtoan);
