@@ -7,11 +7,11 @@
     android:background="#DCDCDC">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_profile"
+        android:id="@+id/toolbar_editProfile"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Profile"
+        app:title="Chỉnh sửa thông tin"
         android:background="@color/blue"
         app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_profile"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_editProfile"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="-3dp">
 
@@ -114,67 +114,75 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txt_email">
 
-                        <TextView
-                            android:id="@+id/txt_hoTen"
+                        <EditText
+                            android:id="@+id/edt_userName"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="70dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Họ và tên: Nguyễn Hồ Thiên Thanh"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
 
-                        <TextView
-                            android:id="@+id/txt_ngaySinh"
+                            android:background="@drawable/background_edt"
+                            android:hint="Tên đăng nhập"
+                            android:layout_marginTop="25dp"
+                            android:gravity="center"/>
+
+                        <EditText
+                            android:id="@+id/edt_password"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/background_edt"
+                            android:hint="Mật khẩu"
+                            android:inputType="textPassword"
                             android:layout_marginTop="20dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Ngày sinh: 26/12/2003"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:gravity="center"/>
 
-
-                        <TextView
-                            android:id="@+id/txt_gioiTinh"
+                        <EditText
+                            android:id="@+id/edt_email"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/background_edt"
+                            android:hint="Email"
                             android:layout_marginTop="20dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Giới tính: Nữ"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:gravity="center"/>
 
-                        <TextView
-                            android:id="@+id/txt_diaChi"
+                        <EditText
+                            android:id="@+id/edt_hoTen"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/background_edt"
+                            android:hint="Họ và tên"
                             android:layout_marginTop="20dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Địa chỉ: 309/45, Linh Chiểu, Thủ Đức, thành phố Hồ Chí Minh"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:gravity="center"/>
 
-                        <TextView
-                            android:id="@+id/txt_soDienThoai"
+                        <EditText
+                            android:id="@+id/edt_ngaySinh"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/background_edt"
+                            android:hint="Ngày sinh"
                             android:layout_marginTop="20dp"
-                            android:layout_marginBottom="25dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Số điện thoại: 0818221901"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:gravity="center"/>
+
+                        <EditText
+                            android:id="@+id/edt_diaChi"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:background="@drawable/background_edt"
+                            android:hint="Địa chỉ"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"/>
+
+
 
                     </LinearLayout>
 
@@ -185,17 +193,17 @@
         </LinearLayout>
     </ScrollView>
 
-
-        <Button
-        android:id="@+id/btn_editProfile"
+    <Button
+        android:id="@+id/btn_saveProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#bb377d"
-        android:text="Edit Profile"
+        android:text="Save Changes"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView"
         app:layout_constraintVertical_bias="0.741" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
