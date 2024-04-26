@@ -38,6 +38,10 @@ public class ChoNgoiActivity extends AppCompatActivity {
     double tongTien = 0;
     List<String> seatSelected = new ArrayList<>();
 
+    String tenPhim, maPhim;
+    int gioiHanTuoi;
+    byte[] poster;
+    double giaVe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,11 @@ public class ChoNgoiActivity extends AppCompatActivity {
         maPhongChieu = intent.getStringExtra("maPhongChieu");
         gioChieu = intent.getStringExtra("gioChieu");
         ngayChieu = intent.getStringExtra("ngayChieu");
+        maPhim = intent.getStringExtra("maPhim");
+        tenPhim = intent.getStringExtra("tenPhim");
+        gioiHanTuoi = intent.getIntExtra("gioiHanTuoi", 0);
+        poster = intent.getByteArrayExtra("poster");
+        giaVe = intent.getDoubleExtra("giaVe", 0);
         toolBarSeat();
         seatAdapter();
         buttonContinue();
@@ -92,14 +101,13 @@ public class ChoNgoiActivity extends AppCompatActivity {
             public void onSeatClick(int position) {
                 DanhSachGhe seat = arraySeats.get(position);
                 String hangGheVaSoGhe = seat.getHangGhe() + seat.getSoGhe();
-                double giaGhe = 55000; // Đơn vị tiền
                 if (seat.isSelected()) {
                     // Nếu ghế đã được chọn trước đó, giảm tiền đi
-                    tongTien += giaGhe;
+                    tongTien += giaVe;
                     seatSelected.add(hangGheVaSoGhe);
                 } else {
                     // Nếu ghế chưa được chọn trước đó, tăng tiền lên
-                    tongTien -= giaGhe;
+                    tongTien -= giaVe;
                     seatSelected.remove(hangGheVaSoGhe);
                 }
                 // Cập nhật giao diện hiển thị tổng tiền
@@ -136,6 +144,11 @@ public class ChoNgoiActivity extends AppCompatActivity {
                 intent.putExtra("maPhongChieu", maPhongChieu);
                 intent.putExtra("gioChieu", gioChieu);
                 intent.putExtra("ngayChieu", ngayChieu);
+                intent.putExtra("tenPhim", tenPhim);
+                intent.putExtra("maPhim", maPhim);
+                intent.putExtra("gioiHanTuoi", gioiHanTuoi);
+                intent.putExtra("giaVe", giaVe);
+                intent.putExtra("poster", poster);
                 // Khởi chạy TestActivity
                 startActivity(intent);
             }

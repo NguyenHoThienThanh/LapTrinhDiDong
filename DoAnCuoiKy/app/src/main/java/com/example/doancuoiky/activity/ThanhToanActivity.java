@@ -1,8 +1,12 @@
 package com.example.doancuoiky.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -20,14 +24,18 @@ import java.util.ArrayList;
 
 public class ThanhToanActivity extends AppCompatActivity {
     ArrayList<ComboBapNuoc> selectedCombos;
-    TextView tv_seatselecter, tv_totalmoney_thanhtoan, tv_totalmoneyseat_thanhtoan, tv_infofilm_thanhtoan, tv_movieroom_thanhtoan;
+    TextView tv_seatselecter, tv_totalmoney_thanhtoan, tv_totalmoneyseat_thanhtoan, tv_infofilm_thanhtoan, tv_movieroom_thanhtoan, tv_typefilm_thanhtoan, tv_filmname_thanhtoan ;
     RecyclerView rcv;
-
+    ImageView film_img_thanhtoan;
     ThanhToanAdapter thanhToanAdapter;
     double totalPrice = 0;
     double total = 0;
 
     String maPhongChieu, gioChieu, ngayChieu;
+    String tenPhim, maPhim;
+    int gioiHanTuoi;
+    byte[] poster;
+    double giaVe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +50,11 @@ public class ThanhToanActivity extends AppCompatActivity {
             maPhongChieu = intent.getStringExtra("maPhongChieu");
             gioChieu = intent.getStringExtra("gioChieu");
             ngayChieu = intent.getStringExtra("ngayChieu");
+            maPhim = intent.getStringExtra("maPhim");
+            tenPhim = intent.getStringExtra("tenPhim");
+            gioiHanTuoi = intent.getIntExtra("gioiHanTuoi", 0);
+            poster = intent.getByteArrayExtra("poster");
+            giaVe = intent.getDoubleExtra("giaVe", 0);
             mappingControl();
             StringBuilder seatString = new StringBuilder();
             // Lặp qua từng phần tử trong danh sách selectedSeats
@@ -61,8 +74,14 @@ public class ThanhToanActivity extends AppCompatActivity {
             tv_infofilm_thanhtoan.setText(ngayChieu + " | " + gioChieu + " | ");
             tv_movieroom_thanhtoan.setText("Phòng chiếu: " + maPhongChieu);
 
-            tv_seatselecter.setText("Danh sách ghế đã chọn: " + seatString.toString());
+            Bitmap bitmap = BitmapFactory.decodeByteArray(poster, 0, poster.length);
+            film_img_thanhtoan.setImageBitmap(bitmap);
 
+            tv_typefilm_thanhtoan.setText(String.valueOf(gioiHanTuoi) + "+");
+
+            tv_filmname_thanhtoan.setText(tenPhim);
+
+            tv_seatselecter.setText("Danh sách ghế đã chọn: " + seatString.toString());
             DecimalFormat decimalFormat2 = new DecimalFormat("#,###.###");
             String formattedMoney2 = decimalFormat2.format(totalPrice);
             tv_totalmoneyseat_thanhtoan.setText("Tổng tiền vé: " + formattedMoney2 + "đ");
@@ -76,6 +95,9 @@ public class ThanhToanActivity extends AppCompatActivity {
         tv_totalmoneyseat_thanhtoan = findViewById(R.id.tv_totalmoneyseat_thanhtoan);
         tv_infofilm_thanhtoan = findViewById(R.id.tv_infofilm_thanhtoan);
         tv_movieroom_thanhtoan = findViewById(R.id.tv_movieroom_thanhtoan);
+        film_img_thanhtoan = findViewById(R.id.film_img_thanhtoan);
+        tv_typefilm_thanhtoan = findViewById(R.id.tv_typefilm_thanhtoan);
+        tv_filmname_thanhtoan = findViewById(R.id.tv_filmname_thanhtoan);
     }
     public void toolBarThanhToan() {
         Toolbar toolbar = findViewById(R.id.toolbar_thanhtoan);

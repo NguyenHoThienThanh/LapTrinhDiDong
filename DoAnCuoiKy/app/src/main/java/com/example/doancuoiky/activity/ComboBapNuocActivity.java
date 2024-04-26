@@ -36,6 +36,11 @@ public class ComboBapNuocActivity extends AppCompatActivity {
     double total = 0;
     double totalPrice = 0;
     ArrayList<String> selectedSeats;
+
+    String tenPhim, maPhim;
+    int gioiHanTuoi;
+    byte[] poster;
+    double giaVe;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +52,13 @@ public class ComboBapNuocActivity extends AppCompatActivity {
         maPhongChieu = intent.getStringExtra("maPhongChieu");
         gioChieu = intent.getStringExtra("gioChieu");
         ngayChieu = intent.getStringExtra("ngayChieu");
+        maPhim = intent.getStringExtra("maPhim");
+        tenPhim = intent.getStringExtra("tenPhim");
+        gioiHanTuoi = intent.getIntExtra("gioiHanTuoi", 0);
+        poster = intent.getByteArrayExtra("poster");
+        giaVe = intent.getDoubleExtra("giaVe", 0);
         toolBarFAndB();
-        getAddWidgets();
+        mappingControl();
         foodAndBeverageAdapter();
         buttonContinue();
     }
@@ -69,7 +79,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
         });
     }
 
-    public void getAddWidgets(){
+    public void mappingControl(){
         tv_1 = findViewById(R.id.tv_1);
         tv_2 = findViewById(R.id.tv_2);
         tv_labelTotal = findViewById(R.id.txt_labeltotal);
@@ -152,6 +162,11 @@ public class ComboBapNuocActivity extends AppCompatActivity {
                 intent.putExtra("maPhongChieu", maPhongChieu);
                 intent.putExtra("gioChieu", gioChieu);
                 intent.putExtra("ngayChieu", ngayChieu);
+                intent.putExtra("tenPhim", tenPhim);
+                intent.putExtra("maPhim", maPhim);
+                intent.putExtra("gioiHanTuoi", gioiHanTuoi);
+                intent.putExtra("giaVe", giaVe);
+                intent.putExtra("poster", poster);
                 // Khởi chạy TestActivity
                 startActivity(intent);
             }

@@ -22,16 +22,17 @@ import com.example.doancuoiky.model.Phim;
 public class ChiTietPhimActivity extends AppCompatActivity {
     TextView txt_tenPhim, txt_moTaPhim, txt_dienVien, txt_thoiLuong, txt_gioiHanTuoi, txt_giaVe, txt_theLoai, txt_quocGia;
     ImageView img_trailer;
-Toolbar toolbar;
+    Toolbar toolbar;
     Button btn_muaVe;
-PhimDAO phimDAO;
+    PhimDAO phimDAO;
 
-Phim phim;
+    Phim phim;
 
-String tenPhim, maPhim, theLoai;
-int thoiLuong, gioiHanTuoi;
-byte[] poster;
-double giaVe;
+    String tenPhim, maPhim, theLoai;
+    int thoiLuong, gioiHanTuoi;
+    byte[] poster;
+    double giaVe;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +44,9 @@ double giaVe;
         btnMuaVe();
 
 
-
-
     }
 
-    public void mappingControl(){
+    public void mappingControl() {
         txt_tenPhim = findViewById(R.id.txt_filmName);
         txt_giaVe = findViewById(R.id.txt_giaVe);
         txt_thoiLuong = findViewById(R.id.txt_thoiLuong);
@@ -77,7 +76,7 @@ double giaVe;
         });
     }
 
-    public void btnMuaVe(){
+    public void btnMuaVe() {
         btn_muaVe = findViewById(R.id.btn_bookingMovie);
 
 
@@ -85,21 +84,18 @@ double giaVe;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChiTietPhimActivity.this, ChiTietSuatChieuActivity.class);
-                intent.putExtra("tenPhim", tenPhim );
+                intent.putExtra("tenPhim", tenPhim);
                 intent.putExtra("maPhim", maPhim);
-                intent.putExtra("theLoai", theLoai);
-                intent.putExtra("thoiLuong", thoiLuong);
                 intent.putExtra("gioiHanTuoi", gioiHanTuoi);
                 intent.putExtra("giaVe", giaVe);
                 intent.putExtra("poster", poster);
-
                 startActivity(intent);
             }
         });
     }
 
 
-    public void ChiTietPhimView(){
+    public void ChiTietPhimView() {
         phim = phimDAO.findOneById("MP001");
         tenPhim = phim.getTenPhim();
         maPhim = phim.getMaPhim();
