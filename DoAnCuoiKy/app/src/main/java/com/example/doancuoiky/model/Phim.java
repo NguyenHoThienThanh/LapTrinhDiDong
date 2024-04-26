@@ -1,22 +1,25 @@
 package com.example.doancuoiky.model;
 
 public class Phim {
-    private String maPhim, tenPhim, moTaPhim, dienVien, trailer;
+    private String maPhim, tenPhim, moTaPhim, dienVien, quocGia, theLoai;
     private int thoiLuong, gioiHanDoTuoi;
     private float giaVe;
+    private byte[] trailer;
 
-    public Phim(String maPhim, String tenPhim, String moTaPhim, String dienVien, String trailer, int thoiLuong, int gioiHanDoTuoi, float giaVe) {
+    public Phim() {
+    }
+
+    public Phim(String maPhim, String tenPhim, String moTaPhim, String dienVien, String quocGia, String theLoai, int thoiLuong, int gioiHanDoTuoi, float giaVe, byte[] trailer) {
         this.maPhim = maPhim;
         this.tenPhim = tenPhim;
         this.moTaPhim = moTaPhim;
         this.dienVien = dienVien;
-        this.trailer = trailer;
+        this.quocGia = quocGia;
+        this.theLoai = theLoai;
         this.thoiLuong = thoiLuong;
         this.gioiHanDoTuoi = gioiHanDoTuoi;
         this.giaVe = giaVe;
-    }
-
-    public Phim() {
+        this.trailer = trailer;
     }
 
     public String getMaPhim() {
@@ -51,12 +54,20 @@ public class Phim {
         this.dienVien = dienVien;
     }
 
-    public String getTrailer() {
-        return trailer;
+    public String getQuocGia() {
+        return quocGia;
     }
 
-    public void setTrailer(String trailer) {
-        this.trailer = trailer;
+    public void setQuocGia(String quocGia) {
+        this.quocGia = quocGia;
+    }
+
+    public String getTheLoai() {
+        return theLoai;
+    }
+
+    public void setTheLoai(String theLoai) {
+        this.theLoai = theLoai;
     }
 
     public int getThoiLuong() {
@@ -81,5 +92,13 @@ public class Phim {
 
     public void setGiaVe(float giaVe) {
         this.giaVe = giaVe;
+    }
+
+    public byte[] getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(byte[] trailer) {
+        this.trailer = trailer;
     }
 }
