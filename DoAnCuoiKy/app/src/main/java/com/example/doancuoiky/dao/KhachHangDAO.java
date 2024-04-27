@@ -59,6 +59,7 @@ public class KhachHangDAO {
                 khachHang.setEmail(c.getString(5));
                 khachHang.setSoDienThoai(c.getString(6));
                 khachHang.setUserName(c.getString(7));
+                khachHang.setAvatar(c.getBlob(8));
             }while(c.moveToNext());
         }
         if(c != null){
@@ -77,9 +78,6 @@ public class KhachHangDAO {
         values.put("diaChi", khachHang.getDiaChi());
         values.put("email", khachHang.getEmail());
         values.put("userName", khachHang.getUserName());
-
-
-
         try {
             if (sqlDB.update("KhachHang", values, "maKhachHang = ?", new String[]{khachHang.getMaKhachHang()}) < 0) {
                 return false;
@@ -87,6 +85,14 @@ public class KhachHangDAO {
         } catch (Exception ex) {
         }
         return true;
+    }
+
+    public boolean delete(String maKhachHang){
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        long res = sqlDB.delete("KhachHang", "maKhachHang =?", new String[]{maKhachHang});
+        if(res == -1) return false;
+        else return true;
     }
 
 

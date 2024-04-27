@@ -1,73 +1,57 @@
 package com.example.doancuoiky.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.model.KhachHang;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdminCustomerAdapter extends RecyclerView.Adapter<AdminCustomerAdapter.FAndBViewHolder> {
-    Context context;
-    List<KhachHang> listKhachHang;
-    private ComboBapNuocAdapter.IOnItemClickListener iOnItemClickListener;
-    public AdminCustomerAdapter(Context context){
+public class AdminCustomerAdapter extends ArrayAdapter<KhachHang> {
+    Activity context;
+    int layout_id;
+    ArrayList<KhachHang> arrayKhachHang;
+
+    public AdminCustomerAdapter(@NonNull Activity context, int resource, @NonNull ArrayList<KhachHang> objects) {
+        super(context,resource, objects);
         this.context = context;
+        this.layout_id = resource;
+        this.arrayKhachHang = objects;
     }
+
     @NonNull
     @Override
-    public FAndBViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_customer, parent, false);
-        return new FAndBViewHolder(view);
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        convertView = context.getLayoutInflater().inflate(layout_id, null);
+        TextView tv_name = convertView.findViewById(R.id.txt_hoTen);
+        TextView tv_ngaySinh = convertView.findViewById(R.id.txt_ngaySinh);
+        TextView tv_diaChi = convertView.findViewById(R.id.txt_diaChi);
+        TextView tv_maKhachHang = convertView.findViewById(R.id.txt_maKhachHang);
+        ImageView img = convertView.findViewById(R.id.img_avatar);
+
+        KhachHang khachHang = arrayKhachHang.get(position);
+        tv_name.setText(khachHang.getHoTen());
+        tv_maKhachHang.setText(khachHang.getMaKhachHang());
+        tv_diaChi.setText(khachHang.getDiaChi());
+        tv_ngaySinh.setText(khachHang.getNgaySinh());
+        Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0, khachHang.getAvatar().length);
+        img.setImageBitmap(bitmap);
+        return convertView;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull FAndBViewHolder holder, int position) {
-        KhachHang khachHang = listKhachHang.get(position);
-        if(khachHang == null){
-            return;
-        }
-        holder.txt_ngaySinh.setText(khachHang.getNgaySinh());
-        holder.txt_diaChi.setText(khachHang.getDiaChi());
-        holder.txt_hoTen.setText(khachHang.getHoTen());
-        holder.txt_maKhachHang.setText(khachHang.getMaKhachHang());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0 , khachHang.getAvatar().length);
-        holder.img_avatar.setImageBitmap(bitmap);
-
-    }
-    public void setData(List<KhachHang> list){
-        this.listKhachHang = list;
-    }
-    @Override
-    public int getItemCount() {
-        if(listKhachHang != null){
-            return listKhachHang.size();
-        }
-        return 0;
-    }
-
-    public class FAndBViewHolder extends  RecyclerView.ViewHolder{
-        public TextView txt_hoTen, txt_maKhachHang, txt_ngaySinh, txt_diaChi;
-        public ImageView img_avatar;
-        public FAndBViewHolder(@NonNull View itemView) {
-            super(itemView);
-            txt_diaChi = itemView.findViewById(R.id.txt_diaChi);
-            txt_hoTen = itemView.findViewById(R.id.txt_hoTen);
-            txt_maKhachHang = itemView.findViewById(R.id.txt_maKhachHang);
-            txt_ngaySinh = itemView.findViewById(R.id.txt_ngaySinh);
-            img_avatar = itemView.findViewById(R.id.img_avatar);
-
-        }
-    }
 }
 
