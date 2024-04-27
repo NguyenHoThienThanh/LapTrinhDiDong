@@ -6,11 +6,12 @@ public class KhachHang {
     private String maKhachHang, hoTen, diaChi, email, soDienThoai, userName;
     private int gioiTinh;
     private String ngaySinh;
+    private byte[] avatar;
 
     public KhachHang() {
     }
 
-    public KhachHang(String maKhachHang, String hoTen, String diaChi, String email, String soDienThoai, String userName, int gioiTinh, String ngaySinh) {
+    public KhachHang(String maKhachHang, String hoTen, String diaChi, String email, String soDienThoai, String userName, int gioiTinh, String ngaySinh, byte[] avatar) {
         this.maKhachHang = maKhachHang;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
@@ -19,6 +20,7 @@ public class KhachHang {
         this.userName = userName;
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
+        this.avatar = avatar;
     }
 
     public String getMaKhachHang() {
@@ -83,5 +85,13 @@ public class KhachHang {
 
     public void setNgaySinh(String ngaySinh) {
         this.ngaySinh = ngaySinh;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 }

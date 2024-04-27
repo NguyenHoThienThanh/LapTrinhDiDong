@@ -25,6 +25,13 @@ public class HomeAdminActivity extends AppCompatActivity {
                 logOut();
             }
         });
+
+        cv_customer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                customer();
+            }
+        });
     }
 
     public void mappingControl(){
@@ -37,6 +44,11 @@ public class HomeAdminActivity extends AppCompatActivity {
 
     public void logOut(){
         Intent loginIntent = new Intent(this, LoginActivity.class);
+        startActivity(loginIntent);
+    }
+
+    public void customer(){
+        Intent loginIntent = new Intent(this, AdminCustomerActivity.class);
         startActivity(loginIntent);
     }
 }

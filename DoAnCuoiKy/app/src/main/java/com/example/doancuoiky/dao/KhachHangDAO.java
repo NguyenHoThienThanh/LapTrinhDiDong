@@ -16,15 +16,15 @@ public class KhachHangDAO {
 
     public KhachHangDAO(Context context){
         helper = new SQLHelper(context);
-        //helper.processCopy();
+        helper.processCopy();
         sqlDB = helper.getWritableDatabase();
     }
 
     public ArrayList<KhachHang> findAllKhachHang(){
         ArrayList<KhachHang> khachHangArrayList = new ArrayList<>();
         Cursor c =sqlDB.query("KhachHang", null, null, null, null, null,null );
-        if(c != null && c.moveToFirst()){
-            do{
+        c.moveToFirst();
+        while(!c.isAfterLast()){
                 KhachHang khachHang = new KhachHang();
                 khachHang.setMaKhachHang(c.getString(0));
                 khachHang.setHoTen(c.getString(1));
@@ -34,11 +34,13 @@ public class KhachHangDAO {
                 khachHang.setEmail(c.getString(5));
                 khachHang.setSoDienThoai(c.getString(6));
                 khachHang.setUserName(c.getString(7));
-            }while(c.moveToNext());
+                khachHang.setAvatar(c.getBlob(8));
+                khachHangArrayList.add(khachHang);
+                c.moveToNext();
         }
-        if(c != null){
+
             c.close();
-        }
+
         return khachHangArrayList;
     }
 
