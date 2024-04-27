@@ -56,4 +56,6 @@ public class HoaDon {
     public void setTongTien(double tongTien) {
         this.tongTien = tongTien;
     }
+
 }
+

@@ -56,7 +56,7 @@ public class HoaDonDAO {
         else return true;
     }
 
-    public boolean createHoaDon(HoaDon hoaDon){
+    public boolean createHoaDon(HoaDon hoaDon) {
         ContentValues values = new ContentValues();
         values.put("maHoaDon", getNextID());
         values.put("maSuatChieu", hoaDon.getMaSuatChieu());
@@ -66,7 +66,7 @@ public class HoaDonDAO {
         return true;
     }
 
-    public String getNextID(){
+    public String getNextID() {
         String nextID = "";
         int lastID = check();
         if (lastID < 999) {
@@ -79,7 +79,7 @@ public class HoaDonDAO {
 
     public int check() {
         int check = 0;
-        ArrayList<HoaDon>  hoaDonList = (ArrayList<HoaDon>) getListHoaDon();
+        ArrayList<HoaDon> hoaDonList = (ArrayList<HoaDon>) getListHoaDon();
         for (int i = 0; i < hoaDonList.size(); i++) {
             HoaDon hoaDon = hoaDonList.get(i);
             check = Math.max(check, Integer.parseInt(hoaDon.getMaHoaDon().substring(3)));
