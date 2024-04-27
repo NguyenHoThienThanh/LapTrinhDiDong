@@ -3,19 +3,20 @@ package com.example.doancuoiky.model;
 import java.util.Date;
 
 public class KhachHang {
-    private String maKhachHang, hoTen, diaChi, email, soDienThoai;
-    private boolean gioiTinh;
-    private Date ngaySinh;
+    private String maKhachHang, hoTen, diaChi, email, soDienThoai, userName;
+    private int gioiTinh;
+    private String ngaySinh;
 
     public KhachHang() {
     }
 
-    public KhachHang(String maKhachHang, String hoTen, String diaChi, String email, String soDienThoai, boolean gioiTinh, Date ngaySinh) {
+    public KhachHang(String maKhachHang, String hoTen, String diaChi, String email, String soDienThoai, String userName, int gioiTinh, String ngaySinh) {
         this.maKhachHang = maKhachHang;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.email = email;
         this.soDienThoai = soDienThoai;
+        this.userName = userName;
         this.gioiTinh = gioiTinh;
         this.ngaySinh = ngaySinh;
     }
@@ -60,19 +61,27 @@ public class KhachHang {
         this.soDienThoai = soDienThoai;
     }
 
-    public boolean isGioiTinh() {
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getGioiTinh() {
         return gioiTinh;
     }
 
-    public void setGioiTinh(boolean gioiTinh) {
+    public void setGioiTinh(int gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 
-    public Date getNgaySinh() {
+    public String getNgaySinh() {
         return ngaySinh;
     }
 
-    public void setNgaySinh(Date ngaySinh) {
+    public void setNgaySinh(String ngaySinh) {
         this.ngaySinh = ngaySinh;
     }
 }
