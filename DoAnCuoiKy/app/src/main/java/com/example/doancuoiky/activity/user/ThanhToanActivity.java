@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

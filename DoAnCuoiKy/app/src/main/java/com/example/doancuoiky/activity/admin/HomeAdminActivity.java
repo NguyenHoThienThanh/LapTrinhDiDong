@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.doancuoiky.R;
+import com.example.doancuoiky.activity.user.LoginActivity;
 
 public class HomeAdminActivity extends AppCompatActivity {
     CardView cv_customer, cv_bill, cv_movie, cv_ticket, cv_logout;

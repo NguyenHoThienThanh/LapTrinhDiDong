@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.DanhSachGheAdapter;
 import com.example.doancuoiky.dao.ChoNgoiDAO;
-import com.example.doancuoiky.model.ChoNgoi;
 import com.example.doancuoiky.model.DanhSachGhe;
 
 import java.text.DecimalFormat;

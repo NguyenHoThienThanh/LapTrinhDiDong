@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import android.app.ActivityOptions;
 import android.content.Intent;

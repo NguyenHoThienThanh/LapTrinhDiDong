@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

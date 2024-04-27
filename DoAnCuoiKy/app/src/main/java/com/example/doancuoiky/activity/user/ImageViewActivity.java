@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import android.os.Bundle;
 import android.widget.ImageView;

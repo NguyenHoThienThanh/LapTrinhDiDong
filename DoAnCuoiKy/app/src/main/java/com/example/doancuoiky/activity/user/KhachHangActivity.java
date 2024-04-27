@@ -1,4 +1,4 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,6 @@ import com.example.doancuoiky.R;
 import com.example.doancuoiky.dao.KhachHangDAO;
 import com.example.doancuoiky.dao.TaiKhoanDAO;
 import com.example.doancuoiky.model.KhachHang;
-import com.example.doancuoiky.model.TaiKhoan;
-
-import java.util.ArrayList;
 
 public class KhachHangActivity extends AppCompatActivity {
 
@@ -63,7 +60,7 @@ public class KhachHangActivity extends AppCompatActivity {
 
     public void getProfile(){
         khachHang = new KhachHang();
-        khachHang = khachHangDAO.findOneById("KH004");
+        khachHang = khachHangDAO.findOneById("KH002");
 
         txt_userName.setText(khachHang.getUserName());
         txt_email.setText(khachHang.getEmail());

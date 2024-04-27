@@ -1,7 +1,6 @@
-package com.example.doancuoiky.activity;
+package com.example.doancuoiky.activity.user;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
