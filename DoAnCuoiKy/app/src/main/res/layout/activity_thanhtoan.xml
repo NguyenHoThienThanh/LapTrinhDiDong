@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#EAE5E5"
     android:orientation="vertical"
-    tools:context=".activity.ThanhToanActivity">
+    tools:context=".activity.user.ThanhToanActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_thanhtoan"
@@ -136,18 +136,19 @@
                 android:layout_marginTop="10dp"
                 android:text="Combo bắp nước"
                 android:textSize="20dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/tv_empty_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bạn chưa chọn combo"
-                android:gravity="center"
                 android:layout_margin="20px"
+                android:background="@drawable/white_background"
+                android:gravity="center"
                 android:padding="16dp"
+                android:text="Bạn chưa chọn combo"
                 android:textSize="16sp"
-                android:visibility="gone"
-                android:background="@drawable/white_background"/>
+                android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_fandb_thanhtoan"
@@ -155,8 +156,50 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20px"
                 android:background="@drawable/white_background"
-                android:padding="20dp"/>
+                android:padding="20dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Thông tin người nhận"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20px"
+                android:background="@drawable/white_background"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="20px"
+                    android:id="@+id/customer_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="40px"
+                    android:text="Dang Gia Thuan"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="20px">
+
+                    <TextView
+                        android:id="@+id/customer_phoneandemail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0355626541 - danggiathuanhl@gmail.com"
+                        android:paddingLeft="40px"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -196,16 +239,17 @@
                 android:text="400.000đ"
                 android:textColor="#000000"
                 android:textSize="15dp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_continue"
+            android:id="@+id/btn_thanhtoan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/button_shape"
-            android:text="Tiếp tục"
+            android:backgroundTint="#b0006d"
+            android:text="Thanh toán"
             android:textColor="@color/white" />
     </LinearLayout>
 

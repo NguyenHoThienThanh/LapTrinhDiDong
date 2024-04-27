@@ -5,9 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +20,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.ThanhToanAdapter;
+import com.example.doancuoiky.dao.HoaDonDAO;
 import com.example.doancuoiky.model.ComboBapNuoc;
+import com.example.doancuoiky.model.HoaDon;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import vn.momo.momo_partner.AppMoMoLib;
 
 public class ThanhToanActivity extends AppCompatActivity {
     ArrayList<ComboBapNuoc> selectedCombos;
@@ -31,15 +43,28 @@ public class ThanhToanActivity extends AppCompatActivity {
     double totalPrice = 0;
     double total = 0;
 
-    String maPhongChieu, gioChieu, ngayChieu;
+    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon;
     String tenPhim, maPhim;
     int gioiHanTuoi;
     byte[] poster;
     double giaVe;
+    Button btn_thanhToan;
+
+    private
+    HoaDonDAO hoaDonDAO;
+    private String amount;
+    private String fee = "0";
+    int environment = 0;//developer default
+    private String merchantName = "Thanh toán mua vé";
+    private String merchantCode = "SCB01";
+    private String merchantNameLabel = "Nhà cung cấp";
+    private String description = "Đặt vé xem phim";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanhtoan);
+        hoaDonDAO = new HoaDonDAO(this);
+        AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
         toolBarThanhToan();
         Intent intent = getIntent();
         if (intent != null) {
@@ -47,6 +72,8 @@ public class ThanhToanActivity extends AppCompatActivity {
             selectedCombos = (ArrayList<ComboBapNuoc>) intent.getSerializableExtra("selectedCombos");
             totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
             total = intent.getDoubleExtra("total", 0.0);
+
+            maSuatChieu = intent.getStringExtra("maSuatChieu");
             maPhongChieu = intent.getStringExtra("maPhongChieu");
             gioChieu = intent.getStringExtra("gioChieu");
             ngayChieu = intent.getStringExtra("ngayChieu");
@@ -85,9 +112,92 @@ public class ThanhToanActivity extends AppCompatActivity {
             DecimalFormat decimalFormat2 = new DecimalFormat("#,###.###");
             String formattedMoney2 = decimalFormat2.format(totalPrice);
             tv_totalmoneyseat_thanhtoan.setText("Tổng tiền vé: " + formattedMoney2 + "đ");
+            amount = formattedMoney2;
 
         }
         comBoAdapter();
+        getControl();
+    }
+
+    //Get token through MoMo app
+    private void requestPayment(String maDonHang) {
+        AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
+        AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
+//        if (edAmount.getText().toString() != null && edAmount.getText().toString().trim().length() != 0)
+//            amount = edAmount.getText().toString().trim();
+
+        Map<String, Object> eventValue = new HashMap<>();
+        //client Required
+        eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
+        eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
+        eventValue.put("amount", amount); //Kiểu integer
+        eventValue.put("orderId", maDonHang); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
+        eventValue.put("orderLabel", maDonHang); //gán nhãn
+
+        //client Optional - bill info
+        eventValue.put("merchantnamelabel", "Dịch vụ");//gán nhãn
+        eventValue.put("fee", "0"); //Kiểu integer
+        eventValue.put("description", description); //mô tả đơn hàng - short description
+
+        //client extra data
+        eventValue.put("requestId",  merchantCode+"merchant_billId_"+System.currentTimeMillis());
+        eventValue.put("partnerCode", merchantCode);
+        //Example extra data
+        JSONObject objExtraData = new JSONObject();
+        try {
+            objExtraData.put("site_code", "008");
+            objExtraData.put("site_name", "CGV Cresent Mall");
+            objExtraData.put("screen_code", 0);
+            objExtraData.put("screen_name", "Special");
+            objExtraData.put("movie_name", "Kẻ Trộm Mặt Trăng 3");
+            objExtraData.put("movie_format", "2D");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        eventValue.put("extraData", objExtraData.toString());
+
+        eventValue.put("extra", "");
+        AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
+
+    }
+    //Get token callback from MoMo app an submit to server side
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
+            if(data != null) {
+                if(data.getIntExtra("status", -1) == 0) {
+                    //TOKEN IS AVAILABLE
+                    Log.d("Thanh cong", data.getStringExtra("message"));
+                    String token = data.getStringExtra("data"); //Token response
+                    String phoneNumber = data.getStringExtra("phonenumber");
+                    String env = data.getStringExtra("env");
+                    if(env == null){
+                        env = "app";
+                    }
+
+                    if(token != null && !token.equals("")) {
+                        // TODO: send phoneNumber & token to your server side to process payment with MoMo server
+                        // IF Momo topup success, continue to process your order
+                    } else {
+                        Log.d("Thanh cong", "Khong thanh cong");
+                    }
+                } else if(data.getIntExtra("status", -1) == 1) {
+                    //TOKEN FAIL
+                    String message = data.getStringExtra("message") != null?data.getStringExtra("message"):"Thất bại";
+                    Log.d("Thanh cong", "Khong thanh cong");
+                } else if(data.getIntExtra("status", -1) == 2) {
+                    //TOKEN FAIL
+                    Log.d("Thanh cong", "Khong thanh cong");
+                } else {
+                    //TOKEN FAIL
+                    Log.d("Thanh cong", "Khong thanh cong");
+                }
+            } else {
+                Log.d("Thanh cong", "Khong thanh cong");
+            }
+        } else {
+            Log.d("Thanh cong", "Khong thanh cong");
+        }
     }
     public void mappingControl(){
         tv_seatselecter = findViewById(R.id.tv_seatselected_thanhtoan);
@@ -98,6 +208,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         film_img_thanhtoan = findViewById(R.id.film_img_thanhtoan);
         tv_typefilm_thanhtoan = findViewById(R.id.tv_typefilm_thanhtoan);
         tv_filmname_thanhtoan = findViewById(R.id.tv_filmname_thanhtoan);
+        btn_thanhToan = findViewById(R.id.btn_thanhtoan);
     }
     public void toolBarThanhToan() {
         Toolbar toolbar = findViewById(R.id.toolbar_thanhtoan);
@@ -130,5 +241,29 @@ public class ThanhToanActivity extends AppCompatActivity {
             thanhToanAdapter.setData(selectedCombos);
             rcv.setAdapter(thanhToanAdapter);
         }
+    }
+
+    private void getControl(){
+        btn_thanhToan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder comBoString = new StringBuilder();
+                // Lặp qua từng phần tử trong danh sách selectedSeats
+                for (int i = 0; i < selectedCombos.size(); i++) {
+                    // Thêm phần tử vào chuỗi
+                    comBoString.append(selectedCombos.get(i).getMaCombo());
+
+                    // Nếu không phải phần tử cuối cùng, thêm dấu phẩy vào chuỗi
+                    if (i < selectedCombos.size() - 1) {
+                        comBoString.append(", ");
+                    }
+                }
+                maHoaDon = hoaDonDAO.getNextID();
+                maCombo = String.valueOf(comBoString);
+                HoaDon hoaDon = new HoaDon(maHoaDon, maSuatChieu, "KH001", maCombo, total);
+                hoaDonDAO.createHoaDon(hoaDon);
+                requestPayment(maHoaDon);
+            }
+        });
     }
 }
