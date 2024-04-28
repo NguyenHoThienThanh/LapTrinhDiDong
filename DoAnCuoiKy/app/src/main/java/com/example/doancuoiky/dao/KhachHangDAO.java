@@ -18,6 +18,7 @@ public class KhachHangDAO {
         helper = new SQLHelper(context);
         helper.processCopy();
         sqlDB = helper.getWritableDatabase();
+        sqlDB.execSQL("PRAGMA foreign_keys = ON;");
     }
 
     public ArrayList<KhachHang> findAllKhachHang(){
