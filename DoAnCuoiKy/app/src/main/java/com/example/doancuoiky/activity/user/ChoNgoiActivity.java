@@ -30,6 +30,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
     ArrayList<DanhSachGhe> arraySeats = new ArrayList<>();
     Button btn_continue;
     String maSuatChieu, maPhongChieu, gioChieu, ngayChieu;
+    TextView tv_type, tv_name, tv_time, tv_date, tv_cate;
 
     ChoNgoiDAO danhSachGheDAO;
     TextView txt_tempTotal;
@@ -37,7 +38,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
     double tongTien = 0;
     List<String> seatSelected = new ArrayList<>();
 
-    String tenPhim, maPhim;
+    String tenPhim, maPhim, theLoai;
     int gioiHanTuoi;
     byte[] poster;
     double giaVe;
@@ -55,14 +56,31 @@ public class ChoNgoiActivity extends AppCompatActivity {
         ngayChieu = intent.getStringExtra("ngayChieu");
         maPhim = intent.getStringExtra("maPhim");
         tenPhim = intent.getStringExtra("tenPhim");
+        theLoai = intent.getStringExtra("theLoai");
         gioiHanTuoi = intent.getIntExtra("gioiHanTuoi", 0);
         poster = intent.getByteArrayExtra("poster");
         giaVe = intent.getDoubleExtra("giaVe", 0);
+        mappingControl();
         toolBarSeat();
         seatAdapter();
+        setDataOnLayout();
         buttonContinue();
     }
 
+    private void mappingControl(){
+        tv_type = findViewById(R.id.txt_TypeFilm);
+        tv_name= findViewById(R.id.txt_NameFilm);
+        tv_time = findViewById(R.id.txt_TimeFilm);
+        tv_date = findViewById(R.id.txt_DateFilm);
+        tv_cate = findViewById(R.id.txt_CateFilm);
+    }
+    private void setDataOnLayout(){
+        tv_type.setText(gioiHanTuoi + "+");
+        tv_name.setText(tenPhim);
+        tv_time.setText(gioChieu);
+        tv_date.setText(ngayChieu);
+        tv_cate.setText(theLoai);
+    }
     private List<DanhSachGhe> getListSeat() {
         ArrayList<DanhSachGhe> list = new ArrayList<>();
         list = danhSachGheDAO.getSeatBySuatChieu(maSuatChieu, maPhongChieu);
@@ -81,6 +99,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
 
     public void toolBarSeat() {
         Toolbar toolbar = findViewById(R.id.toolbar_seat);
+        toolbar.setTitle(tenPhim);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

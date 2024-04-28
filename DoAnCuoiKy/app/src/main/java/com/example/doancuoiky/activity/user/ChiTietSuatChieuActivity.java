@@ -36,7 +36,7 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
 
     private Carousel carousel;
 
-    String tenPhim, maPhim;
+    String tenPhim, maPhim, theLoai;
     int  gioiHanTuoi;
     byte[] poster;
     double giaVe;
@@ -65,6 +65,7 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
         maPhim = intent.getStringExtra("maPhim");
         tenPhim = intent.getStringExtra("tenPhim");
         Toast.makeText(this, "" + tenPhim, Toast.LENGTH_SHORT).show();
+        theLoai = intent.getStringExtra("theLoai");
         gioiHanTuoi = intent.getIntExtra("gioiHanTuoi", 0);
         poster = intent.getByteArrayExtra("poster");
         giaVe = intent.getDoubleExtra("giaVe", 0);
@@ -139,6 +140,7 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
                 intent.putExtra("gioChieu", chiTietSuatChieu1.getGioChieu());
                 intent.putExtra("ngayChieu", chiTietSuatChieu1.getNgayChieu());
                 intent.putExtra("tenPhim", tenPhim);
+                intent.putExtra("theLoai", theLoai);
                 intent.putExtra("maPhim", maPhim);
                 intent.putExtra("gioiHanTuoi", gioiHanTuoi);
                 intent.putExtra("giaVe", giaVe);

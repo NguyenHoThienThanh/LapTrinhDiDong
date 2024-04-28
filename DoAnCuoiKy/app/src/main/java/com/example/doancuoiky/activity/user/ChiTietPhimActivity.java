@@ -87,6 +87,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
                 intent.putExtra("maPhim", maPhim);
                 intent.putExtra("gioiHanTuoi", gioiHanTuoi);
                 intent.putExtra("giaVe", giaVe);
+                intent.putExtra("theLoai", theLoai);
                 intent.putExtra("poster", poster);
                 startActivity(intent);
             }
