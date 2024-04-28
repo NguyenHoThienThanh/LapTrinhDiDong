@@ -19,7 +19,6 @@ public class HoaDonDAO {
 
     public HoaDonDAO(Context context) {
         helper = new SQLHelper(context);
-        helper.processCopy();
         sqlDB = helper.getWritableDatabase();
     }
 
@@ -45,6 +44,9 @@ public class HoaDonDAO {
     }
 
     public boolean insertHoaDon(HoaDon hoaDon) {
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put("maHoaDon", hoaDon.getMaHoaDon());
         values.put("maSuatChieu", hoaDon.getMaSuatChieu());

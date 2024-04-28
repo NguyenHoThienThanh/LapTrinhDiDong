@@ -52,11 +52,11 @@ public class ThanhToanActivity extends AppCompatActivity {
 
     private
     HoaDonDAO hoaDonDAO;
-    private String amount;
+    private double amount;
     private String fee = "0";
     int environment = 0;//developer default
-    private String merchantName = "Thanh toán mua vé";
-    private String merchantCode = "SCB01";
+    private String merchantName = "HoangNgoc";
+    private String merchantCode = "MOMOC2IC20220510";
     private String merchantNameLabel = "Nhà cung cấp";
     private String description = "Đặt vé xem phim";
     @Override
@@ -112,7 +112,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             DecimalFormat decimalFormat2 = new DecimalFormat("#,###.###");
             String formattedMoney2 = decimalFormat2.format(totalPrice);
             tv_totalmoneyseat_thanhtoan.setText("Tổng tiền vé: " + formattedMoney2 + "đ");
-            amount = formattedMoney2;
+            amount = total + totalPrice;
 
         }
         comBoAdapter();
@@ -169,6 +169,22 @@ public class ThanhToanActivity extends AppCompatActivity {
                     //TOKEN IS AVAILABLE
                     Log.d("Thanh cong", data.getStringExtra("message"));
                     String token = data.getStringExtra("data"); //Token response
+
+                    String maHoaDon = hoaDonDAO.getNextID();
+                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, "KH001", maCombo, total + totalPrice);
+                    boolean res = hoaDonDAO.insertHoaDon(hd);
+
+                    if (res){
+                        Toast.makeText(this, hd.getMaHoaDon() + " " + hd.getMaSuatChieu() + " " + hd.getMaKhachHang() + " " + hd.getMaCombo() + " " + hd.getTongTien(), Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(this, "Insert thất bại", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Intent intent = new Intent(getApplicationContext(), ChiTietPhimActivity.class);
+                    startActivity(intent);
+                    finish();
+
                     String phoneNumber = data.getStringExtra("phonenumber");
                     String env = data.getStringExtra("env");
                     if(env == null){

@@ -45,14 +45,15 @@ public class SQLHelper extends SQLiteOpenHelper {
                 // Xử lý ngoại lệ nếu có lỗi khi sao chép
                 Toast.makeText(context, "Error copying database: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
-        } else {
-            try {
-                copyDatabaseFromAssets();
-            } catch (IOException e) {
-                // Xử lý ngoại lệ nếu có lỗi khi ghi đè
-                Toast.makeText(context, "Error updating database: " + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
         }
+//        else {
+//            try {
+//                copyDatabaseFromAssets();
+//            } catch (IOException e) {
+//                // Xử lý ngoại lệ nếu có lỗi khi ghi đè
+//                Toast.makeText(context, "Error updating database: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        }
     }
 
     private void copyDatabaseFromAssets() throws IOException {
