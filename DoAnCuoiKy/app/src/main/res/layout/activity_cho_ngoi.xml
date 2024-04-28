@@ -21,8 +21,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp">
+        android:orientation="vertical"
+        android:paddingTop="7dp">
 
+        <View
+            android:layout_width="200dp"
+            android:layout_height="10dp"
+            android:layout_weight="1"
+            android:background="#b0006d"
+            android:layout_gravity="center"
+            android:layout_marginTop="10px"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MÀN HÌNH"
+            android:paddingTop="10px"
+            android:gravity="center"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:orientation="vertical">
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -30,7 +51,6 @@
             android:layout_width="wrap_content"
             android:layout_height="425dp"
             android:layout_marginTop="30dp">
-
         </androidx.recyclerview.widget.RecyclerView>/>
     </LinearLayout>
 
