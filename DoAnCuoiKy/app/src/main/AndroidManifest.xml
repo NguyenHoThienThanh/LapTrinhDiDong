@@ -16,14 +16,14 @@
         tools:replace="android:theme"
         tools:targetApi="31">
         <activity android:name=".activity.user.HoaDonActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
         <activity
             android:name=".activity.user.TestActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".activity.admin.AdminPhongChieuActivity"
             android:exported="false">
         </activity>
         <activity
@@ -57,8 +57,11 @@
             android:exported="false"></activity>
         <activity
             android:name=".activity.admin.HomeAdminActivity"
-            android:exported="false">
-
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.admin.AdminCustomerActivity"
