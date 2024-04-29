@@ -20,6 +20,7 @@ public class ComboBapNuocDAO {
 
     public ComboBapNuocDAO(Context context) {
         helper = new SQLHelper(context);
+        helper.processCopy();
         sqlDB = helper.getWritableDatabase();
     }
 

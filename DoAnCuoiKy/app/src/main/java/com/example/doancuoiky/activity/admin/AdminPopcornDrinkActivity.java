@@ -64,27 +64,26 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         lv_comboBapNuoc = findViewById(R.id.lv_combo);
         adminComboBapNuocAdapter();
 
-        TextView tv_minus = findViewById(R.id.tv_minus);
-        TextView tv_plus = findViewById(R.id.tv_plus);
         TextView tv_numberItems = findViewById(R.id.tv_numberItems);
+        final int[] currentQuantity = {0}; // Bắt đầu từ 0
 
-        final int[] currentQuantity = {Integer.parseInt(tv_numberItems.getText().toString())};
+        TextView tv_plus = findViewById(R.id.tv_plus);
+        tv_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentQuantity[0]++;
+                tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật số lượng
+            }
+        });
 
+        TextView tv_minus = findViewById(R.id.tv_minus);
         tv_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (currentQuantity[0] > 0) {
-                    currentQuantity[0] -= 1;
-                    tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView
+                    currentQuantity[0]--;
+                    tv_numberItems.setText(String.valueOf(currentQuantity[0]));
                 }
-            }
-        });
-
-        tv_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentQuantity[0] += 1;
-                tv_numberItems.setText(String.valueOf(currentQuantity[0]));
             }
         });
         ImageView fandb_image = findViewById(R.id.fandb_image);
@@ -162,7 +161,32 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
                 edt_detail.setText("");
                 edt_money.setText("");
                 tv_numberItems.setText("0");
+                // Đặt lại biến currentQuantity về 0
+                currentQuantity[0] = 0;
+                TextView tv_plus = findViewById(R.id.tv_plus);
+                tv_plus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currentQuantity[0]++;
+                        tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật số lượng
+                    }
+                });
+
+                TextView tv_minus = findViewById(R.id.tv_minus);
+                tv_minus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (currentQuantity[0] > 0) {
+                            currentQuantity[0]--;
+                            tv_numberItems.setText(String.valueOf(currentQuantity[0]));
+                        }
+                    }
+                });
                 img_picture.setImageResource(R.drawable.corn);
+
+                // Ẩn nút sửa
+                Button btn_sua = findViewById(R.id.btn_sua);
+                btn_sua.setVisibility(View.INVISIBLE);
             }
         });
         btn_sua = findViewById(R.id.btn_sua);
@@ -200,7 +224,7 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
 
     private void adminComboBapNuocAdapter() {
         listCombo = comboBapNuocDAO.findAllCombo();
-        adminComboBapNuocAdapter = new AdminPopcornDrinkAdapter(this, R.layout.item_fandb, listCombo);
+        adminComboBapNuocAdapter = new AdminPopcornDrinkAdapter(this, R.layout.item_fandb_admin, listCombo);
         lv_comboBapNuoc.setAdapter(adminComboBapNuocAdapter);
         registerForContextMenu(lv_comboBapNuoc);
     }
@@ -295,17 +319,8 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
             Bitmap bitmap = drawable.getBitmap();
             comboBapNuocSelected.setHinhAnh(bitmapToByteArray(bitmap));
         }
-        Log.d("UpdateInfo", "Tên combo: " + comboBapNuocSelected.getTenCombo());
-        Log.d("UpdateInfo", "Mô tả: " + comboBapNuocSelected.getSoLuong());
         // Gọi hàm update để cập nhật thông tin
         boolean isUpdated = comboBapNuocDAO.update(comboBapNuocSelected);
-
-        // In kết quả của thao tác cập nhật
-        if (isUpdated) {
-            Log.d("UpdateResult", "Cập nhật thành công");
-        } else {
-            Log.e("UpdateResult", "Cập nhật thất bại");
-        }
         adminComboBapNuocAdapter();
     }
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -348,11 +363,36 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
             // Hiển thị nút sửa khi comboBapNuocSelected không phải là null
             btn_sua = findViewById(R.id.btn_sua);
             btn_sua.setVisibility(View.VISIBLE); // Hiển thị nút sửa
+            TextView tv_minus = findViewById(R.id.tv_minus);
+            TextView tv_plus = findViewById(R.id.tv_plus);
+            TextView tv_numberItems = findViewById(R.id.tv_numberItems);
+            // Lấy số lượng hiện tại từ comboBapNuocSelected
+            final int[] currentQuantity = {comboBapNuocSelected.getSoLuong()};
+
+            // Khi người dùng nhấn nút tăng
+            tv_plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentQuantity[0]++; // Tăng số lượng
+                    tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView
+                }
+            });
+
+            // Khi người dùng nhấn nút giảm
+            tv_minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (currentQuantity[0] > 0) {
+                        currentQuantity[0]--; // Giảm số lượng
+                        tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView
+                    }
+                }
+            });
 
             EditText edt_name = findViewById(R.id.edt_fandb_name);
             EditText edt_detail = findViewById(R.id.edt_fandb_detail);
             EditText edt_money = findViewById(R.id.edt_fandb_money);
-            TextView tv_numberItems = findViewById(R.id.tv_numberItems);
+//            TextView tv_numberItems = findViewById(R.id.tv_numberItems);
             ImageView img_picture = findViewById(R.id.fandb_image);
 
             edt_name.setText(comboBapNuocSelected.getTenCombo());
