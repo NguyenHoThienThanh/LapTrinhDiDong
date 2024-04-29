@@ -141,7 +141,7 @@
             app:layout_constraintTop_toBottomOf="@id/row1">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_cinema"
+                android:id="@+id/cv_filmroom"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"

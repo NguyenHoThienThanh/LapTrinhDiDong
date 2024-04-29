@@ -12,7 +12,7 @@ import com.example.doancuoiky.R;
 import com.example.doancuoiky.activity.user.LoginActivity;
 
 public class HomeAdminActivity extends AppCompatActivity {
-    CardView cv_customer, cv_bill, cv_movie, cv_ticket, cv_logout, cv_popcorn;
+    CardView cv_customer, cv_bill, cv_movie, cv_ticket, cv_logout, cv_popcorn, cv_filmroom;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +39,12 @@ public class HomeAdminActivity extends AppCompatActivity {
                 popCornDrink();
             }
         });
+        cv_filmroom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filmRoom();
+            }
+        });
     }
 
     public void mappingControl(){
@@ -48,6 +54,8 @@ public class HomeAdminActivity extends AppCompatActivity {
         cv_movie  = findViewById(R.id.cv_movie);
         cv_logout = findViewById(R.id.cv_logout);
         cv_popcorn = findViewById(R.id.cv_popcorn);
+        cv_filmroom = findViewById(R.id.cv_filmroom);
+
     }
 
     public void logOut(){
@@ -61,6 +69,10 @@ public class HomeAdminActivity extends AppCompatActivity {
     }
     public void popCornDrink(){
         Intent loginIntent = new Intent(this, AdminPopcornDrinkActivity.class);
+        startActivity(loginIntent);
+    }
+    public void filmRoom(){
+        Intent loginIntent = new Intent(this, AdminPhongChieuActivity.class);
         startActivity(loginIntent);
     }
 }

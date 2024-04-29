@@ -1,15 +1,18 @@
 package com.example.doancuoiky.model;
 
 public class PhongChieuPhim {
-    private String maPhongChieu, maRapPhim;
+    private String maPhongChieu;
     private int soChoNgoi;
 
     public PhongChieuPhim() {
     }
 
-    public PhongChieuPhim(String maPhongChieu, String maRapPhim, int soChoNgoi) {
+    public PhongChieuPhim(String maPhongChieu, int soChoNgoi) {
         this.maPhongChieu = maPhongChieu;
-        this.maRapPhim = maRapPhim;
+        this.soChoNgoi = soChoNgoi;
+    }
+
+    public PhongChieuPhim(int soChoNgoi) {
         this.soChoNgoi = soChoNgoi;
     }
 
@@ -21,13 +24,6 @@ public class PhongChieuPhim {
         this.maPhongChieu = maPhongChieu;
     }
 
-    public String getMaRapPhim() {
-        return maRapPhim;
-    }
-
-    public void setMaRapPhim(String maRapPhim) {
-        this.maRapPhim = maRapPhim;
-    }
 
     public int getSoChoNgoi() {
         return soChoNgoi;
@@ -41,7 +37,6 @@ public class PhongChieuPhim {
     public String toString() {
         return "PhongChieuPhim{" +
                 "maPhongChieu='" + maPhongChieu + '\'' +
-                ", maRapPhim='" + maRapPhim + '\'' +
                 ", soChoNgoi=" + soChoNgoi +
                 '}';
     }

@@ -24,8 +24,10 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -46,8 +48,8 @@ import java.util.List;
 
 public class AdminPopcornDrinkActivity extends AppCompatActivity {
     ListView lv_comboBapNuoc;
+    TextView tv_upload_image;
     Button btn_them, btn_sua, btn_huy;
-
     AdminPopcornDrinkAdapter adminComboBapNuocAdapter;
     ArrayList<ComboBapNuoc> listCombo = new ArrayList<>();
     ComboBapNuocDAO comboBapNuocDAO;
@@ -61,6 +63,7 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_popcorn_drink);
         comboBapNuocDAO = new ComboBapNuocDAO(this);
+        toolBar();
         lv_comboBapNuoc = findViewById(R.id.lv_combo);
         adminComboBapNuocAdapter();
 
@@ -97,46 +100,8 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         btn_them.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText edt_name = findViewById(R.id.edt_fandb_name);
-                EditText edt_detail = findViewById(R.id.edt_fandb_detail);
-                EditText edt_money = findViewById(R.id.edt_fandb_money);
-                TextView tv_numberItems = findViewById(R.id.tv_numberItems);
-                checkNull();
-                ComboBapNuoc newCombo = new ComboBapNuoc();
-                newCombo.setTenCombo(edt_name.getText().toString());
-                newCombo.setMoTa(edt_detail.getText().toString());
-
-                int soLuong = Integer.parseInt(tv_numberItems.getText().toString());
-                newCombo.setSoLuong(soLuong);
-
-                float gia;
-                try {
-                    gia = Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim());
-                } catch (NumberFormatException e) {
-                    Toast.makeText(AdminPopcornDrinkActivity.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                newCombo.setGia(gia);
-                // Cập nhật hình ảnh từ ImageView
-                ImageView img_picture = findViewById(R.id.fandb_image);
-                Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
-                if (drawable != null && drawable instanceof BitmapDrawable) {
-                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    newCombo.setHinhAnh(bitmapToByteArray(bitmap)); // Chuyển Bitmap thành mảng byte
-                } else {
-                    Toast.makeText(AdminPopcornDrinkActivity.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                boolean isInserted = comboBapNuocDAO.insert(newCombo);
-
-                if (isInserted) {
-                    listCombo.clear();
-                    listCombo.addAll(comboBapNuocDAO.findAllCombo());
-                    adminComboBapNuocAdapter.notifyDataSetChanged();
-                    Toast.makeText(AdminPopcornDrinkActivity.this, "Thêm combo thành công", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(AdminPopcornDrinkActivity.this, "Thêm combo không thành công", Toast.LENGTH_SHORT).show();
-                }
+                insert();
+                clear();
             }
         });
         lv_comboBapNuoc.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -151,40 +116,7 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         btn_huy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText edt_name = findViewById(R.id.edt_fandb_name);
-                EditText edt_detail = findViewById(R.id.edt_fandb_detail);
-                EditText edt_money = findViewById(R.id.edt_fandb_money);
-                TextView tv_numberItems = findViewById(R.id.tv_numberItems);
-                ImageView img_picture = findViewById(R.id.fandb_image);
-
-                edt_name.setText("");
-                edt_detail.setText("");
-                edt_money.setText("");
-                tv_numberItems.setText("0");
-                // Đặt lại biến currentQuantity về 0
-                currentQuantity[0] = 0;
-                TextView tv_plus = findViewById(R.id.tv_plus);
-                tv_plus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        currentQuantity[0]++;
-                        tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật số lượng
-                    }
-                });
-
-                TextView tv_minus = findViewById(R.id.tv_minus);
-                tv_minus.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (currentQuantity[0] > 0) {
-                            currentQuantity[0]--;
-                            tv_numberItems.setText(String.valueOf(currentQuantity[0]));
-                        }
-                    }
-                });
-                img_picture.setImageResource(R.drawable.corn);
-
-                // Ẩn nút sửa
+                clear();
                 Button btn_sua = findViewById(R.id.btn_sua);
                 btn_sua.setVisibility(View.INVISIBLE);
             }
@@ -197,31 +129,39 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
                 builder.setTitle("Xác nhận sửa");
                 builder.setMessage("Bạn có chắc chắn muốn sửa combo này?");
 
-                // Thiết lập hành động cho nút "Đồng ý"
                 builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Gọi hàm cập nhật dữ liệu
-                        update(); // Hoặc hàm logic khác cho việc sửa combo
+                        update();
                     }
                 });
 
-                // Thiết lập hành động cho nút "Hủy"
                 builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss(); // Đóng hộp thoại nếu người dùng chọn Hủy
+                        dialog.dismiss();
                     }
                 });
 
-                AlertDialog alertDialog = builder.create(); // Tạo hộp thoại
-                alertDialog.show(); // Hiển thị hộp thoại
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
-
-
     }
-
+    public void toolBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_fandb);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // Kết thúc activity hiện tại khi nút đi được nhấn
+            }
+        });
+    }
     private void adminComboBapNuocAdapter() {
         listCombo = comboBapNuocDAO.findAllCombo();
         adminComboBapNuocAdapter = new AdminPopcornDrinkAdapter(this, R.layout.item_fandb_admin, listCombo);
@@ -300,28 +240,47 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-
-    private void update() {
+    private void insert(){
         EditText edt_name = findViewById(R.id.edt_fandb_name);
         EditText edt_detail = findViewById(R.id.edt_fandb_detail);
         EditText edt_money = findViewById(R.id.edt_fandb_money);
         TextView tv_numberItems = findViewById(R.id.tv_numberItems);
-        ImageView img_picture = findViewById(R.id.fandb_image);
+        checkNull();
+        ComboBapNuoc newCombo = new ComboBapNuoc();
+        newCombo.setTenCombo(edt_name.getText().toString());
+        newCombo.setMoTa(edt_detail.getText().toString());
 
-        // Cập nhật thông tin sau khi người dùng chỉnh sửa
-        comboBapNuocSelected.setTenCombo(edt_name.getText().toString());
-        comboBapNuocSelected.setMoTa(edt_detail.getText().toString());
-        comboBapNuocSelected.setGia(Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim()));
-        comboBapNuocSelected.setSoLuong(Integer.parseInt(tv_numberItems.getText().toString()));
+        int soLuong = Integer.parseInt(tv_numberItems.getText().toString());
+        newCombo.setSoLuong(soLuong);
 
-        if (img_picture.getDrawable() != null) {
-            BitmapDrawable drawable = (BitmapDrawable) img_picture.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
-            comboBapNuocSelected.setHinhAnh(bitmapToByteArray(bitmap));
+        float gia;
+        try {
+            gia = Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim());
+        } catch (NumberFormatException e) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
         }
-        // Gọi hàm update để cập nhật thông tin
-        boolean isUpdated = comboBapNuocDAO.update(comboBapNuocSelected);
-        adminComboBapNuocAdapter();
+        newCombo.setGia(gia);
+        // Cập nhật hình ảnh từ ImageView
+        ImageView img_picture = findViewById(R.id.fandb_image);
+        Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
+        if (drawable != null && drawable instanceof BitmapDrawable) {
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            newCombo.setHinhAnh(bitmapToByteArray(bitmap)); // Chuyển Bitmap thành mảng byte
+        } else {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        boolean isInserted = comboBapNuocDAO.insert(newCombo);
+
+        if (isInserted) {
+            listCombo.clear();
+            listCombo.addAll(comboBapNuocDAO.findAllCombo());
+            adminComboBapNuocAdapter.notifyDataSetChanged();
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Thêm combo thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Thêm combo không thành công", Toast.LENGTH_SHORT).show();
+        }
     }
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -344,14 +303,12 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
             }
         }
     }
-
     // Chuyển Bitmap thành mảng byte
     private byte[] bitmapToByteArray(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
         return baos.toByteArray();
     }
-
     // Hàm gọi để chọn ảnh từ thư viện
     public void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -362,29 +319,26 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         if (comboBapNuocSelected != null) {
             // Hiển thị nút sửa khi comboBapNuocSelected không phải là null
             btn_sua = findViewById(R.id.btn_sua);
-            btn_sua.setVisibility(View.VISIBLE); // Hiển thị nút sửa
+            tv_upload_image = findViewById(R.id.tv_upload_image);
+            btn_sua.setVisibility(View.VISIBLE);
             TextView tv_minus = findViewById(R.id.tv_minus);
             TextView tv_plus = findViewById(R.id.tv_plus);
             TextView tv_numberItems = findViewById(R.id.tv_numberItems);
-            // Lấy số lượng hiện tại từ comboBapNuocSelected
-            final int[] currentQuantity = {comboBapNuocSelected.getSoLuong()};
 
-            // Khi người dùng nhấn nút tăng
+            final int[] currentQuantity = {comboBapNuocSelected.getSoLuong()};
             tv_plus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentQuantity[0]++; // Tăng số lượng
-                    tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView
+                    currentQuantity[0]++;
+                    tv_numberItems.setText(String.valueOf(currentQuantity[0]));
                 }
             });
-
-            // Khi người dùng nhấn nút giảm
             tv_minus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (currentQuantity[0] > 0) {
-                        currentQuantity[0]--; // Giảm số lượng
-                        tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật TextView
+                        currentQuantity[0]--;
+                        tv_numberItems.setText(String.valueOf(currentQuantity[0]));
                     }
                 }
             });
@@ -392,7 +346,6 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
             EditText edt_name = findViewById(R.id.edt_fandb_name);
             EditText edt_detail = findViewById(R.id.edt_fandb_detail);
             EditText edt_money = findViewById(R.id.edt_fandb_money);
-//            TextView tv_numberItems = findViewById(R.id.tv_numberItems);
             ImageView img_picture = findViewById(R.id.fandb_image);
 
             edt_name.setText(comboBapNuocSelected.getTenCombo());
@@ -411,5 +364,61 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
             btn_sua.setVisibility(View.INVISIBLE);
         }
     }
+    private void update() {
+        EditText edt_name = findViewById(R.id.edt_fandb_name);
+        EditText edt_detail = findViewById(R.id.edt_fandb_detail);
+        EditText edt_money = findViewById(R.id.edt_fandb_money);
+        TextView tv_numberItems = findViewById(R.id.tv_numberItems);
+        ImageView img_picture = findViewById(R.id.fandb_image);
 
+        // Cập nhật thông tin sau khi người dùng chỉnh sửa
+        comboBapNuocSelected.setTenCombo(edt_name.getText().toString());
+        comboBapNuocSelected.setMoTa(edt_detail.getText().toString());
+        comboBapNuocSelected.setGia(Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim()));
+        comboBapNuocSelected.setSoLuong(Integer.parseInt(tv_numberItems.getText().toString()));
+
+        if (img_picture.getDrawable() != null) {
+            BitmapDrawable drawable = (BitmapDrawable) img_picture.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            comboBapNuocSelected.setHinhAnh(bitmapToByteArray(bitmap));
+        }
+        // Gọi hàm update để cập nhật thông tin
+        boolean isUpdated = comboBapNuocDAO.update(comboBapNuocSelected);
+        adminComboBapNuocAdapter();
+    }
+    private void clear(){
+        final int[] currentQuantity = {0}; // Bắt đầu từ 0
+        EditText edt_name = findViewById(R.id.edt_fandb_name);
+        EditText edt_detail = findViewById(R.id.edt_fandb_detail);
+        EditText edt_money = findViewById(R.id.edt_fandb_money);
+        TextView tv_numberItems = findViewById(R.id.tv_numberItems);
+        ImageView img_picture = findViewById(R.id.fandb_image);
+
+        edt_name.setText("");
+        edt_detail.setText("");
+        edt_money.setText("");
+        tv_numberItems.setText("0");
+        // Đặt lại biến currentQuantity về 0
+        currentQuantity[0] = 0;
+        TextView tv_plus = findViewById(R.id.tv_plus);
+        tv_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentQuantity[0]++;
+                tv_numberItems.setText(String.valueOf(currentQuantity[0])); // Cập nhật số lượng
+            }
+        });
+
+        TextView tv_minus = findViewById(R.id.tv_minus);
+        tv_minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentQuantity[0] > 0) {
+                    currentQuantity[0]--;
+                    tv_numberItems.setText(String.valueOf(currentQuantity[0]));
+                }
+            }
+        });
+        img_picture.setImageResource(R.drawable.corn);
+    }
 }
