@@ -19,20 +19,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="575dp"
         android:layout_margin="20dp"
         android:background="@drawable/bg_shadow"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/img_avatar_film"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/bhd_icon" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
@@ -43,23 +38,59 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txt_typeFilm"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/img_avatar_film"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/bhd_icon"
+                    android:scaleType="centerCrop"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/typefilm_background"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="18+" />
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
 
-                <TextView
-                    android:id="@+id/tv_nameFilm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Quật mộ trùng ma"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/txt_typeFilm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/typefilm_background"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="18+" />
+
+                        <TextView
+                            android:id="@+id/tv_nameFilm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Quật mộ trùng ma"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Suất chiếu"
+                        android:layout_marginTop="10dp"
+                        android:textSize="16dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_ngayvagio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="25-04-2024 | 10:30 ~ 12h35"
+                        android:textColor="@color/momo_color"
+                        android:textSize="16dp"/>
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -79,14 +110,16 @@
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Phòng chiếu" />
+                        android:text="Phòng chiếu"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_maPhongChieu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="PC01"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -99,14 +132,16 @@
                         android:id="@+id/textView11"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Số vé" />
+                        android:text="Số vé"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_soLuongVe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="2"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,35 +155,19 @@
                         android:id="@+id/textView14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Số ghế" />
+                        android:text="Số ghế"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_soGhe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="A1, A2" />
+                        android:text="A1, A2"
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Suất chiếu" />
-
-                <TextView
-                    android:id="@+id/tv_ngayvagio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="25-04-2024 | 10:30 ~ 12h35"
-                    android:textColor="@color/momo_color" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,14 +185,16 @@
                         android:id="@+id/lbl_nguoidat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Người đặt" />
+                        android:text="Người đặt"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_nguoidat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Dang Gia Thuan"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -187,14 +208,16 @@
                         android:id="@+id/lbl_sodienthoai"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Số ghế" />
+                        android:text="Số điện thoại"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_sdt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0355626541"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -214,14 +237,16 @@
                         android:id="@+id/lbl_mahoadon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Mã hóa đơn" />
+                        android:text="Mã hóa đơn"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_mahoadon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="MHD004"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -235,14 +260,16 @@
                         android:id="@+id/lbl_combo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Combo Bắp - Nước" />
+                        android:text="Combo Bắp - Nước"
+                        android:textSize="16dp"/>
 
                     <TextView
                         android:id="@+id/tv_combo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="HONEY COMBO"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textSize="16dp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -250,7 +277,7 @@
                 android:id="@+id/qr_code"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:scaleType="fitCenter" />
 
             <TextView
@@ -259,7 +286,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="* Quét mã barcode tại điểm soát vé"
-                android:textSize="10dp" />
+                android:textSize="13dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -302,7 +329,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_thanhtoan"
+        android:id="@+id/btn_gotomenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

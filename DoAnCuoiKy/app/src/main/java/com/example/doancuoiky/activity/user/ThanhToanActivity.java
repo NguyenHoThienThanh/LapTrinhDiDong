@@ -83,7 +83,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             selectedCombos = (ArrayList<ComboBapNuoc>) intent.getSerializableExtra("selectedCombos");
             totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
             total = intent.getDoubleExtra("total", 0.0);
-
+//            maKhachHang = intent.getStringExtra("maKhachHang");
             maSuatChieu = intent.getStringExtra("maSuatChieu");
             maPhongChieu = intent.getStringExtra("maPhongChieu");
             gioChieu = intent.getStringExtra("gioChieu");
@@ -180,7 +180,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     Log.d("Thanh cong", data.getStringExtra("message"));
                     String token = data.getStringExtra("data"); //Token response
 
-                    String maHoaDon = hoaDonDAO.getNextID();
+                    maHoaDon = hoaDonDAO.getNextID();
                     HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, "KH001", maCombo, total + totalPrice);
                     boolean res = hoaDonDAO.insertHoaDon(hd);
 
@@ -211,7 +211,17 @@ public class ThanhToanActivity extends AppCompatActivity {
                         }
                     }
 
-                    Intent intent = new Intent(getApplicationContext(), ChiTietPhimActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HoaDonActivity.class);
+                    intent.putStringArrayListExtra("selectedSeats", selectedSeats);
+                    intent.putExtra("selectedCombos", selectedCombos);
+                    intent.putExtra("totalPrice", totalPrice);
+                    intent.putExtra("total", total);
+
+                    intent.putExtra("maSuatChieu", maSuatChieu);
+                    intent.putExtra("maPhongChieu", maPhongChieu);
+                    intent.putExtra("maPhim", maPhim);
+                    intent.putExtra("poster", poster);
+                    intent.putExtra("maHoaDon", maHoaDon);
                     startActivity(intent);
                     finish();
 

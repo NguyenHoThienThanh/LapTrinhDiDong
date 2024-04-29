@@ -17,6 +17,7 @@
         tools:targetApi="31">
         <activity android:name=".activity.user.HoaDonActivity"
             android:exported="false">
+
         </activity>
         <activity
             android:name=".activity.user.TestActivity"
@@ -47,6 +48,10 @@
         <activity
             android:name=".activity.user.ChiTietPhimActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -57,11 +62,8 @@
             android:exported="false"></activity>
         <activity
             android:name=".activity.admin.HomeAdminActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
+
         </activity>
         <activity
             android:name=".activity.admin.AdminCustomerActivity"

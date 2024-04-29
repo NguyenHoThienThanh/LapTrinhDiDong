@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.example.doancuoiky.model.ChiTietSuatChieu;
+import com.example.doancuoiky.model.Phim;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,5 +66,26 @@ public class SuatChieuDao {
         }
         c.close();
         return timeList;
+    }
+    public ChiTietSuatChieu findOneByMaSuatChieu(String maSuatChieu){
+        sqlDB = helper.getReadableDatabase();
+        ChiTietSuatChieu chiTietSuatChieu = new ChiTietSuatChieu();
+        String query = "select * FROM SuatChieu where maSuatChieu = ?";
+        Cursor c =sqlDB.rawQuery(query, new String[]{maSuatChieu} );
+        if(c != null && c.moveToFirst()){
+            do{
+                chiTietSuatChieu.setMaSuatChieu(c.getString(0));
+                chiTietSuatChieu.setMaPhongChieu(c.getString(1));
+                chiTietSuatChieu.setMaPhim(c.getString(2));
+                chiTietSuatChieu.setGioChieu(c.getString(3));
+                chiTietSuatChieu.setNgayChieu(c.getString(4));
+
+            }while(c.moveToNext());
+        }
+        if(c != null){
+            c.close();
+        }
+
+        return chiTietSuatChieu;
     }
 }
