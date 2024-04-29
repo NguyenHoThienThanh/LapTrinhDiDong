@@ -1,10 +1,12 @@
 package com.example.doancuoiky.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.doancuoiky.model.ChiTietGheDaDat;
+import com.example.doancuoiky.model.HoaDon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,5 +34,17 @@ public class ChiTietGheDaDatDAO {
         cursor.close();
 
         return bookedSeatList;
+    }
+
+    public boolean insertTicket(ChiTietGheDaDat chiTietGheDaDat) {
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("maSuatChieu", chiTietGheDaDat.getMaSuatChieu());
+        values.put("maChoNgoi", chiTietGheDaDat.getMaChoNgoi());
+        long res = sqlDB.insert("ChiTietGheDaDat", null, values);
+        if (res == -1) return false;
+        else return true;
     }
 }

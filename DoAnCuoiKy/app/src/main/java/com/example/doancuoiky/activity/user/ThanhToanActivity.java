@@ -20,7 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.ThanhToanAdapter;
+import com.example.doancuoiky.dao.ChiTietGheDaDatDAO;
+import com.example.doancuoiky.dao.ComboBapNuocDAO;
 import com.example.doancuoiky.dao.HoaDonDAO;
+import com.example.doancuoiky.model.ChiTietGheDaDat;
 import com.example.doancuoiky.model.ComboBapNuoc;
 import com.example.doancuoiky.model.HoaDon;
 
@@ -36,6 +39,9 @@ import vn.momo.momo_partner.AppMoMoLib;
 
 public class ThanhToanActivity extends AppCompatActivity {
     ArrayList<ComboBapNuoc> selectedCombos;
+    ArrayList<ComboBapNuoc> comboBapNuocArrayList;
+    ArrayList<String> selectedSeats;
+    ArrayList<String> maChoNgoiList;
     TextView tv_seatselecter, tv_totalmoney_thanhtoan, tv_totalmoneyseat_thanhtoan, tv_infofilm_thanhtoan, tv_movieroom_thanhtoan, tv_typefilm_thanhtoan, tv_filmname_thanhtoan ;
     RecyclerView rcv;
     ImageView film_img_thanhtoan;
@@ -50,8 +56,10 @@ public class ThanhToanActivity extends AppCompatActivity {
     double giaVe;
     Button btn_thanhToan;
 
+    ChiTietGheDaDatDAO chiTietGheDaDatDAO;
     private
     HoaDonDAO hoaDonDAO;
+    ComboBapNuocDAO comboBapNuocDAO;
     private double amount;
     private String fee = "0";
     int environment = 0;//developer default
@@ -64,11 +72,14 @@ public class ThanhToanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thanhtoan);
         hoaDonDAO = new HoaDonDAO(this);
+        chiTietGheDaDatDAO = new ChiTietGheDaDatDAO(this);
+        comboBapNuocDAO = new ComboBapNuocDAO(this);
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
         toolBarThanhToan();
         Intent intent = getIntent();
         if (intent != null) {
-            ArrayList<String> selectedSeats = intent.getStringArrayListExtra("selectedSeats");
+            selectedSeats = intent.getStringArrayListExtra("selectedSeats");
+            maChoNgoiList = intent.getStringArrayListExtra("maChoNgoiList");
             selectedCombos = (ArrayList<ComboBapNuoc>) intent.getSerializableExtra("selectedCombos");
             totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
             total = intent.getDoubleExtra("total", 0.0);
@@ -147,16 +158,15 @@ public class ThanhToanActivity extends AppCompatActivity {
         try {
             objExtraData.put("site_code", "008");
             objExtraData.put("site_name", "CGV Cresent Mall");
-            objExtraData.put("screen_code", 0);
+            objExtraData.put("screen_code", maPhongChieu);
             objExtraData.put("screen_name", "Special");
-            objExtraData.put("movie_name", "Kẻ Trộm Mặt Trăng 3");
+            objExtraData.put("movie_name", tenPhim);
             objExtraData.put("movie_format", "2D");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         eventValue.put("extraData", objExtraData.toString());
 
-        eventValue.put("extra", "");
         AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
 
     }
@@ -175,10 +185,30 @@ public class ThanhToanActivity extends AppCompatActivity {
                     boolean res = hoaDonDAO.insertHoaDon(hd);
 
                     if (res){
-                        Toast.makeText(this, hd.getMaHoaDon() + " " + hd.getMaSuatChieu() + " " + hd.getMaKhachHang() + " " + hd.getMaCombo() + " " + hd.getTongTien(), Toast.LENGTH_LONG).show();
                     }
                     else{
                         Toast.makeText(this, "Insert thất bại", Toast.LENGTH_SHORT).show();
+                    }
+
+                    for(int i = 0; i < maChoNgoiList.size(); i++){
+                        ChiTietGheDaDat chiTietGheDaDat = new ChiTietGheDaDat(maSuatChieu, maChoNgoiList.get(i), 1);
+                        boolean result = chiTietGheDaDatDAO.insertTicket(chiTietGheDaDat);
+                        if (result){
+
+                        }
+                        else{
+
+                        }
+                    }
+                    comboBapNuocArrayList = comboBapNuocDAO.findAllCombo();
+                    for(int i = 0 ; i < comboBapNuocArrayList.size(); i++){
+                        for(int j = 0; j<selectedCombos.size(); j++){
+                            if(comboBapNuocArrayList.get(i).getMaCombo().equals(selectedCombos.get(j).getMaCombo())){
+                                ComboBapNuoc cb = comboBapNuocArrayList.get(i);
+                                cb.setSoLuong(comboBapNuocArrayList.get(i).getSoLuong() - selectedCombos.get(j).getSoLuongDat());
+                                boolean isUpdated = comboBapNuocDAO.update(cb);
+                            }
+                        }
                     }
 
                     Intent intent = new Intent(getApplicationContext(), ChiTietPhimActivity.class);

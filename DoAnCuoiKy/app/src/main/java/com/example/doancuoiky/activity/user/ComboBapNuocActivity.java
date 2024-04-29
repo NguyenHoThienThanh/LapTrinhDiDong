@@ -36,6 +36,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
     double total = 0;
     double totalPrice = 0;
     ArrayList<String> selectedSeats;
+    ArrayList<String> maChoNgoiList;
 
     String tenPhim, maPhim;
     int gioiHanTuoi;
@@ -49,6 +50,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
         Intent intent = getIntent();
         totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
         selectedSeats = intent.getStringArrayListExtra("selectedSeats");
+        maChoNgoiList = intent.getStringArrayListExtra("maChoNgoiList");
         maSuatChieu = intent.getStringExtra("maSuatChieu");
         maPhongChieu = intent.getStringExtra("maPhongChieu");
         gioChieu = intent.getStringExtra("gioChieu");
@@ -153,11 +155,13 @@ public class ComboBapNuocActivity extends AppCompatActivity {
                 Intent intent = new Intent(ComboBapNuocActivity.this, ThanhToanActivity.class);
                 // Gửi danh sách ghế đã chọn qua Intent
                 intent.putStringArrayListExtra("selectedSeats", selectedSeats);
+                intent.putStringArrayListExtra("maChoNgoiList", maChoNgoiList);
                 intent.putExtra("selectedCombos", fandBList);
                 intent.putExtra("totalPrice", totalPrice);
                 intent.putExtra("total", total);
 
                 Toast.makeText(ComboBapNuocActivity.this, "a" +maPhongChieu + gioChieu + ngayChieu, Toast.LENGTH_LONG).show();
+
 
                 intent.putExtra("maSuatChieu", maSuatChieu);
                 intent.putExtra("maPhongChieu", maPhongChieu);

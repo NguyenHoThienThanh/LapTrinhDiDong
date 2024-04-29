@@ -42,4 +42,7 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.github.momo-wallet:mobile-sdk:1.0.7")
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:2.0.2")
+    implementation ("androidx.multidex:multidex:2.0.1")
 }

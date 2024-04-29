@@ -37,6 +37,7 @@ public class ChoNgoiActivity extends AppCompatActivity {
 
     double tongTien = 0;
     List<String> seatSelected = new ArrayList<>();
+    List<String> maChoNgoiList = new ArrayList<>();
 
     String tenPhim, maPhim, theLoai;
     int gioiHanTuoi;
@@ -119,14 +120,17 @@ public class ChoNgoiActivity extends AppCompatActivity {
             public void onSeatClick(int position) {
                 DanhSachGhe seat = arraySeats.get(position);
                 String hangGheVaSoGhe = seat.getHangGhe() + seat.getSoGhe();
+                String maChoNgoi = seat.getMaChoNgoi();
                 if (seat.isSelected()) {
                     // Nếu ghế đã được chọn trước đó, giảm tiền đi
                     tongTien += giaVe;
                     seatSelected.add(hangGheVaSoGhe);
+                    maChoNgoiList.add(maChoNgoi);
                 } else {
                     // Nếu ghế chưa được chọn trước đó, tăng tiền lên
                     tongTien -= giaVe;
                     seatSelected.remove(hangGheVaSoGhe);
+                    maChoNgoiList.remove(maChoNgoi);
                 }
                 // Cập nhật giao diện hiển thị tổng tiền
                 updateTotalPrice(tongTien);
@@ -157,7 +161,9 @@ public class ChoNgoiActivity extends AppCompatActivity {
                 Toast.makeText(ChoNgoiActivity.this, "a" + gioChieu + ngayChieu, Toast.LENGTH_SHORT).show();
 
                 intent.putStringArrayListExtra("selectedSeats", (ArrayList<String>) seatSelected);
+                intent.putStringArrayListExtra("maChoNgoiList", (ArrayList<String>) maChoNgoiList);
                 intent.putExtra("totalPrice", tongTien);
+
                 intent.putExtra("maSuatChieu", maSuatChieu);
                 intent.putExtra("maPhongChieu", maPhongChieu);
                 intent.putExtra("gioChieu", gioChieu);

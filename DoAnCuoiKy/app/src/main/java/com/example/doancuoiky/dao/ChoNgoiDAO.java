@@ -17,7 +17,7 @@ public class ChoNgoiDAO {
 
     public ChoNgoiDAO(Context context) {
         helper = new SQLHelper(context);
-        helper.processCopy();
+//        helper.processCopy();
         sqlDB = helper.getWritableDatabase();
     }
 
