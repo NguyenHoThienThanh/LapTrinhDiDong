@@ -304,6 +304,7 @@
             app:layout_constraintTop_toBottomOf="@id/row3">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cv_staff"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"

@@ -64,6 +64,7 @@ public class AdminPhongChieuActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(AdminPhongChieuActivity.this, "Thêm phòng chiếu không thành công", Toast.LENGTH_SHORT).show();
                 }
+                edt_room_capacity = findViewById(R.id.edt_room_capacity);
                 edt_room_capacity.setText("");
             }
             private boolean checkEmptyFields() {

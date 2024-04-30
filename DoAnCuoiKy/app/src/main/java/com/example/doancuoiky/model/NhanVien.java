@@ -5,13 +5,22 @@ import java.util.Date;
 public class NhanVien {
     private String maNhanVien, hoTen, diaChi, email, soDienThoai;
     private boolean gioiTinh;
-    private Date ngaySinh;
+    private String ngaySinh;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNhanVien, String hoTen, String diaChi, String email, String soDienThoai, boolean gioiTinh, Date ngaySinh) {
+    public NhanVien(String maNhanVien, String hoTen, String diaChi, String email, String soDienThoai, boolean gioiTinh, String ngaySinh) {
         this.maNhanVien = maNhanVien;
+        this.hoTen = hoTen;
+        this.diaChi = diaChi;
+        this.email = email;
+        this.soDienThoai = soDienThoai;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+    }
+
+    public NhanVien(String hoTen, String diaChi, String email, String soDienThoai, boolean gioiTinh, String ngaySinh) {
         this.hoTen = hoTen;
         this.diaChi = diaChi;
         this.email = email;
@@ -68,11 +77,11 @@ public class NhanVien {
         this.gioiTinh = gioiTinh;
     }
 
-    public Date getNgaySinh() {
+    public String getNgaySinh() {
         return ngaySinh;
     }
 
-    public void setNgaySinh(Date ngaySinh) {
+    public void setNgaySinh(String ngaySinh) {
         this.ngaySinh = ngaySinh;
     }
 }
