@@ -1,5 +1,6 @@
 package com.example.doancuoiky.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,63 @@ public class PhimDAO {
             c.close();
         }
         return phimArrayList;
+    }
+
+    public boolean insert(Phim phim){
+        try {
+            sqlDB = helper.getReadableDatabase();
+            sqlDB = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("maPhim", phim.getMaPhim());
+            values.put("tenPhim", phim.getTenPhim());
+            values.put("moTaPhim", phim.getMoTaPhim());
+            values.put("dienVien", phim.getDienVien());
+            values.put("quocGia", phim.getQuocGia());
+            values.put("theLoai", phim.getTheLoai());
+            values.put("thoiLuong", phim.getThoiLuong());
+            values.put("gioiHanDoTuoi", phim.getGioiHanDoTuoi());
+            values.put("giaVe", phim.getGiaVe());
+            values.put("trailer", phim.getTrailer());
+            // thực thi insert
+            long result = sqlDB.insert("Phim", null, values);
+            return result != -1;
+        }
+        catch (Exception e){
+
+        }
+        return false;
+
+    }
+    public boolean update(Phim phim){
+        try {
+            sqlDB = helper.getReadableDatabase();
+            sqlDB = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("maPhim", phim.getMaPhim());
+            values.put("tenPhim", phim.getTenPhim());
+            values.put("moTaPhim", phim.getMoTaPhim());
+            values.put("dienVien", phim.getDienVien());
+            values.put("quocGia", phim.getQuocGia());
+            values.put("theLoai", phim.getTheLoai());
+            values.put("thoiLuong", phim.getThoiLuong());
+            values.put("gioiHanDoTuoi", phim.getGioiHanDoTuoi());
+            values.put("giaVe", phim.getGiaVe());
+            values.put("trailer", phim.getTrailer());
+            // thực thi insert
+            long result = sqlDB.update("Phim", values, "maPhim = ?", new String[]{phim.getMaPhim()});
+            return result != -1;
+        }
+        catch (Exception e){
+
+        }
+        return false;
+    }
+    public boolean delete(String maPhim){
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        long res = sqlDB.delete("Phim", "maPhim=?", new String[]{maPhim});
+        if(res == -1) return false;
+        else return true;
     }
 
     public Phim findOneById(String maPhim){
