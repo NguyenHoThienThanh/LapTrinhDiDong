@@ -12,6 +12,6 @@
         android:layout_height="50dp"
         android:textSize="20sp"
         android:text="25"
-        android:textColor="@android:color/white"
-        android:background="@drawable/rounded_gradient"/>
+        android:textColor="#FF0099"
+        android:background="@drawable/rounded_gradient_unclick"/>
 </LinearLayout>

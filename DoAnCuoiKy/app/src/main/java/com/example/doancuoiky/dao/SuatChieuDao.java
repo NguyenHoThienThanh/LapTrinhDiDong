@@ -35,7 +35,6 @@ public class SuatChieuDao {
         Cursor c = sqlDB.rawQuery(query, new String[]{maPhim});
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         c.moveToFirst();
-        c.moveToFirst();
         while (!c.isAfterLast()) {
             ChiTietSuatChieu ctsc = new ChiTietSuatChieu();
             ctsc.setMaPhim(c.getString(0));
@@ -52,18 +51,19 @@ public class SuatChieuDao {
     public ArrayList<ChiTietSuatChieu> getTimeBySuatChieu(String maPhim, String ngayChieu) {
         ArrayList<ChiTietSuatChieu> timeList = new ArrayList<>();
         sqlDB = helper.getReadableDatabase();
+
         String query = "SELECT SuatChieu.maSuatChieu, SuatChieu.maPhongChieu, SuatChieu.thoiGianChieu, SuatChieu.ngayChieu FROM Phim INNER JOIN SuatChieu ON Phim.maPhim = SuatChieu.maPhim WHERE Phim.maPhim=? AND SuatChieu.ngayChieu=?";
         Cursor c = sqlDB.rawQuery(query, new String[]{maPhim, ngayChieu});
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
+
+        while (c.moveToNext()) {
             ChiTietSuatChieu ctsc = new ChiTietSuatChieu();
             ctsc.setMaSuatChieu(c.getString(0));
             ctsc.setMaPhongChieu(c.getString(1));
             ctsc.setGioChieu(c.getString(2));
             ctsc.setNgayChieu(c.getString(3));
             timeList.add(ctsc);
-            c.moveToNext();
         }
+
         c.close();
         return timeList;
     }
