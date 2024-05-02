@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.helper.widget.Carousel;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -101,7 +102,7 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
     public void dateAdapter() {
         rcv_ngay = findViewById(R.id.rcv_ngay);
         danhSachNgayChieuAdapter = new DanhSachNgayChieuAdapter(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, GridLayoutManager.HORIZONTAL, false);
         rcv_ngay.setLayoutManager(layoutManager);
         listCtsc = (ArrayList<ChiTietSuatChieu>) getDateList(); // Lấy danh sách ngày
         danhSachNgayChieuAdapter.setData(listCtsc, new DanhSachNgayChieuAdapter.IOnDateClickListener() {
@@ -170,7 +171,7 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
     private void loadGioChieu(int position) {
         rcv_gio = findViewById(R.id.rcv_gio);
         danhSachGioChieuAdapter = new DanhSachGioChieuAdapter(this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         rcv_gio.setLayoutManager(layoutManager);
 
         // Lấy danh sách giờ chiếu cho ngày cụ thể
