@@ -18,6 +18,8 @@ import com.example.doancuoiky.R;
 import com.example.doancuoiky.dao.PhimDAO;
 import com.example.doancuoiky.model.Phim;
 
+import java.text.DecimalFormat;
+
 public class ChiTietPhimActivity extends AppCompatActivity {
     TextView txt_tenPhim, txt_moTaPhim, txt_dienVien, txt_thoiLuong, txt_gioiHanTuoi, txt_giaVe, txt_theLoai, txt_quocGia;
     ImageView img_trailer;
@@ -36,6 +38,8 @@ public class ChiTietPhimActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        Intent intent = getIntent();
+        maPhim = intent.getStringExtra("maPhim");
         mappingControl();
         toolBarFAndB();
         phimDAO = new PhimDAO(this);
@@ -96,24 +100,26 @@ public class ChiTietPhimActivity extends AppCompatActivity {
 
 
     public void ChiTietPhimView() {
-        phim = phimDAO.findOneById("MP001");
+        phim = phimDAO.findOneById(maPhim);
         tenPhim = phim.getTenPhim();
-        maPhim = phim.getMaPhim();
         thoiLuong = phim.getThoiLuong();
         theLoai = phim.getTheLoai();
         poster = phim.getTrailer();
         giaVe = phim.getGiaVe();
         gioiHanTuoi = phim.getGioiHanDoTuoi();
+        giaVe = phim.getGiaVe();
+        DecimalFormat dc = new DecimalFormat();
+        dc.applyPattern("#,### VND");
         txt_tenPhim.setText(phim.getTenPhim());
         txt_dienVien.setText(phim.getDienVien());
         txt_moTaPhim.setText(phim.getMoTaPhim());
         txt_thoiLuong.setText(phim.getThoiLuong() + " phút");
-        txt_gioiHanTuoi.setText("Phim dành cho khán giả dưới " + phim.getGioiHanDoTuoi() + " tuổi");
+        txt_gioiHanTuoi.setText("Phim dành cho khán giả trên " + phim.getGioiHanDoTuoi() + " tuổi");
         txt_theLoai.setText(phim.getTheLoai());
         txt_quocGia.setText(phim.getQuocGia());
+        txt_giaVe.setText(dc.format(giaVe));
         Bitmap bitmap = BitmapFactory.decodeByteArray(phim.getTrailer(), 0, phim.getTrailer().length);
         img_trailer.setImageBitmap(bitmap);
         toolbar.setTitle(phim.getTenPhim());
-
     }
 }

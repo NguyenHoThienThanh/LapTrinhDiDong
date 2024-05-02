@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +33,10 @@ public class HomeActivity extends AppCompatActivity {
     private Handler sliderHandler = new Handler();
 
     //Hiển thị View lên RecycleView
-    private RecyclerView.Adapter adapterBestMovies, adapterUpComing, adapterCategory;
+    private DanhSachPhimMoiNhatAdapter adapterTop5FilmMovies;
     private RecyclerView recyclerViewBestMovies, recyclerViewUpComing, recyclerViewCategry;
     private ProgressBar loading1, loading2, loading3;
+    List<Phim> phimList;
 
     //
     PhimDAO phimDao;
@@ -45,19 +47,30 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        phimDao = new PhimDAO(this);
 
         initView();
         banners();
-        loadBestMovie();
+        loadTop5PhimMovie();
     }
 
-    private void loadBestMovie(){
-        List<Phim> listFilmsBest = phimDao.findTop5Phim();
-        loading1.setVisibility(View.VISIBLE);
-        adapterBestMovies = new DanhSachPhimMoiNhatAdapter(listFilmsBest);
-        recyclerViewBestMovies.setAdapter(adapterBestMovies);
-    }
+    private void loadTop5PhimMovie(){
+        recyclerViewBestMovies.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        adapterTop5FilmMovies = new DanhSachPhimMoiNhatAdapter(this);
+        phimList = getTop5PhimList();
+//        loading1.setVisibility(View.VISIBLE);
 
+        adapterTop5FilmMovies.setData(phimList);
+        recyclerViewBestMovies.setAdapter(adapterTop5FilmMovies);
+
+    }
+    private List<Phim> getTop5PhimList(){
+        List<Phim> list = new ArrayList<>();
+        list = phimDao.findTop5Phim();
+        Toast.makeText(this, "" + list.size(), Toast.LENGTH_SHORT).show();
+        return list;
+    }
 
     private void banners() {
         List<SliderItems> sliderItems = new ArrayList<>();
@@ -114,15 +127,14 @@ public class HomeActivity extends AppCompatActivity {
     private void initView() {
         viewPager2 = findViewById(R.id.viewpagerSlider);
         recyclerViewBestMovies = findViewById(R.id.view1);
-        recyclerViewBestMovies.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
+
         recyclerViewCategry = findViewById(R.id.view2);
         recyclerViewCategry.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpComing = findViewById(R.id.view3);
         recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
-        loading1 = findViewById(R.id.progressBar1);
+//        loading1 = findViewById(R.id.progressBar1);
         loading2 = findViewById(R.id.progressBar3);
         loading3 = findViewById(R.id.progressBar4);
     }

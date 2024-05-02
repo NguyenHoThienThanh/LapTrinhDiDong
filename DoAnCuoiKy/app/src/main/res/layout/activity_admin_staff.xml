@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#EAE5E5"
-    android:padding="16dp">
+    android:background="#EAE5E5">
 
     <!-- Toolbar với tiêu đề -->
     <androidx.appcompat.widget.Toolbar
@@ -17,6 +16,8 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:title="Quản lý Nhân viên"
         app:titleTextColor="@android:color/white" />
+\
+
     <!-- Thêm nút để hiển thị/ẩn form thông tin nhân viên -->
     <Button
         android:id="@+id/btn_them_nv_toggle"

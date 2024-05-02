@@ -22,7 +22,7 @@ public class HoaDonDAO {
         sqlDB = helper.getWritableDatabase();
     }
 
-    public List<HoaDon> getListHoaDon() {
+    public ArrayList<HoaDon> getListHoaDon() {
         sqlDB = helper.getReadableDatabase();
         ArrayList<HoaDon> listHD = new ArrayList<>();
         Cursor c = sqlDB.query("HoaDon", null, null,
