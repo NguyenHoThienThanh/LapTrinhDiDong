@@ -1,10 +1,12 @@
 package com.example.doancuoiky.activity.user;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,9 +39,10 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerViewBestMovies, recyclerViewUpComing, recyclerViewCategry;
     private ProgressBar loading1, loading2, loading3;
     List<Phim> phimList;
-
-    //
     PhimDAO phimDao;
+
+    // Bottom Navigation Bar
+    ImageView imgLichSuGiaoDich;
 
 
 
@@ -52,6 +55,17 @@ public class HomeActivity extends AppCompatActivity {
         initView();
         banners();
         loadTop5PhimMovie();
+        events();
+    }
+
+    private void events() {
+        imgLichSuGiaoDich.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, LichSuDatVeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loadTop5PhimMovie(){
@@ -137,5 +151,6 @@ public class HomeActivity extends AppCompatActivity {
 //        loading1 = findViewById(R.id.progressBar1);
         loading2 = findViewById(R.id.progressBar3);
         loading3 = findViewById(R.id.progressBar4);
+        imgLichSuGiaoDich = findViewById(R.id.imgLichSuGiaoDich);
     }
 }

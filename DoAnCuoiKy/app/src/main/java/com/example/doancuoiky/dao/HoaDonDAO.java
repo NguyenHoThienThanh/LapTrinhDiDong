@@ -43,6 +43,27 @@ public class HoaDonDAO {
         return listHD;
     }
 
+    public ArrayList<HoaDon> findHoaDonByMaKhachHang(String maKhachHang) {
+        sqlDB = helper.getReadableDatabase();
+        ArrayList<HoaDon> listHD = new ArrayList<>();
+        String query = "SELECT * FROM HoaDon WHERE maKhachHang = ?";
+        Cursor c = sqlDB.rawQuery(query, new String[]{maKhachHang});
+        if (c.moveToFirst()) {
+            do {
+                HoaDon hd = new HoaDon();
+                hd.setMaHoaDon(c.getString(0));
+                hd.setMaSuatChieu(c.getString(1));
+                hd.setMaKhachHang(c.getString(2));
+                hd.setMaCombo(c.getString(3));
+                hd.setTongTien(c.getDouble(4));
+                listHD.add(hd);
+            } while (c.moveToNext());
+        }
+        c.close();
+        return listHD;
+    }
+
+
     public boolean insertHoaDon(HoaDon hoaDon) {
         sqlDB = helper.getReadableDatabase();
         sqlDB = helper.getWritableDatabase();

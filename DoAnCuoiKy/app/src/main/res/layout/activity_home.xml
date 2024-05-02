@@ -254,7 +254,7 @@
 
 
                             <ImageView
-                                android:id="@+id/imageView5"
+                                android:id="@+id/imgLichSuGiaoDich"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center"
@@ -266,7 +266,7 @@
                                 android:id="@+id/textView14"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Cart"
+                                android:text="Lịch sử GD"
                                 android:textAlignment="center"
                                 android:textColor="@color/white" />
 
