@@ -5,7 +5,7 @@
     android:gravity="center"
     android:background="@drawable/rounded_gradient_unclick"
     android:orientation="vertical"
-    android:layout_marginRight="15dp">
+    android:layout_margin="5dp">
 
     <!-- Thời gian chiếu -->
     <Button
@@ -13,9 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="19:40 ~ 21:47"
-        android:textSize="18sp"
-        android:background="@android:color/transparent"
-        />
+        android:textSize="15sp"
+        android:background="@android:color/transparent"/>
     <!-- Số lượng còn lại -->
     <TextView
         android:id="@+id/seats_remaining"

@@ -101,6 +101,7 @@ public class ChiTietPhimActivity extends AppCompatActivity {
 
     public void ChiTietPhimView() {
         phim = phimDAO.findOneById(maPhim);
+
         tenPhim = phim.getTenPhim();
         thoiLuong = phim.getThoiLuong();
         theLoai = phim.getTheLoai();
