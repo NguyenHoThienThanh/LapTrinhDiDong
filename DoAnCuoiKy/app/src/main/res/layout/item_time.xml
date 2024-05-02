@@ -1,19 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="8dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@drawable/rounded_gradient_unclick"
+    android:orientation="vertical"
+    android:layout_marginRight="15dp">
 
-    <!-- Thứ hiển thị -->
+    <!-- Thời gian chiếu -->
     <Button
         android:id="@+id/btn_time"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
-        android:textSize="16sp"
-        android:text="18:00 ~ 21:00"
-        android:textColor="@android:color/white"
-        android:background="@drawable/rounded_gradient"/>
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:text="19:40 ~ 21:47"
+        android:textSize="18sp"
+        android:background="@android:color/transparent"
+        />
+    <!-- Số lượng còn lại -->
+    <TextView
+        android:id="@+id/seats_remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_time"
+        android:text="Còn 218/244"
+        android:textSize="14sp"
+        android:textColor="@color/black"/>
 </LinearLayout>
