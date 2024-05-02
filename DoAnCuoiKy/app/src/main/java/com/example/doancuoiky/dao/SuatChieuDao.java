@@ -1,6 +1,7 @@
 package com.example.doancuoiky.dao;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -87,5 +88,70 @@ public class SuatChieuDao {
         }
 
         return chiTietSuatChieu;
+    }
+
+    public ArrayList<ChiTietSuatChieu> findAll(){
+        ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
+        Cursor c = sqlDB.query("SuatChieu", null, null, null, null, null, null);
+        if(c != null && c.moveToFirst()){
+            ChiTietSuatChieu ct = new ChiTietSuatChieu();
+            ct.setMaSuatChieu(c.getString(0));
+            ct.setMaPhongChieu(c.getString(1));
+            ct.setMaPhim(c.getString(2));
+            ct.setNgayChieu(c.getString(3));
+            ct.setGioChieu(c.getString(4));
+
+            list.add(ct);
+            c.moveToNext();
+        }
+        if (c!= null){
+            c.close();
+        }
+        return list;
+    }
+
+    public boolean insert(ChiTietSuatChieu suatChieu){
+        try {
+            sqlDB = helper.getReadableDatabase();
+            sqlDB = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("maSuatChieu", suatChieu.getMaSuatChieu());
+            values.put("maPhongChieu", suatChieu.getMaPhongChieu());
+            values.put("maPhim", suatChieu.getMaPhim());
+            values.put("ngayChieu", suatChieu.getNgayChieu());
+            values.put("gioChieu", suatChieu.getGioChieu());
+            long res = sqlDB.insert("SuatChieu", null, values);
+            return res != -1;
+        }
+        catch (Exception e){
+
+        }
+        return false;
+    }
+    public boolean update(ChiTietSuatChieu suatChieu){
+        try {
+            sqlDB = helper.getReadableDatabase();
+            sqlDB = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("maSuatChieu", suatChieu.getMaSuatChieu());
+            values.put("maPhongChieu", suatChieu.getMaPhongChieu());
+            values.put("maPhim", suatChieu.getMaPhim());
+            values.put("ngayChieu", suatChieu.getNgayChieu());
+            values.put("gioChieu", suatChieu.getGioChieu());
+            long res = sqlDB.update("SuatChieu", values, "maPhongChieu=?", new String[]{suatChieu.getMaPhongChieu()});
+            return res != -1;
+        }
+        catch (Exception e){
+
+        }
+        return false;
+    }
+
+    public boolean delete(String maPhongChieu){
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        long res = sqlDB.delete("SuatChieu", "maPhongChieu=?", new String[]{maPhongChieu});
+        if(res == -1) return false;
+        else return true;
     }
 }

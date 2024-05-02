@@ -88,4 +88,12 @@ public class HoaDonDAO {
         }
         return check;
     }
+
+    public boolean delete(String maHoaDon){
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        long res = sqlDB.delete("HoaDon", "maHoaDon=?", new String[]{maHoaDon});
+        if(res == -1) return false;
+        else return true;
+    }
 }
