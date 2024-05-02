@@ -22,9 +22,16 @@
         <activity
             android:name=".activity.user.HomeActivity"
             android:exported="false">
-
-
         </activity>
+        <activity
+            android:name=".activity.admin.ActivityAdminFilm"
+            android:exported="false"></activity>
+        <activity
+            android:name=".activity.admin.AdminBillActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".activity.admin.AdminSuatChieuActivity"
+            android:exported="false"></activity>
         <activity
             android:name=".activity.user.TestActivity"
             android:exported="false"></activity>
