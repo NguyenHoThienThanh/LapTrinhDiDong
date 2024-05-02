@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.putExtra("username", edtUsername.getText().toString());
                 intent.putExtra("password", edtPassword.getText().toString());
+                startActivity(intent);
             }
         });
     }
