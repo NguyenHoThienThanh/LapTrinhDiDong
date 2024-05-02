@@ -77,7 +77,7 @@ public class HoaDonActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("Có", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(HoaDonActivity.this, ChiTietPhimActivity.class); // Thay CurrentActivity và MenuActivity bằng tên Activity hiện tại và Activity của menu
+                                Intent intent = new Intent(HoaDonActivity.this, HomeActivity.class); // Thay CurrentActivity và MenuActivity bằng tên Activity hiện tại và Activity của menu
                                 startActivity(intent);
                             }
                         })

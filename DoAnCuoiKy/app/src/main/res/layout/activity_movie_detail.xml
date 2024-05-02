@@ -151,7 +151,7 @@
                             <View
                                 android:layout_width="2dp"
                                 android:layout_height="50dp"
-                                android:background="@color/material_dynamic_neutral20"></View>
+                                android:background="@color/black"></View>
                         </LinearLayout>
 
                         <LinearLayout
@@ -184,7 +184,7 @@
                             <View
                                 android:layout_width="2dp"
                                 android:layout_height="50dp"
-                                android:background="@color/material_dynamic_neutral20"></View>
+                                android:background="@color/black"></View>
                         </LinearLayout>
 
                         <LinearLayout

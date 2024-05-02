@@ -133,6 +133,7 @@ public class PhimDAO {
     }
 
     public ArrayList<Phim> findTop5Phim(){
+        sqlDB = helper.getReadableDatabase();
         ArrayList<Phim> phimArrayList = new ArrayList<>();
         String query = "SELECT * FROM Phim LIMIT 5";
         Cursor c =sqlDB.rawQuery(query, new String[]{} );
@@ -149,6 +150,7 @@ public class PhimDAO {
                 phim.setGiaVe(c.getFloat(7));
                 phim.setTheLoai(c.getString(8));
                 phim.setQuocGia(c.getString(9));
+                phimArrayList.add(phim);
             }while(c.moveToNext());
         }
         if(c != null){

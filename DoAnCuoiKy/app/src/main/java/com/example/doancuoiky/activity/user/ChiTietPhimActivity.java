@@ -38,6 +38,8 @@ public class ChiTietPhimActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        Intent intent = getIntent();
+        maPhim = intent.getStringExtra("maPhim");
         mappingControl();
         toolBarFAndB();
         phimDAO = new PhimDAO(this);
@@ -98,9 +100,9 @@ public class ChiTietPhimActivity extends AppCompatActivity {
 
 
     public void ChiTietPhimView() {
-        phim = phimDAO.findOneById("MP008");
+        phim = phimDAO.findOneById(maPhim);
+
         tenPhim = phim.getTenPhim();
-        maPhim = phim.getMaPhim();
         thoiLuong = phim.getThoiLuong();
         theLoai = phim.getTheLoai();
         poster = phim.getTrailer();
@@ -120,6 +122,5 @@ public class ChiTietPhimActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeByteArray(phim.getTrailer(), 0, phim.getTrailer().length);
         img_trailer.setImageBitmap(bitmap);
         toolbar.setTitle(phim.getTenPhim());
-
     }
 }
