@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/imgTrailer"
             android:layout_width="150dp"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:src="@drawable/wide" />
 
         <TableLayout
@@ -34,7 +34,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtMaPhim"
+                    android:id="@+id/txtMaHoaDon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Phim001"
@@ -55,7 +55,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtTenPhim"
+                    android:id="@+id/txtMaSuatChieu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Avenger"
@@ -75,7 +75,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtThoiLuong"
+                    android:id="@+id/txtMaKhachHang"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nam"
@@ -95,7 +95,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtDoTuoi"
+                    android:id="@+id/txtMaCombo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="13 tuổi"
@@ -115,7 +115,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtMoTa"
+                    android:id="@+id/txtTongTien"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=".............................."

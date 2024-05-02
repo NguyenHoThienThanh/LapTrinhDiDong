@@ -1,7 +1,6 @@
 package com.example.doancuoiky.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -11,11 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.doancuoiky.R;
-import com.example.doancuoiky.model.KhachHang;
 import com.example.doancuoiky.model.Phim;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdminFilmAdapter extends ArrayAdapter<Phim> {
 
@@ -37,11 +34,11 @@ public class AdminFilmAdapter extends ArrayAdapter<Phim> {
         convertView = context.getLayoutInflater().inflate(layout_id, null);
         Phim phim = arrPhim.get(position);
         //Mapping
-        TextView txtMaPhim =convertView.findViewById(R.id.txtMaPhim);
-        TextView txtTenPhim =convertView.findViewById(R.id.txtTenPhim);
-        TextView txtThoiLuong =convertView.findViewById(R.id.txtThoiLuong);
-        TextView txtDoTuoi =convertView.findViewById(R.id.txtDoTuoi);
-        TextView txtMoTa =convertView.findViewById(R.id.txtMoTa);
+        TextView txtMaPhim =convertView.findViewById(R.id.txtMaHoaDon);
+        TextView txtTenPhim =convertView.findViewById(R.id.txtMaSuatChieu);
+        TextView txtThoiLuong =convertView.findViewById(R.id.txtMaKhachHang);
+        TextView txtDoTuoi =convertView.findViewById(R.id.txtMaCombo);
+        TextView txtMoTa =convertView.findViewById(R.id.txtTongTien);
         TextView txtDienVien =convertView.findViewById(R.id.txtDienVien);
         TextView txtGiaVe =convertView.findViewById(R.id.txtGiaVe);
         TextView txtTheLoai =convertView.findViewById(R.id.txtTheLoai);
