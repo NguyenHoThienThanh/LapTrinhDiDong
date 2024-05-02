@@ -12,9 +12,10 @@
         android:background="@drawable/seat_background"
         android:padding="1dp"
         android:text="A1"
-        android:textColor="@color/white"
+        android:textColor="#FFFFFF"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:backgroundTint="@null" />
 
 </LinearLayout>

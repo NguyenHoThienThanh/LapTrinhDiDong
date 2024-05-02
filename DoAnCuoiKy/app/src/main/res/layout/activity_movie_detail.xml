@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_movie_detail"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/blue"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -334,6 +334,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginLeft="5dp"
+                    android:padding="10dp"
                     android:text="Cúi đầu trước vị vua mới. Godzilla x Kong: Đế chế mới là phần phim mới nhất thuộc vũ trụ điện ảnh quái vật tỷ đô MonsterVerse, xoay quanh cuộc chiến sinh tồn của loài người với các quái vật mang tính hủy diệt. Bộ phim được xem là phần hậu truyện, tiếp nối sau những cuộc đối đầu bùng nổ của Godzilla đại chiến Kong (2021), một cuộc phiêu lưu hoàn toàn mới, đưa Kong và Godzilla cùng nhau chống lại một mối đe dọa khổng lồ chưa được khám phá, ẩn sâu trong Trái Đất. Bộ phim sẽ đào sâu hơn vào phần lịch sử của những Titan, nguồn gốc cũng như những bí ẩn tại Đảo Đầu Lâu, đồng thời khám phá trận chiến thần thoại đã tạo nên những sinh vật phi thường và sự gắn kết của chúng với loài người.">
 
                 </TextView>
@@ -365,6 +366,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+                    android:padding="10dp"
                     android:text="Lee Min Ho, ..."/>
             </LinearLayout>
 
