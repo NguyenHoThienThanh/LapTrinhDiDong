@@ -41,6 +41,23 @@ public class PhongChieuPhimDAO {
         }
         return phongChieuPhimArrayList;
     }
+
+    public ArrayList<String> findAllMaPhongChieu(){
+        ArrayList<String> list = new ArrayList<>();
+        Cursor c = sqlDB.query("PhongChieuPhim", null,null,
+                null,null,null,null);
+        // Kiểm tra xem Cursor có dữ liệu không trước khi truy cập
+        if (c != null && c.moveToFirst()) {
+            do {
+                list.add(c.getString(0));
+            } while (c.moveToNext());
+        }
+        // Đóng Cursor sau khi sử dụng
+        if (c != null) {
+            c.close();
+        }
+        return list;
+    }
     public boolean insertPhongChieuPhim(PhongChieuPhim pcp) {
         ContentValues values = new ContentValues();
         values.put("SoChoNgoi", pcp.getSoChoNgoi());

@@ -40,12 +40,27 @@ public class PhimDAO {
                 phim.setGiaVe(c.getFloat(7));
                 phim.setTheLoai(c.getString(8));
                 phim.setQuocGia(c.getString(9));
+                phimArrayList.add(phim);
             }while(c.moveToNext());
         }
         if(c != null){
             c.close();
         }
         return phimArrayList;
+    }
+
+    public ArrayList<String> findAllMaPhim(){
+        ArrayList<String> list = new ArrayList<>();
+        Cursor c =sqlDB.query("Phim", null, null, null, null, null,null );
+        if(c != null && c.moveToFirst()){
+            do{
+                list.add(c.getString(0));
+            }while(c.moveToNext());
+        }
+        if(c != null){
+            c.close();
+        }
+        return list;
     }
 
     public boolean insert(Phim phim){
