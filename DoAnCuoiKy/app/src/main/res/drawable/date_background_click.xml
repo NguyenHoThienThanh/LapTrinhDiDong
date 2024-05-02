@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size android:width="40dp" android:height="40dp" /> <!-- Kích thước mong muốn -->
+            <gradient android:angle="270" android:endColor="#FF0099" android:startColor="#FFC1E3" />
+            <corners android:radius="10dp" /> <!-- Điều chỉnh độ cong ở đây -->/>
+            <stroke android:width="1dp"
+                android:color="#FF0099"/> <!-- Viền -->
+        </shape>
+    </item>
+</selector>

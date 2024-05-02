@@ -32,6 +32,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/white_background2">
+        <TextView
+            android:id="@+id/tv_dsngay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách Ngày chiếu"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:padding="16dp"/>
         <!-- Danh sách ngày -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_ngay"
@@ -121,6 +133,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:orientation="vertical"
             android:padding="16dp"
-            android:background="@drawable/white_background"/>
+            android:background="@drawable/white_background2"/>
+        <TextView
+            android:id="@+id/chua_co_sc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hiện tại chưa có suất chiếu nào !"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

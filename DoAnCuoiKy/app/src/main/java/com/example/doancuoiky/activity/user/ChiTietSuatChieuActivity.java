@@ -1,5 +1,6 @@
 package com.example.doancuoiky.activity.user;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +23,12 @@ import com.example.doancuoiky.adapter.ImageAdapter;
 import com.example.doancuoiky.dao.SuatChieuDao;
 import com.example.doancuoiky.model.ChiTietSuatChieu;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class ChiTietSuatChieuActivity extends AppCompatActivity {
@@ -32,11 +37,12 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
     DanhSachNgayChieuAdapter danhSachNgayChieuAdapter;
     DanhSachGioChieuAdapter danhSachGioChieuAdapter;
     ArrayList<ChiTietSuatChieu> listCtsc = new ArrayList<>();
+    List<ChiTietSuatChieu> listCtscFilter;
     SuatChieuDao suatChieuDao;
 
     private Carousel carousel;
 
-    String tenPhim, maPhim, theLoai;
+    String tenPhim, maPhim, theLoai, ngayChieu;
     int  gioiHanTuoi;
     byte[] poster;
     double giaVe;
@@ -64,7 +70,6 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
         Intent intent = getIntent();
         maPhim = intent.getStringExtra("maPhim");
         tenPhim = intent.getStringExtra("tenPhim");
-        Toast.makeText(this, "" + tenPhim, Toast.LENGTH_SHORT).show();
         theLoai = intent.getStringExtra("theLoai");
         gioiHanTuoi = intent.getIntExtra("gioiHanTuoi", 0);
         poster = intent.getByteArrayExtra("poster");
@@ -98,7 +103,6 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
         danhSachNgayChieuAdapter = new DanhSachNgayChieuAdapter(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rcv_ngay.setLayoutManager(layoutManager);
-
         listCtsc = (ArrayList<ChiTietSuatChieu>) getDateList(); // Lấy danh sách ngày
         danhSachNgayChieuAdapter.setData(listCtsc, new DanhSachNgayChieuAdapter.IOnDateClickListener() {
             @Override
@@ -114,7 +118,55 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
             loadGioChieu(0); // Hiển thị giờ chiếu của ngày đầu tiên
         }
     }
+    public ArrayList<ChiTietSuatChieu> filterDates(ArrayList<ChiTietSuatChieu> list) {
+        ArrayList<ChiTietSuatChieu> filteredList = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+        try {
+            Date currentDate = sdf.parse(sdf.format(new Date()));
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.DAY_OF_YEAR, 15);
+            Date maxDate = calendar.getTime();
+
+            for (ChiTietSuatChieu ctsc : list) {
+                Date date = sdf.parse(ctsc.getNgayChieu());
+
+                if (date != null && !date.before(currentDate) && !date.after(maxDate)) {
+                    ctsc.setNgayChieu(displayFormat.format(date));
+                    filteredList.add(ctsc);
+                }
+            }
+
+            Collections.sort(filteredList, (ctsc1, ctsc2) -> {
+                try {
+                    Date date1 = sdf.parse(ctsc1.getNgayChieu());
+                    Date date2 = sdf.parse(ctsc2.getNgayChieu());
+                    return date1.compareTo(date2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            });
+
+            TextView tv_no_shows = findViewById(R.id.chua_co_sc);
+            RecyclerView rcv_gio = findViewById(R.id.rcv_gio);
+
+            if (filteredList.isEmpty()) {
+                tv_no_shows.setVisibility(View.VISIBLE);
+                rcv_gio.setVisibility(View.GONE);
+            } else {
+                tv_no_shows.setVisibility(View.GONE);
+                rcv_gio.setVisibility(View.VISIBLE);
+            }
+
+            return filteredList;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return filteredList;
+        }
+    }
     private void loadGioChieu(int position) {
         rcv_gio = findViewById(R.id.rcv_gio);
         danhSachGioChieuAdapter = new DanhSachGioChieuAdapter(this);
@@ -124,7 +176,6 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
         // Lấy danh sách giờ chiếu cho ngày cụ thể
         ChiTietSuatChieu chiTietSuatChieu = listCtsc.get(position);
         ArrayList<ChiTietSuatChieu> list = suatChieuDao.getTimeBySuatChieu(chiTietSuatChieu.getMaPhim(), chiTietSuatChieu.getNgayChieu());
-
         // Cập nhật số lượng giờ chiếu vào EditText
         EditText editSlRap = findViewById(R.id.edit_sl_rap);
         editSlRap.setText(String.valueOf(list.size())); // Đặt số lượng giờ chiếu
@@ -154,8 +205,7 @@ public class ChiTietSuatChieuActivity extends AppCompatActivity {
 
     public List<ChiTietSuatChieu> getDateList() {
         ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
-        list = suatChieuDao.getDateBySuatChieu(maPhim);
-//        Toast.makeText(this, "a"+list.size(), Toast.LENGTH_SHORT).show();
+        list = filterDates(suatChieuDao.getDateBySuatChieu(maPhim));
         return list;
     }
 }
