@@ -1,14 +1,22 @@
 package com.example.doancuoiky.activity.admin;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,10 +26,13 @@ import com.example.doancuoiky.adapter.AdminFilmAdapter;
 import com.example.doancuoiky.dao.PhimDAO;
 import com.example.doancuoiky.model.Phim;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ActivityAdminFilm extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
     EditText edtMaPhim, edtTenPhim, edtThoiLuong, edtDoTuoi, edtMoTa,
             edtDienVien, edtGiaVe, edtTheLoai, edtQuocGia;
     Button btnThem, btnXoa, btnSua, btnXem;
@@ -30,6 +41,8 @@ public class ActivityAdminFilm extends AppCompatActivity {
     AdminFilmAdapter adapter;
     Context context;
     PhimDAO phimDao;
+
+    ImageView imgPhim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +77,17 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 phim.setGiaVe(Float.parseFloat(giaVe));
                 phim.setTheLoai(theLoai);
                 phim.setQuocGia(quocGia);
+
+                // Cập nhật hình ảnh từ ImageView
+                ImageView img_picture = findViewById(R.id.fandb_image);
+                Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
+                if (drawable != null && drawable instanceof BitmapDrawable) {
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                    phim.setTrailer(bitmapToByteArray(bitmap)); // Chuyển Bitmap thành mảng byte
+                } else {
+                    Toast.makeText(ActivityAdminFilm.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 boolean res = phimDao.insert(phim);
 
@@ -155,6 +179,13 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 clearText();
             }
         });
+
+        imgPhim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
     }
 
     private void mapping() {
@@ -171,6 +202,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
         btnXoa = findViewById(R.id.btnXoaPhim);
         btnSua = findViewById(R.id.btnSuaPhim);
         btnXem = findViewById(R.id.btnHienThiPhim);
+        imgPhim = findViewById(R.id.imgPhim);
 
         lvPhim = findViewById(R.id.lvPhim);
         arrPhim = phimDao.findAllPhim();
@@ -188,5 +220,35 @@ public class ActivityAdminFilm extends AppCompatActivity {
         edtGiaVe.setText("");
         edtTheLoai.setText("");
         edtQuocGia.setText("");
+    }
+
+    // Hàm gọi để chọn ảnh từ thư viện
+    public void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST); // Mở thư viện ảnh
+    }
+    // Chuyển Bitmap thành mảng byte
+    private byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+        return baos.toByteArray();
+    }
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            try {
+                Uri imageUri = data.getData(); // Lấy URI của ảnh đã chọn
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+
+                // Cập nhật ImageView
+                ImageView imgPhim1 = findViewById(R.id.imgPhim);
+                imgPhim1.setImageBitmap(bitmap); // Cập nhật ảnh
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
