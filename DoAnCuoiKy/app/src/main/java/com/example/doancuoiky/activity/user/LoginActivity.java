@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edtUsername, edtPassword;
     Button btnLogin;
-    TaiKhoan taiKhoan;
+    private static TaiKhoan taiKhoan;
     TaiKhoanDAO tkDao;
     Context context;
     @Override
@@ -56,5 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         edtUsername = findViewById(R.id.edtUserName);
         edtPassword = findViewById(R.id.edtPassworrd);
         btnLogin = findViewById(R.id.btnLogin);
+    }
+
+    public static TaiKhoan getTaiKhoan() {
+        return taiKhoan;
     }
 }

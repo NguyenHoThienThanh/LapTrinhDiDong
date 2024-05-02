@@ -23,6 +23,7 @@ import com.example.doancuoiky.adapter.ThanhToanAdapter;
 import com.example.doancuoiky.dao.ChiTietGheDaDatDAO;
 import com.example.doancuoiky.dao.ComboBapNuocDAO;
 import com.example.doancuoiky.dao.HoaDonDAO;
+import com.example.doancuoiky.dao.KhachHangDAO;
 import com.example.doancuoiky.model.ChiTietGheDaDat;
 import com.example.doancuoiky.model.ComboBapNuoc;
 import com.example.doancuoiky.model.HoaDon;
@@ -49,7 +50,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     double totalPrice = 0;
     double total = 0;
 
-    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon;
+    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon, maKhachHang;
     String tenPhim, maPhim;
     int gioiHanTuoi;
     byte[] poster;
@@ -60,6 +61,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     private
     HoaDonDAO hoaDonDAO;
     ComboBapNuocDAO comboBapNuocDAO;
+    KhachHangDAO khachHangDAO;
     private double amount;
     private String fee = "0";
     int environment = 0;//developer default
@@ -74,6 +76,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         hoaDonDAO = new HoaDonDAO(this);
         chiTietGheDaDatDAO = new ChiTietGheDaDatDAO(this);
         comboBapNuocDAO = new ComboBapNuocDAO(this);
+        khachHangDAO = new KhachHangDAO(this);
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
         toolBarThanhToan();
         Intent intent = getIntent();
@@ -181,7 +184,9 @@ public class ThanhToanActivity extends AppCompatActivity {
                     String token = data.getStringExtra("data"); //Token response
 
                     maHoaDon = hoaDonDAO.getNextID();
-                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, "KH001", maCombo, total + totalPrice);
+                    maKhachHang = (khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan())).getMaKhachHang();
+                    Toast.makeText(this, "" + maHoaDon, Toast.LENGTH_SHORT).show();
+                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice);
                     boolean res = hoaDonDAO.insertHoaDon(hd);
 
                     if (res){

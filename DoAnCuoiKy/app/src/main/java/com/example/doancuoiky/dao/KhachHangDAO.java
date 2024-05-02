@@ -69,6 +69,30 @@ public class KhachHangDAO {
         return khachHang;
     }
 
+    public KhachHang findOneBySoDienThoai(String soDT){
+        sqlDB = helper.getReadableDatabase();
+        KhachHang khachHang = new KhachHang();
+        String query = "SELECT * FROM KhachHang where soDienThoai = ?";
+        Cursor c =sqlDB.rawQuery(query, new String[]{soDT} );
+        if(c != null && c.moveToFirst()){
+            do{
+                khachHang.setMaKhachHang(c.getString(0));
+                khachHang.setHoTen(c.getString(1));
+                khachHang.setNgaySinh(c.getString(2));
+                khachHang.setGioiTinh(c.getInt(3));
+                khachHang.setDiaChi(c.getString(4));
+                khachHang.setEmail(c.getString(5));
+                khachHang.setSoDienThoai(c.getString(6));
+                khachHang.setUserName(c.getString(7));
+                khachHang.setAvatar(c.getBlob(8));
+            }while(c.moveToNext());
+        }
+        if(c != null){
+            c.close();
+        }
+        return khachHang;
+    }
+
     public boolean update(KhachHang khachHang) {
         sqlDB = helper.getReadableDatabase();
         sqlDB = helper.getWritableDatabase();

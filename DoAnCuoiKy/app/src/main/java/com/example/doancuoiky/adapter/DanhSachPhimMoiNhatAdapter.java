@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.activity.user.ChiTietPhimActivity;
+import com.example.doancuoiky.activity.user.LoginActivity;
 import com.example.doancuoiky.model.ComboBapNuoc;
 import com.example.doancuoiky.model.Phim;
 
