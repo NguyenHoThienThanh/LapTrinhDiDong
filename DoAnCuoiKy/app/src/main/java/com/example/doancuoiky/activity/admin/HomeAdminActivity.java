@@ -51,6 +51,25 @@ public class HomeAdminActivity extends AppCompatActivity {
                 staff();
             }
         });
+        cv_movie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movie();
+            }
+        });
+        cv_ticket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ticket();
+            }
+        });
+        cv_bill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bill();
+            }
+        });
+
     }
 
     public void mappingControl(){
@@ -83,6 +102,18 @@ public class HomeAdminActivity extends AppCompatActivity {
     }
     public void staff(){
         Intent loginIntent = new Intent(this, AdminStaffActivity.class);
+        startActivity(loginIntent);
+    }
+    public void movie(){
+        Intent loginIntent = new Intent(this, ActivityAdminFilm.class);
+        startActivity(loginIntent);
+    }
+    public void ticket(){
+        Intent loginIntent = new Intent(this, AdminSuatChieuActivity.class);
+        startActivity(loginIntent);
+    }
+    public void bill(){
+        Intent loginIntent = new Intent(this, AdminBillActivity.class);
         startActivity(loginIntent);
     }
 }
