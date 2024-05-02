@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,16 +56,15 @@ public class HoaDonActivity extends AppCompatActivity {
         selectedCombos = (ArrayList<ComboBapNuoc>) intent.getSerializableExtra("selectedCombos");
         totalPrice = intent.getDoubleExtra("totalPrice", 0.0);
         total = intent.getDoubleExtra("total", 0.0);
-        maKhachHang = "KH001";
-//            maKhachHang = intent.getStringExtra("maKhachHang");
+        maKhachHang = (khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan())).getMaKhachHang();
         maSuatChieu = intent.getStringExtra("maSuatChieu");
         maPhongChieu = intent.getStringExtra("maPhongChieu");
         maPhim = intent.getStringExtra("maPhim");
+        maHoaDon = intent.getStringExtra("maHoaDon");
 
         mappingControl();
         getDataOnLayout();
         buttonBackToMenu();
-
     }
 
     private void buttonBackToMenu() {
