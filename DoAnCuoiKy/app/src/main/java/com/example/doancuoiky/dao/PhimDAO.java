@@ -40,6 +40,7 @@ public class PhimDAO {
                 phim.setGiaVe(c.getFloat(7));
                 phim.setTheLoai(c.getString(8));
                 phim.setQuocGia(c.getString(9));
+                phimArrayList.add(phim);
             }while(c.moveToNext());
         }
         if(c != null){
