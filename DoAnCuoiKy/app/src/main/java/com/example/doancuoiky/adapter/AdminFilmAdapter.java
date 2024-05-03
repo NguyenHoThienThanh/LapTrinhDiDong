@@ -1,9 +1,13 @@
 package com.example.doancuoiky.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +47,7 @@ public class AdminFilmAdapter extends ArrayAdapter<Phim> {
         TextView txtGiaVe =convertView.findViewById(R.id.txtGiaVe);
         TextView txtTheLoai =convertView.findViewById(R.id.txtTheLoai);
         TextView txtQuocGia =convertView.findViewById(R.id.txtQuocGia);
+        ImageView imgaTrailer = convertView.findViewById(R.id.imgTrailer);
 
         txtMaPhim.setText(phim.getMaPhim());
         txtTenPhim.setText(phim.getTenPhim());
@@ -53,6 +58,30 @@ public class AdminFilmAdapter extends ArrayAdapter<Phim> {
         txtGiaVe.setText(String.valueOf(phim.getGiaVe()));
         txtTheLoai.setText(phim.getTheLoai());
         txtQuocGia.setText(phim.getQuocGia());
+        byte[] trailer = phim.getTrailer();
+
+        Bitmap bitmap = null;
+        if (trailer == null || trailer.length == 0) {
+            // Nếu không có dữ liệu hình ảnh, hiển thị hình ảnh mặc định hoặc thông báo lỗi
+            Log.e("ImageError", "Không có dữ liệu hình ảnh");
+            imgaTrailer.setImageResource(R.drawable.corn); // Sử dụng hình ảnh mặc định
+        } else {
+            try {
+                // Cố gắng tạo Bitmap từ mảng byte
+                bitmap = BitmapFactory.decodeByteArray(trailer, 0, trailer.length);
+
+                if (bitmap == null) {
+                    Log.e("ImageError", "Không thể tạo Bitmap từ dữ liệu byte");
+                    imgaTrailer.setImageResource(R.drawable.corn); // Sử dụng hình ảnh mặc định
+                } else {
+                    imgaTrailer.setImageBitmap(bitmap); // Gán Bitmap vào ImageView
+                }
+            } catch (Exception e) {
+                // Nếu có lỗi khi tạo Bitmap, xử lý ngoại lệ
+                Log.e("BitmapError", "Lỗi khi tạo Bitmap từ dữ liệu byte", e);
+                imgaTrailer.setImageResource(R.drawable.corn); // Sử dụng hình ảnh mặc định
+            }
+        }
 
         return convertView;
     }

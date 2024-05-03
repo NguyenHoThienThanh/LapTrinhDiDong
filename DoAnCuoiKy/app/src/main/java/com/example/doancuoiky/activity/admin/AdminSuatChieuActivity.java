@@ -7,15 +7,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.activity.user.MainActivity;
 import com.example.doancuoiky.adapter.AdminFilmAdapter;
 import com.example.doancuoiky.adapter.AdminSuatChieuAdapter;
+import com.example.doancuoiky.dao.PhimDAO;
+import com.example.doancuoiky.dao.PhongChieuPhimDAO;
 import com.example.doancuoiky.dao.SuatChieuDao;
 import com.example.doancuoiky.model.ChiTietSuatChieu;
 
@@ -24,12 +28,15 @@ import java.util.List;
 
 public class AdminSuatChieuActivity extends AppCompatActivity {
 
-    EditText edtMaSuatChieu, edtMaPhongChieu, edtMaPhim, edtNgayChieu, edtGioChieu;
+    EditText edtMaSuatChieu, edtNgayChieu, edtGioChieu;
+    Spinner spnMaPhongChieu, spnMaPhim;
     Button btnThem, btnXoa, btnSua, btnXem;
     ListView lvSuatChieu;
     ArrayList<ChiTietSuatChieu> arrSuatChieu;
     AdminSuatChieuAdapter adapter;
     SuatChieuDao scDao;
+    PhimDAO phimDao;
+    PhongChieuPhimDAO pcpDao;
     Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,10 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_suat_chieu);
         context = this;
         scDao = new SuatChieuDao(context);
+        phimDao = new PhimDAO(context);
+        pcpDao = new PhongChieuPhimDAO(context);
         mapping();
+        loadDataSpinner();
         events();
     }
 
@@ -55,8 +65,8 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String maSuatChieu = edtMaSuatChieu.getText().toString();
-                String maPhongChieu = edtMaPhongChieu.getText().toString();
-                String maPhim = edtMaPhim.getText().toString();
+                String maPhongChieu = spnMaPhongChieu.getSelectedItem().toString();
+                String maPhim = spnMaPhim.getSelectedItem().toString();
                 String ngayChieu = edtNgayChieu.getText().toString();
                 String gioChieu = edtGioChieu.getText().toString();
                 ChiTietSuatChieu ct = new ChiTietSuatChieu(maSuatChieu, maPhongChieu, maPhim, ngayChieu, gioChieu);
@@ -75,8 +85,8 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String maSuatChieu = edtMaSuatChieu.getText().toString();
-                String maPhongChieu = edtMaPhongChieu.getText().toString();
-                String maPhim = edtMaPhim.getText().toString();
+                String maPhongChieu = spnMaPhongChieu.getSelectedItem().toString();
+                String maPhim = spnMaPhim.getSelectedItem().toString();
                 String ngayChieu = edtNgayChieu.getText().toString();
                 String gioChieu = edtGioChieu.getText().toString();
                 ChiTietSuatChieu ct = new ChiTietSuatChieu(maSuatChieu, maPhongChieu, maPhim, ngayChieu, gioChieu);
@@ -126,10 +136,22 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
     private void clearText() {
     }
 
+    private void loadDataSpinner(){
+        ArrayList<String> listMaPhim = phimDao.findAllMaPhim();
+        ArrayAdapter<String> adapterMaPhim = new ArrayAdapter<>(AdminSuatChieuActivity.this, android.R.layout.simple_spinner_item, listMaPhim);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnMaPhim.setAdapter(adapterMaPhim);
+
+        ArrayList<String> listMaPhongChieu = pcpDao.findAllMaPhongChieu();
+        ArrayAdapter<String> adapterMaPC= new ArrayAdapter<>(AdminSuatChieuActivity.this, android.R.layout.simple_spinner_item,listMaPhongChieu);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnMaPhongChieu.setAdapter(adapterMaPC);
+    }
+
     private void mapping() {
         edtMaSuatChieu = findViewById(R.id.edtMaSuatChieu);
-        edtMaPhongChieu = findViewById(R.id.edtMaPhongChieu);
-        edtMaPhim = findViewById(R.id.edtMaPhim);
+        spnMaPhongChieu = findViewById(R.id.spnMaPhongChieu);
+        spnMaPhim = findViewById(R.id.spnMaPhim);
         edtNgayChieu = findViewById(R.id.edtNgayChieu);
         edtGioChieu = findViewById(R.id.edtGioChieu);
         btnThem = findViewById(R.id.btnThemSuatChieu);

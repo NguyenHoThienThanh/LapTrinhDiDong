@@ -49,6 +49,20 @@ public class PhimDAO {
         return phimArrayList;
     }
 
+    public ArrayList<String> findAllMaPhim(){
+        ArrayList<String> list = new ArrayList<>();
+        Cursor c =sqlDB.query("Phim", null, null, null, null, null,null );
+        if(c != null && c.moveToFirst()){
+            do{
+                list.add(c.getString(0));
+            }while(c.moveToNext());
+        }
+        if(c != null){
+            c.close();
+        }
+        return list;
+    }
+
     public boolean insert(Phim phim){
         try {
             sqlDB = helper.getReadableDatabase();
