@@ -42,7 +42,8 @@ public class HomeActivity extends AppCompatActivity {
     PhimDAO phimDao;
 
     // Bottom Navigation Bar
-    ImageView imgLichSuGiaoDich;
+    ImageView imgLichSuGiaoDich, imgProfile;
+
 
 
 
@@ -63,6 +64,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, LichSuDatVeActivity.class);
+                startActivity(intent);
+            }
+        });
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ChiTietKhachHangActivity.class);
                 startActivity(intent);
             }
         });
@@ -152,5 +160,7 @@ public class HomeActivity extends AppCompatActivity {
         loading2 = findViewById(R.id.progressBar3);
         loading3 = findViewById(R.id.progressBar4);
         imgLichSuGiaoDich = findViewById(R.id.imgLichSuGiaoDich);
+        imgProfile = findViewById(R.id.imgProfile);
+
     }
 }

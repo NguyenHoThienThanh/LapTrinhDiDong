@@ -103,6 +103,7 @@ public class KhachHangDAO {
         values.put("diaChi", khachHang.getDiaChi());
         values.put("email", khachHang.getEmail());
         values.put("userName", khachHang.getUserName());
+        values.put("avatar", khachHang.getAvatar());
         try {
             if (sqlDB.update("KhachHang", values, "maKhachHang = ?", new String[]{khachHang.getMaKhachHang()}) < 0) {
                 return false;

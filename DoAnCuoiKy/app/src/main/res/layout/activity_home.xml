@@ -281,9 +281,9 @@
 
 
                             <ImageView
-                                android:id="@+id/imageView6"
+                                android:id="@+id/imgProfile"
                                 android:layout_width="24dp"
-                                android:layout_height="24dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_margin="5dp"
                                 android:src="@drawable/btn_4"

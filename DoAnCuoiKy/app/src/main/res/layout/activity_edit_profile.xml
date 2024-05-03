@@ -46,10 +46,17 @@
                         android:layout_height="360dp"
                         android:background="@drawable/top_background">
 
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/circles"
+                            tools:ignore="MissingConstraints" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/img_khachhang"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="32dp"
@@ -70,9 +77,9 @@
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView"
-                        app:layout_constraintStart_toStartOf="@+id/imageView"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                        app:layout_constraintEnd_toEndOf="@+id/img_khachhang"
+                        app:layout_constraintStart_toStartOf="@+id/img_khachhang"
+                        app:layout_constraintTop_toBottomOf="@+id/img_khachhang" />
 
                     <TextView
                         android:id="@+id/txt_email"
@@ -85,21 +92,6 @@
                         app:layout_constraintEnd_toEndOf="@+id/txt_userName"
                         app:layout_constraintStart_toStartOf="@+id/txt_userName"
                         app:layout_constraintTop_toBottomOf="@+id/txt_userName" />
-
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:scaleType="fitStart"
-                        android:src="@drawable/circles"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:ignore="MissingConstraints" />
-
 
 
                     <LinearLayout
@@ -122,7 +114,7 @@
                             android:layout_marginRight="5dp"
 
                             android:background="@drawable/background_edt"
-                            android:hint="Tên đăng nhập"
+                            android:hint="Username"
                             android:layout_marginTop="25dp"
                             android:gravity="center"/>
 
@@ -181,9 +173,6 @@
                             android:hint="Địa chỉ"
                             android:layout_marginTop="20dp"
                             android:gravity="center"/>
-
-
-
                     </LinearLayout>
 
 
