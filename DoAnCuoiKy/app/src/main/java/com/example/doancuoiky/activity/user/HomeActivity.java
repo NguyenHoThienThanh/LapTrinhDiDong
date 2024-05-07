@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ChiTietKhachHangActivity.class);
+                Intent intent = new Intent(HomeActivity.this, KhachHangActivity.class);
                 startActivity(intent);
             }
         });
