@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:background="@color/blue"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="BHD Star Lê Văn Việt"
+        app:title="Danh sách ghế ngồi "
         app:titleTextColor="@android:color/white" />
 
 

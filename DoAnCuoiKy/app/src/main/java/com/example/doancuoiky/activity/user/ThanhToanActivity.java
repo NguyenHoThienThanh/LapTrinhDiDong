@@ -32,8 +32,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import vn.momo.momo_partner.AppMoMoLib;
@@ -50,7 +53,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     double totalPrice = 0;
     double total = 0;
 
-    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon, maKhachHang;
+    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon, maKhachHang, ngayLapHoaDon;
     String tenPhim, maPhim;
     int gioiHanTuoi;
     byte[] poster;
@@ -77,6 +80,7 @@ public class ThanhToanActivity extends AppCompatActivity {
         chiTietGheDaDatDAO = new ChiTietGheDaDatDAO(this);
         comboBapNuocDAO = new ComboBapNuocDAO(this);
         khachHangDAO = new KhachHangDAO(this);
+        maKhachHang = (khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan())).getMaKhachHang();
         AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
         toolBarThanhToan();
         Intent intent = getIntent();
@@ -184,9 +188,16 @@ public class ThanhToanActivity extends AppCompatActivity {
                     String token = data.getStringExtra("data"); //Token response
 
                     maHoaDon = hoaDonDAO.getNextID();
-                    maKhachHang = (khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan())).getMaKhachHang();
+                    // Lấy ngày hiện tại của hệ thống
+                    Date currentDate = new Date();
+
+                    // Định dạng ngày theo ý muốn (ví dụ: "dd/MM/yyyy")
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+                    // Gán ngày định dạng vào biến ngayLapHoaDon
+                    ngayLapHoaDon = dateFormat.format(currentDate);
                     Toast.makeText(this, "" + maHoaDon, Toast.LENGTH_SHORT).show();
-                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice);
+                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon);
                     boolean res = hoaDonDAO.insertHoaDon(hd);
 
                     if (res){
@@ -321,7 +332,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                 }
                 maHoaDon = hoaDonDAO.getNextID();
                 maCombo = String.valueOf(comBoString);
-                HoaDon hoaDon = new HoaDon(maHoaDon, maSuatChieu, "KH001", maCombo, total);
+                HoaDon hoaDon = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon );
                 hoaDonDAO.createHoaDon(hoaDon);
                 requestPayment(maHoaDon);
             }
