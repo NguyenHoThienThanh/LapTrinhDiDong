@@ -68,4 +68,14 @@ public class TaiKhoanDAO {
         }
         return taiKhoan;
     }
+    public boolean isTaiKhoanExists(String soDienThoai, String password) {
+        // Lấy thông tin người dùng từ cơ sở dữ liệu bằng cách gọi phương thức findOne
+        TaiKhoan taiKhoan = findOneByTaiKhoan(soDienThoai);
+        // Nếu thông tin người dùng không null, tức là tên đăng nhập đã tồn tại
+        if (taiKhoan.getTaiKhoan() != null && taiKhoan.getMatKhau() != null && taiKhoan.getMatKhau().trim().equals(password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
