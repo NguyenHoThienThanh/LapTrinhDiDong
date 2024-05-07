@@ -1,5 +1,6 @@
 package com.example.doancuoiky.activity.user;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,7 +35,7 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
     TextView txt_userName, txt_email;
     Toolbar toolbar;
 
-    String  maKhachHang;
+    String hoTen, userName, password, email, ngaySinh, diaChi, soDienThoai, maKhachHang;
 
     Button btn_saveProfile;
     KhachHangDAO khachHangDAO;
@@ -131,13 +132,47 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
 
     }
 
+
     private void updateProfile() {
         khachHang = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());
         TaiKhoan taiKhoan = taiKhoanDAO.findOneByTaiKhoan(khachHang.getSoDienThoai().trim());
         taiKhoan.setMatKhau(edt_password.getText().toString().trim());
-        boolean rs = taiKhoanDAO.update(taiKhoan);
-        if(rs){
-            Toast.makeText(this, "Update password success", Toast.LENGTH_SHORT).show();
+        taiKhoanDAO.update(taiKhoan);
+
+        if (!isValidUsername(edt_userName.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Lỗi")
+                    .setMessage("Username không được có ký tự đặc biệt, không được quá 20 ký tự và không chứa khoảng trống.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+
+        if (!isValidFullName(edt_hoTen.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Lỗi")
+                    .setMessage("Họ tên không được chứa ký tự đặc biệt và không quá 50 ký tự.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+
+        if (!isValidEmail(edt_email.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Lỗi")
+                    .setMessage("Email không hợp lệ.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+
+        if (!isValidDateFormat(edt_ngaySinh.getText().toString())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Lỗi")
+                    .setMessage("Ngày sinh phải có định dạng dd-MM-yyyy và là ngày hợp lệ.")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
         }
 
         khachHang.setEmail(edt_email.getText().toString().trim());
@@ -148,8 +183,10 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
         if (img_khachhang.getDrawable() != null) {
             BitmapDrawable drawable = (BitmapDrawable) img_khachhang.getDrawable();
             Bitmap bitmap = drawable.getBitmap();
+
             khachHang.setAvatar(bitmapToByteArray(bitmap));
         }
+
         boolean result = khachHangDAO.update(khachHang);
         if (result) {
             Toast.makeText(ChiTietKhachHangActivity.this, "Update success", Toast.LENGTH_SHORT).show();
@@ -162,6 +199,33 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
             txt_email.setText(khachHang.getEmail());
             txt_userName.setText(khachHang.getUserName());
 
+            hoTen = khachHang.getHoTen();
+            email = khachHang.getEmail();
+            ngaySinh = khachHang.getNgaySinh();
+            userName = khachHang.getUserName();
+            diaChi = khachHang.getDiaChi();
+            soDienThoai = khachHang.getSoDienThoai();
+            maKhachHang = khachHang.getMaKhachHang();
+
+            Intent intent = new Intent();
+            intent.putExtra("userName", userName);
+            intent.putExtra("password", password);
+            intent.putExtra("hoTen", hoTen);
+            intent.putExtra("ngaySinh", ngaySinh);
+            intent.putExtra("diaChi", diaChi);
+            intent.putExtra("soDienThoai", soDienThoai);
+            intent.putExtra("email", email);
+            intent.putExtra("maKhachHang", maKhachHang);
+
+
+            if (img_khachhang.getDrawable() != null) {
+                BitmapDrawable drawable = (BitmapDrawable) img_khachhang.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                byte[] avatarByteArray = bitmapToByteArray(bitmap);
+                intent.putExtra("imageInfo", avatarByteArray);
+            }
+            setResult(RESULT_OK,intent);
+            finish();
         }
     }
 
@@ -179,4 +243,110 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeByteArray(kh.getAvatar(), 0, kh.getAvatar().length);
         img_khachhang.setImageBitmap(bitmap);
     }
+
+    public static boolean isValidFullName(String fullName) {
+        if (fullName == null || fullName.isEmpty()) {
+            return false;
+        }
+        fullName = fullName.trim();
+        if (fullName.length() > 50) {
+            return false;
+        }
+        char[] chars = fullName.toCharArray();
+        for (char c : chars) {
+            if (!Character.isLetter(c)) {
+                if (c != ' ' && c != '-') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean isValidEmail(String email) {
+        String regex = "^[\\w\\.-]+@([\\w\\.-]+\\.)+[\\w\\.-]{2,3}$";
+        return email.matches(regex);
+    }
+
+    public static boolean isValidDateFormat(String dob) {
+
+        if (dob == null || dob.isEmpty()) {
+            return false;
+        }
+
+        String[] parts = dob.split("-");
+
+        if (parts.length != 3) {
+            return false;
+        }
+
+        for (String part : parts) {
+            if (!isNumeric(part)) {
+                return false;
+            }
+        }
+
+        int day = Integer.parseInt(parts[0]);
+        int month = Integer.parseInt(parts[1]);
+        int year = Integer.parseInt(parts[2]);
+
+        if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1000 || year > 9999) {
+            return false;
+        }
+
+        // Kiểm tra xem tháng 2 có hợp lệ hay không (kiểm tra năm nhuận)
+        if (month == 2 && !isLeapYear(year) && day > 28) {
+            return false;
+        }
+
+        // Ngày sinh hợp lệ
+        return true;
+    }
+
+    private static boolean isNumeric(String str) {
+        try {
+            double d = Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static boolean isLeapYear(int year) {
+        if (year % 4 != 0) {
+            return false;
+        }
+        if (year % 100 == 0 && year % 400 != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isValidUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            return false;
+        }
+        username = username.trim();
+        if (username.length() > 20) {
+            return false;
+        }
+        String regex = "[^a-zA-Z0-9_]";
+
+        if (username.matches(regex)) {
+            return false;
+        }
+        char[] chars = username.toCharArray();
+        for (char c : chars) {
+            if (!Character.isLetter(c)) {
+                if (c == ' ') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+
+
 }

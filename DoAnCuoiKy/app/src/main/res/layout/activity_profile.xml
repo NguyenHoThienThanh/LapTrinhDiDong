@@ -46,10 +46,18 @@
                         android:layout_height="360dp"
                         android:background="@drawable/top_background">
 
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:scaleType="fitStart"
+                            android:src="@drawable/circles"
+                            tools:ignore="MissingConstraints" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/img_avatar_profile"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginTop="32dp"
@@ -70,9 +78,9 @@
                         android:textColor="@color/white"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView"
-                        app:layout_constraintStart_toStartOf="@+id/imageView"
-                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                        app:layout_constraintEnd_toEndOf="@+id/img_avatar_profile"
+                        app:layout_constraintStart_toStartOf="@+id/img_avatar_profile"
+                        app:layout_constraintTop_toBottomOf="@+id/img_avatar_profile" />
 
                     <TextView
                         android:id="@+id/txt_email"
@@ -86,23 +94,8 @@
                         app:layout_constraintStart_toStartOf="@+id/txt_userName"
                         app:layout_constraintTop_toBottomOf="@+id/txt_userName" />
 
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:scaleType="fitStart"
-                        android:src="@drawable/circles"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:ignore="MissingConstraints" />
 
-
-
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
                         android:layout_marginStart="24dp"
@@ -111,72 +104,153 @@
                         android:background="@drawable/bg_review"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txt_email">
 
+
                         <TextView
-                            android:id="@+id/txt_hoTen"
-                            android:layout_width="match_parent"
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="70dp"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Họ và tên: Nguyễn Hồ Thiên Thanh"
+                            android:layout_marginTop="50dp"
+                            android:text="Họ và tên: "
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/txt_ngaySinh"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Ngày sinh: 26/12/2003"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="32dp"
+                            android:layout_marginEnd="148dp"
+                            android:text=" 26/12/2003"
+                            android:textColor="#8692F7"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/textView23"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_hoTen" />
 
+                        <TextView
+                            android:id="@+id/textView23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="32dp"
+                            android:text="Ngày sinh: "
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+                        <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="32dp"
+                            android:text="Giới tính: "
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
                         <TextView
                             android:id="@+id/txt_gioiTinh"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="32dp"
+                            android:text="Nữ"
+                            android:textColor="#8692F7"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toEndOf="@+id/textView24"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_ngaySinh" />
+
+                        <TextView
+                            android:id="@+id/textView25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Giới tính: Nữ"
+                            android:layout_marginTop="32dp"
+                            android:text="Địa chỉ: "
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
                         <TextView
                             android:id="@+id/txt_diaChi"
-                            android:layout_width="match_parent"
+                            android:layout_width="260dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="32dp"
+                            android:text="309/45, Linh Chiểu, Thủ Đức, thành phố Hồ Chí Minh"
+                            android:textColor="#8692F7"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.967"
+                            app:layout_constraintStart_toEndOf="@+id/textView25"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_gioiTinh" />
+
+                        <TextView
+                            android:id="@+id/textView26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:text="Địa chỉ: 309/45, Linh Chiểu, Thủ Đức, thành phố Hồ Chí Minh"
+                            android:layout_marginTop="32dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Số điện thoại: "
                             android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView25" />
 
                         <TextView
                             android:id="@+id/txt_soDienThoai"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="25dp"
-                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="32dp"
                             android:layout_marginEnd="5dp"
-                            android:text="Số điện thoại: 0818221901"
-                            android:textColor="@color/black"
-                            android:textSize="20dp" />
+                            android:layout_marginBottom="10dp"
+                            android:text="0818221901"
+                            android:textColor="#8692F7"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.027"
+                            app:layout_constraintStart_toEndOf="@+id/textView26"
+                            app:layout_constraintTop_toBottomOf="@+id/txt_diaChi" />
 
-                    </LinearLayout>
+                        <TextView
+                            android:id="@+id/txt_hoTen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="50dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="Nguyễn Hồ Thiên Thanh"
+                            android:textColor="#8692F7"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/textView20"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -190,7 +264,7 @@
         android:id="@+id/btn_editProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tiếp tục"
+        android:text="EDIT PROFILE"
         android:textColor="@color/white"
         android:background="@drawable/typefilm_background"
         android:backgroundTint="@color/blue"
