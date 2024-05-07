@@ -295,12 +295,10 @@
             android:layout_height="175dp"
             android:orientation="horizontal"
             android:padding="10dp"
-            app:layout_constraintBaseline_toBottomOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/row3">
+            app:layout_constraintTop_toBottomOf="@id/row3">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_staff"
@@ -308,12 +306,12 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="20dp">
+                app:cardCornerRadius="20dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:elevation="2dp">
 
                     <TextView
                         android:id="@+id/txt_staff"
@@ -338,7 +336,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cv_logout"
+                android:id="@+id/cv_thongke"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -346,28 +344,28 @@
                 app:cardCornerRadius="20dp">
 
                 <RelativeLayout
-                    android:layout_width="170dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center">
+                    android:elevation="2dp">
 
                     <TextView
-                        android:id="@+id/txt_logout"
+                        android:id="@+id/txt_thongke"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_logout"
+                        android:layout_below="@+id/img_thongKe"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Logout"
+                        android:text="Statistical"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
                     <ImageView
-                        android:id="@+id/img_logout"
+                        android:id="@+id/img_thongKe"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
-                        android:src="@drawable/logout_icon" />
+                        android:src="@drawable/analytics_icon" />
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -387,40 +385,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/row4">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_thongke"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                app:cardCornerRadius="20dp">
 
-                <RelativeLayout
-                    android:layout_width="170dp"
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_logout"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center">
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="20dp">
 
-                    <TextView
-                        android:id="@+id/txt_thongke"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/img_logout"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:text="Logout"
-                        android:textColor="#8692f7"
-                        android:textSize="20sp" />
+                    <RelativeLayout
+                        android:layout_width="170dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center">
 
-                    <ImageView
-                        android:id="@+id/img_thongke"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="15dp"
-                        android:src="@drawable/logout_icon" />
+                        <TextView
+                            android:id="@+id/txt_logout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/img_logout"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:text="Logout"
+                            android:textColor="#8692f7"
+                            android:textSize="20sp" />
 
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
+                        <ImageView
+                            android:id="@+id/img_logout"
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="15dp"
+                            android:src="@drawable/logout_icon" />
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 
