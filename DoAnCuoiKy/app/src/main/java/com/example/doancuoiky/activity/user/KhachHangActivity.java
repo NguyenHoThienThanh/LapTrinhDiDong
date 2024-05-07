@@ -44,8 +44,6 @@ public class KhachHangActivity extends AppCompatActivity {
         getProfile();
         editProfile();
 
-
-
     }
 
     public void mappingControl(){
@@ -60,7 +58,7 @@ public class KhachHangActivity extends AppCompatActivity {
 
     public void getProfile(){
         khachHang = new KhachHang();
-        khachHang = khachHangDAO.findOneById("KH002");
+        khachHang = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());
 
         txt_userName.setText(khachHang.getUserName());
         txt_email.setText(khachHang.getEmail());
@@ -100,7 +98,6 @@ public class KhachHangActivity extends AppCompatActivity {
                 intent.putExtra("email", email);
                 intent.putExtra("maKhachHang", maKhachHang);
                 startActivityForResult(intent, REQUEST_CODE_EDIT);
-
             }
         });
     }
