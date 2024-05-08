@@ -53,6 +53,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     double totalPrice = 0;
     double total = 0;
 
+    TextView tenKhachHang, thongTin;
     String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon, maKhachHang, ngayLapHoaDon;
     String tenPhim, maPhim;
     int gioiHanTuoi;
@@ -125,6 +126,9 @@ public class ThanhToanActivity extends AppCompatActivity {
             tv_typefilm_thanhtoan.setText(String.valueOf(gioiHanTuoi) + "+");
 
             tv_filmname_thanhtoan.setText(tenPhim);
+
+            tenKhachHang.setText(khachHangDAO.findOneById(maKhachHang).getUserName());
+            thongTin.setText(khachHangDAO.findOneById(maKhachHang).getSoDienThoai() + "-" + khachHangDAO.findOneById(maKhachHang).getEmail());
 
             tv_seatselecter.setText("Danh sách ghế đã chọn: " + seatString.toString());
             DecimalFormat decimalFormat2 = new DecimalFormat("#,###.###");
@@ -281,6 +285,8 @@ public class ThanhToanActivity extends AppCompatActivity {
         tv_typefilm_thanhtoan = findViewById(R.id.tv_typefilm_thanhtoan);
         tv_filmname_thanhtoan = findViewById(R.id.tv_filmname_thanhtoan);
         btn_thanhToan = findViewById(R.id.btn_thanhtoan);
+        tenKhachHang = findViewById(R.id.customer_name);
+        thongTin = findViewById(R.id.customer_phoneandemail);
     }
     public void toolBarThanhToan() {
         Toolbar toolbar = findViewById(R.id.toolbar_thanhtoan);

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -20,9 +21,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 
 import com.example.doancuoiky.R;
+import com.example.doancuoiky.adapter.ComboBapNuocAdapter;
 import com.example.doancuoiky.adapter.DanhSachPhimMoiNhatAdapter;
+import com.example.doancuoiky.adapter.SearchViewAdapter;
 import com.example.doancuoiky.adapter.SliderAdapters;
 import com.example.doancuoiky.dao.PhimDAO;
+import com.example.doancuoiky.model.ComboBapNuoc;
 import com.example.doancuoiky.model.Phim;
 import com.example.doancuoiky.model.SliderItems;
 
@@ -31,6 +35,9 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     // ViewPage để hiển thị Slider
+    RecyclerView rcv_search;
+    SearchViewAdapter searchViewAdapter;
+    SearchView searchView;
     private ViewPager2 viewPager2;
     private Handler sliderHandler = new Handler();
 
@@ -38,13 +45,11 @@ public class HomeActivity extends AppCompatActivity {
     private DanhSachPhimMoiNhatAdapter adapterTop5FilmMovies;
     private RecyclerView recyclerViewBestMovies, recyclerViewUpComing, recyclerViewCategry;
     private ProgressBar loading1, loading2, loading3;
-    List<Phim> phimList;
+    ArrayList<Phim> phimList = new ArrayList<>();
     PhimDAO phimDao;
 
     // Bottom Navigation Bar
     ImageView imgLichSuGiaoDich, imgProfile;
-
-
 
 
     @Override
@@ -52,11 +57,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         phimDao = new PhimDAO(this);
-
         initView();
         banners();
         loadTop5PhimMovie();
         events();
+        search();
     }
 
     private void events() {
@@ -76,21 +81,21 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void loadTop5PhimMovie(){
+    private void loadTop5PhimMovie() {
         recyclerViewBestMovies.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
         adapterTop5FilmMovies = new DanhSachPhimMoiNhatAdapter(this);
-        phimList = getTop5PhimList();
+        phimList = (ArrayList<Phim>) getTop5PhimList();
 //        loading1.setVisibility(View.VISIBLE);
 
         adapterTop5FilmMovies.setData(phimList);
         recyclerViewBestMovies.setAdapter(adapterTop5FilmMovies);
 
     }
-    private List<Phim> getTop5PhimList(){
+
+    private List<Phim> getTop5PhimList() {
         List<Phim> list = new ArrayList<>();
         list = phimDao.findTop5Phim();
-        Toast.makeText(this, "" + list.size(), Toast.LENGTH_SHORT).show();
         return list;
     }
 
@@ -112,13 +117,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void transformPage(@NonNull View page, float position) {
                 float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f + r*0.15f);
+                page.setScaleY(0.85f + r * 0.15f);
             }
         });
 
         viewPager2.setPageTransformer(compositePageTransformer);
         viewPager2.setCurrentItem(1);
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback(){
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -142,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
     private Runnable sliderRunable = new Runnable() {
         @Override
         public void run() {
-            viewPager2.setCurrentItem(viewPager2.getCurrentItem()+1);
+            viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
         }
     };
 
@@ -161,6 +166,46 @@ public class HomeActivity extends AppCompatActivity {
         loading3 = findViewById(R.id.progressBar4);
         imgLichSuGiaoDich = findViewById(R.id.imgLichSuGiaoDich);
         imgProfile = findViewById(R.id.imgProfile);
+        searchView = findViewById(R.id.search);
+    }
 
+    private void search() {
+        rcv_search = findViewById(R.id.rcv_search);
+        searchViewAdapter = new SearchViewAdapter(this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rcv_search.setLayoutManager(linearLayoutManager);
+
+        phimList = phimDao.findAllPhim();
+        searchViewAdapter.setData(phimList);
+        rcv_search.setAdapter(searchViewAdapter);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                if (query.isEmpty()) { // Kiểm tra nếu chuỗi rỗng
+                    rcv_search.setVisibility(View.GONE); // Ẩn rcv_search
+                } else {
+                    rcv_search.setVisibility(View.VISIBLE); // Hiện rcv_search
+                    List<Phim> filteredList = new ArrayList<>();
+                    // Lặp qua tất cả các phim trong phimList
+                    for (Phim phim : phimList) {
+                        // Nếu tên phim chứa newText, thêm phim vào filteredList
+                        if (phim.getTenPhim().toLowerCase().contains(query.toLowerCase())) {
+                            filteredList.add(phim);
+                        }
+                    }
+                    // Cập nhật dữ liệu trong adapter với danh sách đã lọc
+                    searchViewAdapter.filterList(filteredList);
+                }
+                return true;
+            }
+        });
     }
 }
