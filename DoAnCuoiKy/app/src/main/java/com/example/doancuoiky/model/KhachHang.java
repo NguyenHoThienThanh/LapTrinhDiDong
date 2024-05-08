@@ -1,8 +1,9 @@
 package com.example.doancuoiky.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class KhachHang {
+public class KhachHang implements Serializable {
     private String maKhachHang, hoTen, diaChi, email, soDienThoai, userName;
     private int gioiTinh;
     private String ngaySinh;

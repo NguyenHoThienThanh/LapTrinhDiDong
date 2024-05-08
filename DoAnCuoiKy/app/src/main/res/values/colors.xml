@@ -11,4 +11,6 @@
     <color name="yellow">#FFC107</color>
     <color name="dark_blue">#252836</color>
     <color name="pink">#FF0099</color>
+    <color name="light_blue">#E4F8FA</color>
+    <color name="light_blue_2">#BEFFF6</color>
 </resources>

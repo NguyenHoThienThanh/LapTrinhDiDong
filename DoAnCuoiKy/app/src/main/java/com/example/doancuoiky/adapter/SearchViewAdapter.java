@@ -22,11 +22,8 @@ import java.util.List;
 
 public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder> {
 
-
     Context context;
     List<Phim> phimList;
-
-
 
     public SearchViewAdapter(Context context) {
         this.context = context;

@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.dao.SQLHelper;
+import com.example.doancuoiky.model.ChiTietVe;
 import com.example.doancuoiky.model.HoaDon;
+import com.example.doancuoiky.model.KhachHang;
 import com.example.doancuoiky.model.ThongKeTheoPhim;
 import com.example.doancuoiky.model.ThongKeTheoThang;
 
@@ -59,6 +61,7 @@ public class HoaDonDAO {
                 hd.setMaKhachHang(c.getString(2));
                 hd.setMaCombo(c.getString(3));
                 hd.setTongTien(c.getDouble(4));
+                hd.setNgayLapHoaDon(c.getString(5));
                 listHD.add(hd);
             } while (c.moveToNext());
         }
@@ -78,6 +81,7 @@ public class HoaDonDAO {
         values.put("maCombo", hoaDon.getMaCombo());
         values.put("tongTien", hoaDon.getTongTien());
         values.put("ngayLapHoaDon", hoaDon.getNgayLapHoaDon());
+        values.put("maGhe", hoaDon.getMaGhe());
         long res = sqlDB.insert("HoaDon", null, values);
         if (res == -1) return false;
         else return true;
@@ -91,6 +95,7 @@ public class HoaDonDAO {
         values.put("maCombo", hoaDon.getMaCombo());
         values.put("tongTien", hoaDon.getTongTien());
         values.put("ngayLapHoaDon", hoaDon.getNgayLapHoaDon());
+        values.put("maGhe", hoaDon.getMaGhe());
         return true;
     }
 
@@ -175,7 +180,33 @@ public class HoaDonDAO {
         return listMonth;
     }
 
+    public ChiTietVe findOneByMaHoaDon(String maHoaDon){
+        sqlDB = helper.getReadableDatabase();
+        ChiTietVe chiTietVe = new ChiTietVe();
+        String query = "select trailer, tenPhim, gioiHanDoTuoi, ngayChieu, thoiGianChieu, maPhongChieu, maGhe, hoTen, soDienThoai, maHoaDon, tenCombo, tongTien from ComboBapNuoc INNER JOIN (select trailer, tenPhim, gioiHanDoTuoi, ngayChieu, thoiGianChieu, maPhongChieu, maGhe, hoTen, soDienThoai, maHoaDon, maCombo, tongTien from Phim inner join (SELECT maPhongChieu, maPhim, thoiGianChieu, ngayChieu, hoTen, maHoaDon, maCombo, tongTien, ngayLapHoaDon, maGhe, soDienThoai from SuatChieu inner join(select hoTen, soDienThoai, maHoaDon, maSuatChieu, maCombo, tongTien, ngayLapHoaDon, maGhe from KhachHang inner join (SELECT * FROM HoaDon where maHoaDon = ?)as Q on KhachHang.maKhachHang = Q.maKhachHang) as R on R.maSuatChieu = SuatChieu.maSuatChieu) as T on T.maPhim = Phim.maPhim) as W on W.maCombo = ComboBapNuoc.maCombo";
+        Cursor c =sqlDB.rawQuery(query, new String[]{maHoaDon} );
+        if(c != null && c.moveToFirst()){
+            do{
+                chiTietVe.setTrailer(c.getBlob(0));
+                chiTietVe.setTenPhim(c.getString(1));
+                chiTietVe.setGioiHanDoTuoi(c.getInt(2));
+                chiTietVe.setNgayChieu(c.getString(3));
+                chiTietVe.setThoiGianChieu(c.getString(4));
+                chiTietVe.setMaPhongChieu(c.getString(5));
+                chiTietVe.setMaGhe(c.getString(6));
+                chiTietVe.setHoTen(c.getString(7));
+                chiTietVe.setSoDienThoai(c.getString(8));
+                chiTietVe.setMaHoaDon(c.getString(9));
+                chiTietVe.setTenComBo(c.getString(10));
+                chiTietVe.setTongTien(c.getDouble(11));
+            }while(c.moveToNext());
+        }
+        if(c != null){
+            c.close();
+        }
+        return chiTietVe;
 
+    }
 
 
 }

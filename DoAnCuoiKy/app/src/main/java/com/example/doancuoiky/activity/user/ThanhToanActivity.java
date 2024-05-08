@@ -54,7 +54,7 @@ public class ThanhToanActivity extends AppCompatActivity {
     double total = 0;
 
     TextView tenKhachHang, thongTin;
-    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon, maKhachHang, ngayLapHoaDon;
+    String maPhongChieu, gioChieu, ngayChieu, maSuatChieu, maCombo, maHoaDon, maKhachHang, ngayLapHoaDon, maGhe;
     String tenPhim, maPhim;
     int gioiHanTuoi;
     byte[] poster;
@@ -131,6 +131,7 @@ public class ThanhToanActivity extends AppCompatActivity {
             thongTin.setText(khachHangDAO.findOneById(maKhachHang).getSoDienThoai() + "-" + khachHangDAO.findOneById(maKhachHang).getEmail());
 
             tv_seatselecter.setText("Danh sách ghế đã chọn: " + seatString.toString());
+            maGhe = seatString.toString();
             DecimalFormat decimalFormat2 = new DecimalFormat("#,###.###");
             String formattedMoney2 = decimalFormat2.format(totalPrice);
             tv_totalmoneyseat_thanhtoan.setText("Tổng tiền vé: " + formattedMoney2 + "đ");
@@ -201,7 +202,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                     // Gán ngày định dạng vào biến ngayLapHoaDon
                     ngayLapHoaDon = dateFormat.format(currentDate);
                     Toast.makeText(this, "" + maHoaDon, Toast.LENGTH_SHORT).show();
-                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon);
+                    HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon, maGhe);
                     boolean res = hoaDonDAO.insertHoaDon(hd);
 
                     if (res){
@@ -338,7 +339,7 @@ public class ThanhToanActivity extends AppCompatActivity {
                 }
                 maHoaDon = hoaDonDAO.getNextID();
                 maCombo = String.valueOf(comBoString);
-                HoaDon hoaDon = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon );
+                HoaDon hoaDon = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon, maGhe);
                 hoaDonDAO.createHoaDon(hoaDon);
                 requestPayment(maHoaDon);
             }

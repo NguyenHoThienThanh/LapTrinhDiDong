@@ -7,23 +7,19 @@
     android:orientation="vertical"
     tools:context=".activity.admin.AdminBillActivity">
 
-    <TextView
-        android:id="@+id/textView17"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_lichsudatve"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="50dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Lịch sử đặt vé"
         android:background="@color/blue"
-        android:gravity="center"
-        android:text="LỊCH SỬ ĐẶT VÉ"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        app:titleTextColor="@color/white"
+        app:titleMarginStart="100dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-
-    <ListView
-        android:id="@+id/lvLichSuDatVe"
-        android:layout_marginTop="10dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcv_lichSuDatVe"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -5,18 +5,28 @@ public class HoaDon {
     private String maKhachHang;
     private String maCombo;
     private double tongTien;
+    private String maGhe;
     private String ngayLapHoaDon;
 
     public HoaDon() {
     }
 
-    public HoaDon(String maHoaDon, String maSuatChieu, String maKhachHang, String maCombo, double tongTien, String  ngayLapHoaDon) {
+    public String getMaGhe() {
+        return maGhe;
+    }
+
+    public void setMaGhe(String maGhe) {
+        this.maGhe = maGhe;
+    }
+
+    public HoaDon(String maHoaDon, String maSuatChieu, String maKhachHang, String maCombo, double tongTien, String  ngayLapHoaDon, String maGhe) {
         this.maHoaDon = maHoaDon;
         this.maSuatChieu = maSuatChieu;
         this.maKhachHang = maKhachHang;
         this.maCombo = maCombo;
         this.tongTien = tongTien;
         this.ngayLapHoaDon = ngayLapHoaDon;
+        this.maGhe = maGhe;
     }
 
     public String getNgayLapHoaDon() {

@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //Hiển thị View lên RecycleView
     private DanhSachPhimMoiNhatAdapter adapterTop5FilmMovies;
+    private DanhSachPhimMoiNhatAdapter adapterUpComingPhim;
     private RecyclerView recyclerViewBestMovies, recyclerViewUpComing, recyclerViewCategry;
     private ProgressBar loading1, loading2, loading3;
     ArrayList<Phim> phimList = new ArrayList<>();
@@ -60,8 +61,18 @@ public class HomeActivity extends AppCompatActivity {
         initView();
         banners();
         loadTop5PhimMovie();
+        loadUpComingPhim();
         events();
         search();
+    }
+
+    private void loadUpComingPhim() {
+        recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        adapterUpComingPhim = new DanhSachPhimMoiNhatAdapter(this);
+        phimList = phimDao.findUpComingPhim();
+        adapterUpComingPhim.setData(phimList);
+        recyclerViewUpComing.setAdapter(adapterUpComingPhim);
     }
 
     private void events() {
@@ -155,15 +166,10 @@ public class HomeActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewpagerSlider);
         recyclerViewBestMovies = findViewById(R.id.view1);
 
-        recyclerViewCategry = findViewById(R.id.view2);
-        recyclerViewCategry.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
         recyclerViewUpComing = findViewById(R.id.view3);
-        recyclerViewUpComing.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
 //        loading1 = findViewById(R.id.progressBar1);
-        loading2 = findViewById(R.id.progressBar3);
-        loading3 = findViewById(R.id.progressBar4);
+//        loading2 = findViewById(R.id.progressBar3);
+//        loading3 = findViewById(R.id.progressBar4);
         imgLichSuGiaoDich = findViewById(R.id.imgLichSuGiaoDich);
         imgProfile = findViewById(R.id.imgProfile);
         searchView = findViewById(R.id.search);

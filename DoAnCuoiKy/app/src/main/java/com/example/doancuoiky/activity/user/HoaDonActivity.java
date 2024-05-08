@@ -152,7 +152,7 @@ public class HoaDonActivity extends AppCompatActivity {
 
         MultiFormatWriter multiFormatWriter =  new MultiFormatWriter();
         try {
-            BitMatrix bitMatrix =  multiFormatWriter.encode("MHD013", BarcodeFormat.QR_CODE,  200,  200);
+            BitMatrix bitMatrix =  multiFormatWriter.encode(maHoaDon, BarcodeFormat.QR_CODE,  200,  200);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             bitmap =  barcodeEncoder.createBitmap(bitMatrix);
             img_qr_code.setImageBitmap(bitmap);
