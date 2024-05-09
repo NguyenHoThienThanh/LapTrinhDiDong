@@ -193,13 +193,8 @@ public class ThanhToanActivity extends AppCompatActivity {
                     String token = data.getStringExtra("data"); //Token response
 
                     maHoaDon = hoaDonDAO.getNextID();
-                    // Lấy ngày hiện tại của hệ thống
                     Date currentDate = new Date();
-
-                    // Định dạng ngày theo ý muốn (ví dụ: "dd/MM/yyyy")
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-
-                    // Gán ngày định dạng vào biến ngayLapHoaDon
+                    SimpleDateFormat dateFormat = new SimpleDateFormat( "dd-MM-yyyy HH:mm:ss", Locale.getDefault());
                     ngayLapHoaDon = dateFormat.format(currentDate);
                     HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon, maGhe);
                     boolean res = hoaDonDAO.insertHoaDon(hd);

@@ -248,8 +248,8 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
     }
 
     public boolean checkPassword(String password) {
-        // Kiểm tra xem chuỗi mật khẩu có ít nhất 10 kí tự hoặc số không
-        if (password == null || password.length() < 10) {
+        // Kiểm tra xem chuỗi mật khẩu có ít nhất 5 kí tự hoặc số và tối đa 10 kí tự hoặc số không
+        if (password == null || password.length() < 5 || password.length() > 10) {
             return false;
         }
         // Biến đếm số kí tự hoặc số
@@ -262,9 +262,10 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
                 count++;
             }
         }
-        // Trả về true nếu có ít nhất 10 kí tự hoặc số, ngược lại trả về false
-        return count <= 15;
+        // Trả về true nếu có ít nhất 5 và tối đa 10 kí tự hoặc số, ngược lại trả về false
+        return count >= 5 && count <= 10;
     }
+
 
 
     private void editProfile(){
