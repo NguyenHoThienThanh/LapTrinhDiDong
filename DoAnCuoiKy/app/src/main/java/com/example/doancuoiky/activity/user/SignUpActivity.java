@@ -93,7 +93,22 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    } else {
+                    }
+                    else if (khDao.findOneBySoDienThoai(sdt).getHoTen() != null){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                        builder.setMessage("Số điện thoại này đã được sử dụng!")
+                                .setTitle("Lỗi đăng ký")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                    else {
                         KhachHang kh = new KhachHang();
                         kh.setHoTen(hoTen);
                         kh.setSoDienThoai(sdt);
