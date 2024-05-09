@@ -12,6 +12,8 @@ import com.example.doancuoiky.model.ComboBapNuoc;
 import com.example.doancuoiky.model.KhachHang;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.util.Log;
 public class ComboBapNuocDAO {
     private SQLiteDatabase sqlDB;
@@ -44,6 +46,29 @@ public class ComboBapNuocDAO {
         c.close();
         return comboBapNuocArrayList;
     }
+    public ArrayList<ComboBapNuoc> findAllComboUser(){
+        ArrayList<ComboBapNuoc> comboBapNuocArrayList = new ArrayList<>();
+        // Thêm điều kiện "SoLuong > 0" vào câu truy vấn
+        Cursor c = sqlDB.query("ComboBapNuoc", null, "SoLuong > ?",
+                new String[]{"0"}, null, null, null);
+        if (c.moveToFirst()) {
+            while (!c.isAfterLast()) {
+                ComboBapNuoc cb = new ComboBapNuoc();
+                cb.setHinhAnh(c.getBlob(0));
+                cb.setMaCombo(c.getString(1));
+                cb.setTenCombo(c.getString(2));
+                cb.setMoTa(c.getString(3));
+                cb.setSoLuong(c.getInt(4));
+                cb.setGia(c.getFloat(5));
+                comboBapNuocArrayList.add(cb);
+
+                c.moveToNext();
+            }
+        }
+        c.close();
+        return comboBapNuocArrayList;
+    }
+
     public boolean update(ComboBapNuoc comboBapNuoc) {
         if (comboBapNuoc == null || comboBapNuoc.getMaCombo() == null) {
             return false;
@@ -124,5 +149,13 @@ public class ComboBapNuocDAO {
 
         return comboBapNuoc;
     }
-
+    public boolean checkComboExists(String tenCombo) {
+        List<ComboBapNuoc> list = findAllCombo(); // Giả sử bạn có hàm này để lấy tất cả combo
+        for (ComboBapNuoc combo : list) {
+            if (combo.getTenCombo().equalsIgnoreCase(tenCombo)) {
+                return true; // Trả về true nếu tìm thấy combo với tên giống nhau
+            }
+        }
+        return false; // Trả về false nếu không tìm thấy
+    }
 }
