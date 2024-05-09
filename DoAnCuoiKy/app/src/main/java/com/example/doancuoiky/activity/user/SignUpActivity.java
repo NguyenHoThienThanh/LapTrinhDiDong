@@ -94,18 +94,16 @@ public class SignUpActivity extends AppCompatActivity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     } else {
-                        KhachHang kh = new KhachHang();
-                        kh.setHoTen(hoTen);
-                        kh.setSoDienThoai(sdt);
-                        kh.setEmail(email);
-
+                        KhachHang kh = new KhachHang(hoTen, email, sdt);
                         TaiKhoan tk = new TaiKhoan();
                         tk.setTaiKhoan(sdt);
                         tk.setMatKhau(matkhau);
                         tk.setRoleId(1);
 
-                        boolean res_kh = khDao.insert(kh);
+
                         boolean res_tk = tkDao.register(tk);
+                        boolean res_kh = khDao.insert(kh);
+
                         if (res_tk && res_kh) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                             builder.setMessage("Đăng ký thành công!")
