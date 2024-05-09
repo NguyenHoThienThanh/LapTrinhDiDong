@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.dao.KhachHangDAO;
@@ -18,6 +20,7 @@ import com.example.doancuoiky.model.TaiKhoan;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    TextView txtLogin;
     EditText edtSoDienThoai, edtEmail, edtHoTen, edtMatKhau;
     Button btnSignUp;
     KhachHangDAO khDao;
@@ -35,6 +38,13 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void events() {
+        txtLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
         edtHoTen = findViewById(R.id.edtHoTen);
         edtMatKhau = findViewById(R.id.edtMatKhau);
         btnSignUp = findViewById(R.id.btnSignUp);
+        txtLogin = findViewById(R.id.txtLogin);
     }
 
     private boolean checkLegalNumberPhone(String phone){

@@ -40,7 +40,8 @@ public class TestActivity extends AppCompatActivity {
 
     public void insert(){
         String maHoaDon = hdDao.getNextID();
-        HoaDon hd = new HoaDon(maHoaDon, "MSC001", "MKH001", "CB02", 100000);
+        //HoaDon hd = new HoaDon(maHoaDon, "MSC001", "MKH001", "CB02", 100000);
+        HoaDon hd = new HoaDon();
         boolean res = hdDao.insertHoaDon(hd);
 
         if (res){

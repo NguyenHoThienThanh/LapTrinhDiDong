@@ -55,7 +55,7 @@ public class TaiKhoanDAO {
             sqlDB = helper.getReadableDatabase();
             sqlDB = helper.getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put("taiKhoan", tk.getTaiKhoan());
+            values.put("soDienThoai", tk.getTaiKhoan());
             values.put("matKhau", tk.getMatKhau());
             values.put("roleId", tk.getRoleId());
             long res = sqlDB.insert("TaiKhoan", null, values);
