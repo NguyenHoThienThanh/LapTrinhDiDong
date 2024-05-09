@@ -121,11 +121,12 @@ public class ActivityAdminFilm extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Xử lý sự kiện khi người dùng nhấn nút OK
                                     dialog.dismiss(); // Đóng hộp thoại
-                                    return;
+
                                 }
                             });
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    return;
                 }
 
                 try {
@@ -306,11 +307,11 @@ public class ActivityAdminFilm extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     // Xử lý sự kiện khi người dùng nhấn nút OK
                                     dialog.dismiss(); // Đóng hộp thoại
-                                    return;
                                 }
                             });
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    return;
                 }
 
                 try {
