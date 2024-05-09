@@ -21,7 +21,7 @@ import com.example.doancuoiky.model.TaiKhoan;
 public class SignUpActivity extends AppCompatActivity {
 
     TextView txtLogin;
-    EditText edtSoDienThoai, edtEmail, edtHoTen, edtMatKhau;
+    EditText edtSoDienThoai, edtEmail, edtHoTen, edtMatKhau, edtNhapLaiMK;
     Button btnSignUp;
     KhachHangDAO khDao;
     TaiKhoanDAO tkDao;
@@ -52,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = edtEmail.getText().toString();
                 String hoTen = edtHoTen.getText().toString();
                 String matkhau = edtMatKhau.getText().toString();
+                String repeat = edtNhapLaiMK.getText().toString();
 
                 if (checkEmpty()){
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
@@ -108,6 +109,34 @@ public class SignUpActivity extends AppCompatActivity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }
+                    else if (!isValidEmail(email)){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                        builder.setMessage("Email không đúng định dạng!")
+                                .setTitle("Lỗi đăng ký")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                    else if(!matkhau.equals(repeat)){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                        builder.setMessage("Mật khẩu nhập lại không chính xác!")
+                                .setTitle("Lỗi đăng ký")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
                     else {
                         KhachHang kh = new KhachHang();
                         kh.setHoTen(hoTen);
@@ -149,6 +178,7 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtHoTen = findViewById(R.id.edtHoTen);
         edtMatKhau = findViewById(R.id.edtMatKhau);
+        edtNhapLaiMK = findViewById(R.id.edtNhapLaiMK);
         btnSignUp = findViewById(R.id.btnSignUp);
         txtLogin = findViewById(R.id.txtLogin);
     }
@@ -181,5 +211,9 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail.setText("");
         edtHoTen.setText("");
         edtMatKhau.setText("");
+    }
+    public static boolean isValidEmail(String email) {
+        String regex = "^[\\w\\.-]+@([\\w\\.-]+\\.)+[\\w\\.-]{2,3}$";
+        return email.matches(regex);
     }
 }

@@ -26,7 +26,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign Up"
+                android:text="Đăng Ký"
                 android:textColor="#6C5DD2"
                 android:textStyle="bold"
                 android:textSize="40sp"
@@ -47,7 +47,7 @@
                     android:background="@drawable/background_edt"
                     android:ems="10"
                     android:inputType="number"
-                    android:hint="Enter Your NumberPhone"
+                    android:hint="Nhập số điện thoại"
                     android:focusable="true"
                     android:gravity="center"
                     android:textColor="#707070"
@@ -70,7 +70,7 @@
                     android:background="@drawable/background_edt"
                     android:ems="10"
                     android:inputType="text"
-                    android:hint="Enter your Email"
+                    android:hint="Nhập email"
                     android:focusable="true"
                     android:gravity="center"
                     android:textColor="#707070"
@@ -92,7 +92,7 @@
                     android:layout_height="50dp"
                     android:background="@drawable/background_edt"
                     android:ems="10"
-                    android:hint="Enter your name"
+                    android:hint="Nhập họ tên"
                     android:gravity="center"
                     android:textColor="#707070"
                     android:textColorHint="#707070"
@@ -115,11 +115,23 @@
                     android:background="@drawable/background_edt"
                     android:ems="10"
                     android:inputType="textPassword"
-                    android:hint="Enter your Password"
+                    android:hint="Nhập mật khẩu"
                     android:gravity="center"
                     android:textColor="#707070"
                     android:textColorHint="#707070"
                     android:layout_marginTop="8dp"/>
+                <EditText
+                    android:id="@+id/edtNhapLaiMK"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/background_edt"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:hint="Nhập lại mật khẩu"
+                    android:gravity="center"
+                    android:textColor="#707070"
+                    android:textColorHint="#707070"
+                    android:layout_marginTop="12dp"/>
             </LinearLayout>
 
             <Button
@@ -128,13 +140,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="30dp"
                 android:background="@drawable/button_shape"
-                android:text="Sign Up"
+                android:text="Đăng ký"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/txtLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Have an account? Login"
+                android:text="Đã có tài khoản?Đăng nhập"
                 android:textAlignment="center"
                 android:layout_marginTop="32dp"
                 android:textColor="#000000"/>
