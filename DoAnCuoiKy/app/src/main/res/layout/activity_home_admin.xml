@@ -78,7 +78,7 @@
                         android:layout_below="@+id/img_movie"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Movie"
+                        android:text="Phim"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -112,7 +112,7 @@
                         android:layout_below="@+id/img_ticket"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Cinema interest"
+                        android:text="Suất chiếu"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -159,7 +159,7 @@
                         android:layout_below="@+id/img_cinema"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Cinema"
+                        android:text="Phòng chiếu"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -193,7 +193,7 @@
                         android:layout_below="@+id/img_popcorn"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Popcorn - Drink"
+                        android:text="Bắp - Nước"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -239,7 +239,7 @@
                         android:layout_below="@+id/homeImage"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Bill"
+                        android:text="Hoá Đơn"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -273,7 +273,7 @@
                         android:layout_below="@+id/beautyImage"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Customer"
+                        android:text="Khách hàng"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -320,7 +320,7 @@
                         android:layout_below="@+id/img_staff"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Staff"
+                        android:text="Nhân viên"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -355,7 +355,7 @@
                         android:layout_below="@+id/img_thongKe"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:text="Statistical"
+                        android:text="Thống kê"
                         android:textColor="#8692f7"
                         android:textSize="20sp" />
 
@@ -409,7 +409,7 @@
                             android:layout_below="@+id/img_logout"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="10dp"
-                            android:text="Logout"
+                            android:text="Đăng xuất"
                             android:textColor="#8692f7"
                             android:textSize="20sp" />
 

@@ -246,6 +246,13 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         EditText edt_money = findViewById(R.id.edt_fandb_money);
         TextView tv_numberItems = findViewById(R.id.tv_numberItems);
         checkNull();
+
+        String tenCombo = edt_name.getText().toString();
+        if (comboBapNuocDAO.checkComboExists(tenCombo)) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Combo đã tồn tại", Toast.LENGTH_SHORT).show();
+            return; // Thoát khỏi hàm nếu combo đã tồn tại
+        }
+
         ComboBapNuoc newCombo = new ComboBapNuoc();
         newCombo.setTenCombo(edt_name.getText().toString());
         newCombo.setMoTa(edt_detail.getText().toString());
@@ -384,6 +391,13 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         }
         // Gọi hàm update để cập nhật thông tin
         boolean isUpdated = comboBapNuocDAO.update(comboBapNuocSelected);
+        if (isUpdated) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Cập nhật combo thành công", Toast.LENGTH_SHORT).show();
+            clear(); // Clear form only if update is successful
+        } else {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Cập nhật combo không thành công", Toast.LENGTH_SHORT).show();
+        }
+
         adminComboBapNuocAdapter();
     }
     private void clear(){
