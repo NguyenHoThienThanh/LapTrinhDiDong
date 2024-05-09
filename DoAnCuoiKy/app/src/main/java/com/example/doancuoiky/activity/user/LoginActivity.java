@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private static TaiKhoan taiKhoan;
     TaiKhoanDAO tkDao;
     Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = edtUsername.getText().toString();
                 String password = edtPassword.getText().toString();
-                if(username == null || password == null || username == null && password == null){
+                if (username.isEmpty() || password.isEmpty()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage("Tài khoản hoặc mật khẩu rỗng. Vui lòng kiểm tra lại ")
                             .setTitle("Lỗi đăng nhập")
@@ -49,25 +50,26 @@ public class LoginActivity extends AppCompatActivity {
                             });
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                }
-                if(tkDao.isTaiKhoanExists(username, password)){
-                    taiKhoan = tkDao.login(username, password);
-                    if (taiKhoan != null){
-                       showSuccessDialog();
+                } else {
+                    if (tkDao.isTaiKhoanExists(username, password)) {
+                        taiKhoan = tkDao.login(username, password);
+                        if (taiKhoan != null) {
+                            showSuccessDialog();
+                        }
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setMessage("Tài khoản hoặc mật khẩu sai, vui lòng đăng nhập lại")
+                                .setTitle("Lỗi đăng nhập")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
-                }
-                else{
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                    builder.setMessage("Tài khoản hoặc mật khẩu sai, vui lòng đăng nhập lại")
-                            .setTitle("Lỗi đăng nhập")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // Xử lý sự kiện khi người dùng nhấn nút OK
-                                    dialog.dismiss(); // Đóng hộp thoại
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+
                 }
             }
         });
