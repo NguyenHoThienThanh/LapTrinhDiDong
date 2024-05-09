@@ -76,8 +76,14 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 edtGiaVe.setText(String.valueOf(phim.getGiaVe()));
                 edtTheLoai.setText(String.valueOf(phim.getTheLoai()));
                 edtQuocGia.setText(String.valueOf(phim.getQuocGia()));
-                imgPhim.setImageBitmap(byteArrayToBitmap(phim.getTrailer()));
 
+                if(phim.getTrailer() == null){
+
+                }
+                else{
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(phim.getTrailer(), 0, phim.getTrailer().length);
+                    imgPhim.setImageBitmap(bitmap);
+                }
             }
         });
 
