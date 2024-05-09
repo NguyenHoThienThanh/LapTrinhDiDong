@@ -226,6 +226,10 @@ public class ActivityAdminFilm extends AppCompatActivity {
 
                 // Cập nhật hình ảnh từ ImageView
                 ImageView img_picture = findViewById(R.id.fandb_image);
+                if (img_picture.getDrawable() == null){
+                    Toast.makeText(ActivityAdminFilm.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
                 if (drawable != null && drawable instanceof BitmapDrawable) {
                     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
@@ -244,6 +248,9 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 else{
                     Toast.makeText(ActivityAdminFilm.this, "Insert thất bại", Toast.LENGTH_SHORT).show();
                 }
+                layout_them_phim = findViewById(R.id.layout_them_phim);
+                arrPhim = phimDao.findAllPhim();
+                adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
                 clearText();
             }
         });
@@ -251,10 +258,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
         btnXem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrPhim.clear();
-                arrPhim = phimDao.findAllPhim();
-                adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
-                lvPhim.setAdapter(adapter);
+                clearText();
             }
         });
 
@@ -399,6 +403,12 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 else{
                     Toast.makeText(ActivityAdminFilm.this, "Update thất bại", Toast.LENGTH_SHORT).show();
                 }
+                layout_them_phim = findViewById(R.id.layout_them_phim);
+                arrPhim = phimDao.findAllPhim();
+                adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
+                layout_them_phim = findViewById(R.id.layout_them_phim);
+                arrPhim = phimDao.findAllPhim();
+                adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
                 clearText();
             }
         });
@@ -444,6 +454,9 @@ public class ActivityAdminFilm extends AppCompatActivity {
                     }
                 });
                 builder.create().show();
+                layout_them_phim = findViewById(R.id.layout_them_phim);
+                arrPhim = phimDao.findAllPhim();
+                adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
                 clearText();
             }
         });
@@ -472,8 +485,8 @@ public class ActivityAdminFilm extends AppCompatActivity {
         btnSua = findViewById(R.id.btnSuaPhim);
         btnXem = findViewById(R.id.btnHienThiPhim);
         imgPhim = findViewById(R.id.imgPhim);
-        layout_them_phim = findViewById(R.id.layout_them_phim);
         lvPhim = findViewById(R.id.lvPhim);
+        layout_them_phim = findViewById(R.id.layout_them_phim);
         arrPhim = phimDao.findAllPhim();
         adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
         lvPhim.setAdapter(adapter);
