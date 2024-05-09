@@ -74,7 +74,7 @@
             android:id="@+id/edit_sl_rap"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:text="(5)"
+            android:text=""
             android:textSize="18sp"
             android:textColor="@android:color/black"
             app:layout_constraintTop_toTopOf="parent"
