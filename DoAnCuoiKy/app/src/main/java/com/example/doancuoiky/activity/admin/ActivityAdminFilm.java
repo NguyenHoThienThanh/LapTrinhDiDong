@@ -490,7 +490,12 @@ public class ActivityAdminFilm extends AppCompatActivity {
                         boolean res = phimDao.delete(maPhim);
                         if (res){
                             Toast.makeText(ActivityAdminFilm.this, "Delete thành công", Toast.LENGTH_SHORT).show();
+                            layout_them_phim.setVisibility(View.GONE);
+                            arrPhim = phimDao.findAllPhim();
+                            adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
+                            lvPhim.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
+                            clearText();
                         }
                         else{
                             Toast.makeText(ActivityAdminFilm.this, "Delete thất bại", Toast.LENGTH_SHORT).show();

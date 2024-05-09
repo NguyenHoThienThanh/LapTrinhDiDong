@@ -184,7 +184,6 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String maSuatChieu = edtMaSuatChieu.getText().toString();
                 if (pos == -1){
                     AlertDialog.Builder builder = new AlertDialog.Builder(AdminSuatChieuActivity.this);
                     builder.setMessage("Vui lòng chọn suất chiếu để xóa!")
@@ -202,13 +201,18 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdminSuatChieuActivity.this);
                 builder.setTitle("Cảnh báo");
                 builder.setMessage("Bạn có chắc muốn xóa suất chiếu này không");
+                String msc = arrSuatChieu.get(pos).getMaSuatChieu();
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        boolean res = scDao.delete(maSuatChieu);
+                        boolean res = scDao.delete(msc);
                         if (res){
                             Toast.makeText(AdminSuatChieuActivity.this, "Delete thành công", Toast.LENGTH_SHORT).show();
+                            arrSuatChieu = scDao.findAll();
+                            adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
+                            lvSuatChieu.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
+                            clearText();
                         }
                         else{
                             Toast.makeText(AdminSuatChieuActivity.this, "Delete thất bại", Toast.LENGTH_SHORT).show();

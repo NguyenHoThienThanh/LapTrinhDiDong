@@ -143,10 +143,10 @@ public class SuatChieuDao {
         else return true;
     }
 
-    public boolean delete(String maPhongChieu) {
+    public boolean delete(String maSuatChieu) {
         sqlDB = helper.getReadableDatabase();
         sqlDB = helper.getWritableDatabase();
-        long res = sqlDB.delete("SuatChieu", "maPhongChieu=?", new String[]{maPhongChieu});
+        long res = sqlDB.delete("SuatChieu", "maSuatChieu=?", new String[]{maSuatChieu});
         if (res == -1) return false;
         else return true;
     }
