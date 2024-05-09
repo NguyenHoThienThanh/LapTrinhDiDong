@@ -61,10 +61,7 @@ public class AdminBillActivity extends AppCompatActivity {
         btnXem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrHoaDon.clear();
-                arrHoaDon = hoaDonDao.getListHoaDon();
-                adapter = new AdminBillAdapter(AdminBillActivity.this, R.layout.item_bill_admin, arrHoaDon);
-                lvHoaDon.setAdapter(adapter);
+                clearText();
             }
         });
 
@@ -109,6 +106,9 @@ public class AdminBillActivity extends AppCompatActivity {
                     }
                 });
                 builder.create().show();
+                arrHoaDon = hoaDonDao.getListHoaDon();
+                adapter = new AdminBillAdapter(AdminBillActivity.this, R.layout.item_bill_admin, arrHoaDon);
+                lvHoaDon.setAdapter(adapter);
                 clearText();
             }
         });

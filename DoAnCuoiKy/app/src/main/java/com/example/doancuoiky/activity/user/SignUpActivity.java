@@ -93,8 +93,25 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    } else {
+
+                    }
+                    else if (khDao.findOneBySoDienThoai(sdt).getHoTen() != null){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                        builder.setMessage("Số điện thoại này đã được sử dụng!")
+                                .setTitle("Lỗi đăng ký")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                    else {
                         KhachHang kh = new KhachHang(hoTen, email, sdt);
+
                         TaiKhoan tk = new TaiKhoan();
                         tk.setTaiKhoan(sdt);
                         tk.setMatKhau(matkhau);
@@ -113,7 +130,8 @@ public class SignUpActivity extends AppCompatActivity {
                                             // Xử lý sự kiện khi người dùng nhấn nút OK
                                             dialog.dismiss(); // Đóng hộp thoại
                                             clearText();
-                                            return;
+                                            Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                                            startActivity(i);
                                         }
                                     });
                             AlertDialog dialog = builder.create();

@@ -93,10 +93,7 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
         btnXem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrSuatChieu.clear();
-                arrSuatChieu = scDao.findAll();
-                adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_phim, arrSuatChieu);
-                lvSuatChieu.setAdapter(adapter);
+                clearText();
             }
         });
         btnThem.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +129,9 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(AdminSuatChieuActivity.this, "Insert thất bại", Toast.LENGTH_SHORT).show();
                 }
+                arrSuatChieu = scDao.findAll();
+                adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
+                lvSuatChieu.setAdapter(adapter);
                 clearText();
             }
         });
@@ -166,6 +166,9 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(AdminSuatChieuActivity.this, "Update thất bại", Toast.LENGTH_SHORT).show();
                 }
+                arrSuatChieu = scDao.findAll();
+                adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
+                lvSuatChieu.setAdapter(adapter);
                 clearText();
             }
         });
@@ -210,12 +213,17 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                     }
                 });
                 builder.create().show();
+                arrSuatChieu = scDao.findAll();
+                adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
+                lvSuatChieu.setAdapter(adapter);
                 clearText();
             }
         });
     }
 
     private void clearText() {
+        edtGioChieu.setText("");
+        edtNgayChieu.setText("");
     }
 
     private void loadDataSpinner(){
