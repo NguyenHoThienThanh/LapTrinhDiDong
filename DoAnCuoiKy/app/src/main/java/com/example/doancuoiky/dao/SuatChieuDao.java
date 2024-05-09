@@ -93,13 +93,14 @@ public class SuatChieuDao {
     public ArrayList<ChiTietSuatChieu> findAll(){
         ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
         Cursor c = sqlDB.query("SuatChieu", null, null, null, null, null, null);
-        if(c != null && c.moveToFirst()){
+
+        while(c != null && c.moveToFirst()){
             ChiTietSuatChieu ct = new ChiTietSuatChieu();
             ct.setMaSuatChieu(c.getString(0));
             ct.setMaPhongChieu(c.getString(1));
             ct.setMaPhim(c.getString(2));
-            ct.setNgayChieu(c.getString(3));
-            ct.setGioChieu(c.getString(4));
+            ct.setNgayChieu(c.getString(4));
+            ct.setGioChieu(c.getString(3));
 
             list.add(ct);
             c.moveToNext();
