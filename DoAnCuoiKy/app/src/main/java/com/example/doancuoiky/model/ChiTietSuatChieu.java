@@ -9,6 +9,13 @@ public class ChiTietSuatChieu {
     private String ngayChieu;
     private String gioChieu;
 
+    public ChiTietSuatChieu(String maPhongChieu, String maPhim, String ngayChieu, String gioChieu) {
+        this.maPhongChieu = maPhongChieu;
+        this.maPhim = maPhim;
+        this.ngayChieu = ngayChieu;
+        this.gioChieu = gioChieu;
+    }
+
     public ChiTietSuatChieu(String maSuatChieu, String maPhongChieu, String maPhim, String ngayChieu, String gioChieu) {
         this.maSuatChieu = maSuatChieu;
         this.maPhongChieu = maPhongChieu;
