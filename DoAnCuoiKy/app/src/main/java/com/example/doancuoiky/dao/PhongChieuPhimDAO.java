@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.doancuoiky.model.ChoNgoi;
+import com.example.doancuoiky.model.HoaDon;
 import com.example.doancuoiky.model.PhongChieuPhim;
 
 import java.util.ArrayList;
@@ -71,4 +72,6 @@ public class PhongChieuPhimDAO {
             return false;
         }
     }
+
+
 }

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.doancuoiky.model.ChoNgoi;
 import com.example.doancuoiky.model.DanhSachGhe;
+import com.example.doancuoiky.model.HoaDon;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class ChoNgoiDAO {
 
     public ChoNgoiDAO(Context context) {
         helper = new SQLHelper(context);
-//        helper.processCopy();
+        helper.processCopy();
         sqlDB = helper.getWritableDatabase();
     }
 
@@ -50,6 +51,62 @@ public class ChoNgoiDAO {
         // Đóng Cursor sau khi sử dụng
         c.close();
         return seatList;
+    }
+
+
+    public ArrayList<ChoNgoi> getListChoNgoi() {
+        sqlDB = helper.getReadableDatabase();
+        ArrayList<ChoNgoi> listChoNgoi = new ArrayList<>();
+        Cursor c = sqlDB.query("ChoNgoi", null, null,
+                null, null, null, null);
+        c.moveToFirst();
+        while (!c.isAfterLast()) {
+            ChoNgoi cn = new ChoNgoi();
+            cn.setMaChoNgoi(c.getString(0));
+            cn.setHangGhe(c.getString(1));
+            cn.setSoGhe(c.getInt(2));
+            cn.setMaPhongChieu(c.getString(3));
+            listChoNgoi.add(cn);
+
+            c.moveToNext();
+        }
+        c.close();
+        return listChoNgoi;
+    }
+
+    public boolean insertChoNgoi(ChoNgoi choNgoi) {
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("maChoNgoi", choNgoi.getMaChoNgoi());
+        values.put("hangGhe", choNgoi.getHangGhe());
+        values.put("soGhe", choNgoi.getSoGhe());
+        values.put("maPhongChieu", choNgoi.getMaPhongChieu());
+        long res = sqlDB.insert("ChoNgoi", null, values);
+        if (res == -1) return false;
+        else return true;
+    }
+
+    public String getNextID() {
+        String nextID = "";
+        int lastID = check();
+        if (lastID < 999) {
+            nextID = "MCN" + String.format("%03d", lastID + 1);
+        } else {
+            nextID = "MCN" + (lastID + 1);
+        }
+        return nextID;
+    }
+
+    public int check() {
+        int check = 0;
+        ArrayList<ChoNgoi> choNgoiList = (ArrayList<ChoNgoi>) getListChoNgoi();
+        for (int i = 0; i < choNgoiList.size(); i++) {
+            ChoNgoi choNgoi = choNgoiList.get(i);
+            check = Math.max(check, Integer.parseInt(choNgoi.getMaChoNgoi().substring(3)));
+        }
+        return check;
     }
 
 //    public boolean insertChoNgoi(ChoNgoi choNgoi){

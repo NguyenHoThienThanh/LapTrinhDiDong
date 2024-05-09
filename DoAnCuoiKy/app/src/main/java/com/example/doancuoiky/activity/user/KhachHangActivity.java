@@ -76,8 +76,15 @@ public class KhachHangActivity extends AppCompatActivity {
     public void getProfile(){
         khachHang = new KhachHang();
         khachHang = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0, khachHang.getAvatar().length);
-        img_avt.setImageBitmap(bitmap);
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+        if(khachHang.getAvatar() == null){
+
+        }
+        else{
+            Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0, khachHang.getAvatar().length);
+            img_avt.setImageBitmap(bitmap);
+        }
+
         txt_userName.setText(khachHang.getUserName());
         txt_email.setText(khachHang.getEmail());
         txt_ngaySinh.setText(khachHang.getNgaySinh());

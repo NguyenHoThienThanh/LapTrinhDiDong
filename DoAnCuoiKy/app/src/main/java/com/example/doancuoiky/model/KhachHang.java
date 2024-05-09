@@ -12,6 +12,12 @@ public class KhachHang implements Serializable {
     public KhachHang() {
     }
 
+    public KhachHang(String hoTen, String email, String soDienThoai) {
+        this.hoTen = hoTen;
+        this.email = email;
+        this.soDienThoai = soDienThoai;
+    }
+
     public KhachHang(String maKhachHang, String hoTen, String diaChi, String email, String soDienThoai, String userName, int gioiTinh, String ngaySinh, byte[] avatar) {
         this.maKhachHang = maKhachHang;
         this.hoTen = hoTen;

@@ -16,7 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.AdminPhongChieuAdapter;
+import com.example.doancuoiky.dao.ChoNgoiDAO;
 import com.example.doancuoiky.dao.PhongChieuPhimDAO;
+import com.example.doancuoiky.model.ChoNgoi;
 import com.example.doancuoiky.model.PhongChieuPhim;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class AdminPhongChieuActivity extends AppCompatActivity {
     AdminPhongChieuAdapter AdminPhongChieuAdapter;
     ArrayList<PhongChieuPhim> listPhongChieuPhim = new ArrayList<>();
     PhongChieuPhimDAO phongChieuPhimDAO;
+    ChoNgoiDAO choNgoiDAO;
 
     public PhongChieuPhim phongChieuPhimSelected;
     int pos =-1;
@@ -37,6 +40,7 @@ public class AdminPhongChieuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_phong_chieu);
         phongChieuPhimDAO = new PhongChieuPhimDAO(this);
+        choNgoiDAO = new ChoNgoiDAO(this);
         lv_cinema_room = findViewById(R.id.lv_cinema_rooms);
         toolBar();
         customerAdapter();
@@ -58,7 +62,21 @@ public class AdminPhongChieuActivity extends AppCompatActivity {
                 }
                 PhongChieuPhim newPhongChieu = new PhongChieuPhim(soChoNgoi);
                 boolean isInserted = phongChieuPhimDAO.insertPhongChieuPhim(newPhongChieu);
+                ArrayList<PhongChieuPhim> phongChieuPhim = phongChieuPhimDAO.findAllPhongChieuPhim();
+                int lastIndex = phongChieuPhim.size() - 1; // Lấy chỉ số cuối cùng của mảng
+                PhongChieuPhim lastPhongChieu = phongChieuPhim.get(lastIndex);
+
                 if (isInserted) {
+                    char[] chars = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+                    for (char c : chars) {
+                        for (int num = 1; num <= 8; num++) {
+                            String hangGhe = String.valueOf(c);
+                            int soGhe = num;
+                            String maPhongChieu = lastPhongChieu.getMaPhongChieu();
+                            ChoNgoi choNgoi = new ChoNgoi(choNgoiDAO.getNextID(), hangGhe, soGhe, maPhongChieu);
+                            choNgoiDAO.insertChoNgoi(choNgoi);
+                        }
+                    }
                     Toast.makeText(AdminPhongChieuActivity.this, "Thêm phòng chiếu thành công", Toast.LENGTH_SHORT).show();
                     customerAdapter(); // Cập nhật danh sách phòng chiếu
                 } else {
