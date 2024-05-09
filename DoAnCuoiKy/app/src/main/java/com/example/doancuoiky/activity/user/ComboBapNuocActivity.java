@@ -144,7 +144,7 @@ public class ComboBapNuocActivity extends AppCompatActivity {
 
     public List<ComboBapNuoc> getListFoodAndBeverage(){
         List<ComboBapNuoc> foodAndBeverage = new ArrayList<>();
-        foodAndBeverage = comboBapNuocDAO.findAllCombo();
+        foodAndBeverage = comboBapNuocDAO.findAllComboUser();
         return foodAndBeverage;
     }
     public void buttonContinue() {
