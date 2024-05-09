@@ -263,7 +263,7 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
     }
 
     public void toolBar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_Phim);
+        Toolbar toolbar = findViewById(R.id.toolbar_SuatChieu);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -147,7 +147,7 @@ public class AdminBillActivity extends AppCompatActivity {
     }
 
     public void toolBar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_Phim);
+        Toolbar toolbar = findViewById(R.id.toolbar_HoaDon);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
