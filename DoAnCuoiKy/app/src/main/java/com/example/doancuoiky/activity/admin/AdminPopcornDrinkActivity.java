@@ -252,6 +252,18 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
             Toast.makeText(AdminPopcornDrinkActivity.this, "Combo đã tồn tại", Toast.LENGTH_SHORT).show();
             return; // Thoát khỏi hàm nếu combo đã tồn tại
         }
+        if (edt_name.getText().toString().trim().isEmpty()) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Tên combo không được để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (edt_detail.getText().toString().trim().isEmpty()) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Mô tả combo không được để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (edt_money.getText().toString().trim().isEmpty()) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Giá combo không được để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         ComboBapNuoc newCombo = new ComboBapNuoc();
         newCombo.setTenCombo(edt_name.getText().toString());
@@ -263,11 +275,16 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         float gia;
         try {
             gia = Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim());
+            if (gia <= 0) {
+                Toast.makeText(AdminPopcornDrinkActivity.this, "Giá phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                return;
+            }
         } catch (NumberFormatException e) {
             Toast.makeText(AdminPopcornDrinkActivity.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
             return;
         }
         newCombo.setGia(gia);
+
         // Cập nhật hình ảnh từ ImageView
         ImageView img_picture = findViewById(R.id.fandb_image);
         Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
@@ -378,10 +395,34 @@ public class AdminPopcornDrinkActivity extends AppCompatActivity {
         TextView tv_numberItems = findViewById(R.id.tv_numberItems);
         ImageView img_picture = findViewById(R.id.fandb_image);
 
+        if (edt_name.getText().toString().trim().isEmpty()) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Tên combo không được để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (edt_detail.getText().toString().trim().isEmpty()) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Mô tả combo không được để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (edt_money.getText().toString().trim().isEmpty()) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Giá combo không được để trống", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Cập nhật thông tin sau khi người dùng chỉnh sửa
         comboBapNuocSelected.setTenCombo(edt_name.getText().toString());
         comboBapNuocSelected.setMoTa(edt_detail.getText().toString());
-        comboBapNuocSelected.setGia(Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim()));
+        float gia;
+        try {
+            gia = Float.parseFloat(edt_money.getText().toString().replace("đ", "").trim());
+            if (gia <= 0) {
+                Toast.makeText(AdminPopcornDrinkActivity.this, "Giá phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(AdminPopcornDrinkActivity.this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        comboBapNuocSelected.setGia(gia);
         comboBapNuocSelected.setSoLuong(Integer.parseInt(tv_numberItems.getText().toString()));
 
         if (img_picture.getDrawable() != null) {

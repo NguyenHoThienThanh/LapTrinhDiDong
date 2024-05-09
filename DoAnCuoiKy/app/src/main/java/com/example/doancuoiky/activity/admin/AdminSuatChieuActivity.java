@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.doancuoiky.R;
+import com.example.doancuoiky.activity.user.ChiTietKhachHangActivity;
 import com.example.doancuoiky.activity.user.MainActivity;
 import com.example.doancuoiky.adapter.AdminFilmAdapter;
 import com.example.doancuoiky.adapter.AdminSuatChieuAdapter;
@@ -27,7 +30,9 @@ import com.example.doancuoiky.dao.PhongChieuPhimDAO;
 import com.example.doancuoiky.dao.SuatChieuDao;
 import com.example.doancuoiky.model.ChiTietSuatChieu;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class AdminSuatChieuActivity extends AppCompatActivity {
@@ -43,6 +48,7 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
     PhimDAO phimDao;
     PhongChieuPhimDAO pcpDao;
     Context context;
+    int pos = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,18 +64,18 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
     }
 
     private void events() {
+        arrSuatChieu = scDao.findAll();
         lvSuatChieu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ChiTietSuatChieu ctsc = arrSuatChieu.get(position);
-                edtMaSuatChieu.setText(String.valueOf(ctsc.getMaSuatChieu()));
+                pos = position;
                 edtNgayChieu.setText(String.valueOf(ctsc.getNgayChieu()));
                 edtGioChieu.setText(String.valueOf(ctsc.getGioChieu()));
                 // Lấy mã phim từ ChiTietSuatChieu và tìm xem mã phim đó có trong Spinner không
                 String maPhim = ctsc.getMaPhim();
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) spnMaPhim.getAdapter();
                 int spinnerPosition = adapter.getPosition(maPhim);
-
                 // Nếu tìm thấy mã phim trong Spinner, chọn mục đó
                 if (spinnerPosition != -1) {
                     spnMaPhim.setSelection(spinnerPosition);
@@ -78,9 +84,9 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                 }
 
                 // Lấy mã phòng chiếu từ ChiTietSuatChieu
-                String maPhongChieu = ctsc.getMaPhim();
+                String maPhongChieu = ctsc.getMaPhongChieu();
                 ArrayAdapter<String> adapter1 = (ArrayAdapter<String>) spnMaPhongChieu.getAdapter();
-                int spinnerPosition1 = adapter.getPosition(maPhongChieu);
+                int spinnerPosition1 = adapter1.getPosition(maPhongChieu);
 
                 // Nếu tìm thấy mã phim trong Spinner, chọn mục đó
                 if (spinnerPosition1 != -1) {
@@ -99,13 +105,12 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String maSuatChieu = edtMaSuatChieu.getText().toString();
                 String maPhongChieu = spnMaPhongChieu.getSelectedItem().toString();
                 String maPhim = spnMaPhim.getSelectedItem().toString();
                 String ngayChieu = edtNgayChieu.getText().toString();
                 String gioChieu = edtGioChieu.getText().toString();
 
-                if (checkEmptyInput()){
+                if (edtGioChieu.getText().toString().isEmpty() || edtNgayChieu.getText().toString().isEmpty()){
                         AlertDialog.Builder builder = new AlertDialog.Builder(AdminSuatChieuActivity.this);
                         builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                                 .setTitle("Fail")
@@ -119,31 +124,31 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                         AlertDialog dialog = builder.create();
                         dialog.show();
                 }
-
-                ChiTietSuatChieu ct = new ChiTietSuatChieu(maSuatChieu, maPhongChieu, maPhim, ngayChieu, gioChieu);
-                boolean res = scDao.insert(ct);
-                if (res){
-                    Toast.makeText(AdminSuatChieuActivity.this, "Insert thành công", Toast.LENGTH_SHORT).show();
-                    adapter.notifyDataSetChanged();
-                }
                 else{
-                    Toast.makeText(AdminSuatChieuActivity.this, "Insert thất bại", Toast.LENGTH_SHORT).show();
+                    ChiTietSuatChieu ct = new ChiTietSuatChieu(maPhongChieu, maPhim, ngayChieu, gioChieu);
+                    boolean res = scDao.insert(ct);
+                    if (res){
+                        Toast.makeText(AdminSuatChieuActivity.this, "Insert thành công", Toast.LENGTH_SHORT).show();
+                        adapter.notifyDataSetChanged();
+                    }
+                    else{
+                        Toast.makeText(AdminSuatChieuActivity.this, "Insert thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                    arrSuatChieu = scDao.findAll();
+                    adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
+                    lvSuatChieu.setAdapter(adapter);
+                    clearText();
                 }
-                arrSuatChieu = scDao.findAll();
-                adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
-                lvSuatChieu.setAdapter(adapter);
-                clearText();
             }
         });
         btnSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String maSuatChieu = edtMaSuatChieu.getText().toString();
                 String maPhongChieu = spnMaPhongChieu.getSelectedItem().toString();
                 String maPhim = spnMaPhim.getSelectedItem().toString();
                 String ngayChieu = edtNgayChieu.getText().toString();
                 String gioChieu = edtGioChieu.getText().toString();
-                if (checkEmptyInput()){
+                if (edtGioChieu.getText().toString().isEmpty()){
                     AlertDialog.Builder builder = new AlertDialog.Builder(AdminSuatChieuActivity.this);
                     builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                             .setTitle("Fail")
@@ -157,26 +162,30 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
-                ChiTietSuatChieu ct = new ChiTietSuatChieu(maSuatChieu, maPhongChieu, maPhim, ngayChieu, gioChieu);
-                boolean res = scDao.update(ct);
-                if (res){
-                    Toast.makeText(AdminSuatChieuActivity.this, "Update thành công", Toast.LENGTH_SHORT).show();
-                    adapter.notifyDataSetChanged();
-                }
                 else{
-                    Toast.makeText(AdminSuatChieuActivity.this, "Update thất bại", Toast.LENGTH_SHORT).show();
+                    String maSuatChieu = arrSuatChieu.get(pos).getMaSuatChieu();
+                    ChiTietSuatChieu ct = new ChiTietSuatChieu(maSuatChieu, maPhongChieu, maPhim, ngayChieu, gioChieu);
+                    boolean res = scDao.update(ct);
+                    if (res){
+                        Toast.makeText(AdminSuatChieuActivity.this, "Update thành công", Toast.LENGTH_SHORT).show();
+                        adapter.notifyDataSetChanged();
+                    }
+                    else{
+                        Toast.makeText(AdminSuatChieuActivity.this, "Update thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                    arrSuatChieu = scDao.findAll();
+                    adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
+                    lvSuatChieu.setAdapter(adapter);
+                    clearText();
                 }
-                arrSuatChieu = scDao.findAll();
-                adapter = new AdminSuatChieuAdapter(AdminSuatChieuActivity.this, R.layout.item_suat_chieu, arrSuatChieu);
-                lvSuatChieu.setAdapter(adapter);
-                clearText();
+
             }
         });
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String maSuatChieu = edtMaSuatChieu.getText().toString();
-                if (maSuatChieu.equals("")){
+                if (pos == -1){
                     AlertDialog.Builder builder = new AlertDialog.Builder(AdminSuatChieuActivity.this);
                     builder.setMessage("Vui lòng chọn suất chiếu để xóa!")
                             .setTitle("Fail")
@@ -239,11 +248,33 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
     }
 
     private void mapping() {
-        edtMaSuatChieu = findViewById(R.id.edtMaSuatChieu);
         spnMaPhongChieu = findViewById(R.id.spnMaPhongChieu);
         spnMaPhim = findViewById(R.id.spnMaPhim);
         layout_SuatChieu = findViewById(R.id.layout_Suat_Chieu);
         edtNgayChieu = findViewById(R.id.edtNgayChieu);
+        edtNgayChieu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                // Tạo DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        AdminSuatChieuActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                                Calendar selectedDate = Calendar.getInstance();
+                                selectedDate.set(year, month, day);
+                                edtNgayChieu.setText(sdf.format(selectedDate.getTime()));
+                            }
+                        }, year, month, day
+                );
+                datePickerDialog.show();
+            }
+        });
         edtGioChieu = findViewById(R.id.edtGioChieu);
         btnThem = findViewById(R.id.btnThemSuatChieu);
         btnSua = findViewById(R.id.btnSuaSuatChieu);

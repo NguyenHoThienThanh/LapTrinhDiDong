@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.doancuoiky.model.ChiTietSuatChieu;
 import com.example.doancuoiky.model.Phim;
+import com.example.doancuoiky.model.PhongChieuPhim;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,91 +69,84 @@ public class SuatChieuDao {
         c.close();
         return timeList;
     }
-    public ChiTietSuatChieu findOneByMaSuatChieu(String maSuatChieu){
+
+    public ChiTietSuatChieu findOneByMaSuatChieu(String maSuatChieu) {
         sqlDB = helper.getReadableDatabase();
         ChiTietSuatChieu chiTietSuatChieu = new ChiTietSuatChieu();
         String query = "select * FROM SuatChieu where maSuatChieu = ?";
-        Cursor c =sqlDB.rawQuery(query, new String[]{maSuatChieu} );
-        if(c != null && c.moveToFirst()){
-            do{
+        Cursor c = sqlDB.rawQuery(query, new String[]{maSuatChieu});
+        if (c != null && c.moveToFirst()) {
+            do {
                 chiTietSuatChieu.setMaSuatChieu(c.getString(0));
                 chiTietSuatChieu.setMaPhongChieu(c.getString(1));
                 chiTietSuatChieu.setMaPhim(c.getString(2));
                 chiTietSuatChieu.setGioChieu(c.getString(3));
                 chiTietSuatChieu.setNgayChieu(c.getString(4));
 
-            }while(c.moveToNext());
+            } while (c.moveToNext());
         }
-        if(c != null){
+        if (c != null) {
             c.close();
         }
 
         return chiTietSuatChieu;
     }
 
-    public ArrayList<ChiTietSuatChieu> findAll(){
+    public ArrayList<ChiTietSuatChieu> findAll() {
         ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
         Cursor c = sqlDB.query("SuatChieu", null, null, null, null, null, null);
 
-        while(c != null && c.moveToFirst()){
-            ChiTietSuatChieu ct = new ChiTietSuatChieu();
-            ct.setMaSuatChieu(c.getString(0));
-            ct.setMaPhongChieu(c.getString(1));
-            ct.setMaPhim(c.getString(2));
-            ct.setNgayChieu(c.getString(4));
-            ct.setGioChieu(c.getString(3));
-
-            list.add(ct);
-            c.moveToNext();
+        if (c != null && c.moveToFirst()) {
+            do {
+                ChiTietSuatChieu ct = new ChiTietSuatChieu();
+                ct.setMaSuatChieu(c.getString(0));
+                ct.setMaPhongChieu(c.getString(1));
+                ct.setMaPhim(c.getString(2));
+                ct.setNgayChieu(c.getString(4));
+                ct.setGioChieu(c.getString(3));
+                list.add(ct);
+            } while (c.moveToNext());
         }
-        if (c!= null){
+        if (c != null) {
             c.close();
         }
         return list;
     }
 
-    public boolean insert(ChiTietSuatChieu suatChieu){
-        try {
-            sqlDB = helper.getReadableDatabase();
-            sqlDB = helper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("maSuatChieu", suatChieu.getMaSuatChieu());
-            values.put("maPhongChieu", suatChieu.getMaPhongChieu());
-            values.put("maPhim", suatChieu.getMaPhim());
-            values.put("ngayChieu", suatChieu.getNgayChieu());
-            values.put("gioChieu", suatChieu.getGioChieu());
-            long res = sqlDB.insert("SuatChieu", null, values);
-            return res != -1;
-        }
-        catch (Exception e){
+    public boolean insert(ChiTietSuatChieu suatChieu) {
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("maPhongChieu", suatChieu.getMaPhongChieu());
+        values.put("maPhim", suatChieu.getMaPhim());
+        values.put("thoiGianChieu", suatChieu.getGioChieu());
+        values.put("ngayChieu", suatChieu.getNgayChieu());
 
-        }
-        return false;
-    }
-    public boolean update(ChiTietSuatChieu suatChieu){
-        try {
-            sqlDB = helper.getReadableDatabase();
-            sqlDB = helper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("maSuatChieu", suatChieu.getMaSuatChieu());
-            values.put("maPhongChieu", suatChieu.getMaPhongChieu());
-            values.put("maPhim", suatChieu.getMaPhim());
-            values.put("ngayChieu", suatChieu.getNgayChieu());
-            values.put("gioChieu", suatChieu.getGioChieu());
-            long res = sqlDB.update("SuatChieu", values, "maPhongChieu=?", new String[]{suatChieu.getMaPhongChieu()});
-            return res != -1;
-        }
-        catch (Exception e){
-
-        }
-        return false;
+        long res = sqlDB.insert("SuatChieu", null, values);
+        if (res == -1) return false;
+        else return true;
     }
 
-    public boolean delete(String maPhongChieu){
+    public boolean update(ChiTietSuatChieu suatChieu) {
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("maSuatChieu", suatChieu.getMaSuatChieu());
+        values.put("maPhongChieu", suatChieu.getMaPhongChieu());
+        values.put("maPhim", suatChieu.getMaPhim());
+        values.put("thoiGianChieu", suatChieu.getGioChieu());
+        values.put("ngayChieu", suatChieu.getNgayChieu());
+
+        long res = sqlDB.update("SuatChieu", values, "maSuatChieu=?", new String[]{suatChieu.getMaSuatChieu()});
+        if (res == -1) return false;
+        else return true;
+    }
+
+    public boolean delete(String maPhongChieu) {
         sqlDB = helper.getReadableDatabase();
         sqlDB = helper.getWritableDatabase();
         long res = sqlDB.delete("SuatChieu", "maPhongChieu=?", new String[]{maPhongChieu});
-        if(res == -1) return false;
+        if (res == -1) return false;
         else return true;
     }
 }
