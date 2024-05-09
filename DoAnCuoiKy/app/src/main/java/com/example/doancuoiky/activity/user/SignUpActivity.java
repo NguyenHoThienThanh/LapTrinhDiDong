@@ -115,7 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
                                             // Xử lý sự kiện khi người dùng nhấn nút OK
                                             dialog.dismiss(); // Đóng hộp thoại
                                             clearText();
-                                            return;
+                                            Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                                            startActivity(i);
                                         }
                                     });
                             AlertDialog dialog = builder.create();
