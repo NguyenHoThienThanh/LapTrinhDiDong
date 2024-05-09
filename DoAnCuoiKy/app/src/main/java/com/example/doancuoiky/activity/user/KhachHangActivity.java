@@ -41,13 +41,6 @@ public class KhachHangActivity extends AppCompatActivity {
 
         toolBar();
         mappingControl();
-
-//        Intent intent = getIntent();
-//        userName = intent.getStringExtra("userName");
-//        email = intent.getStringExtra("email");
-//        hoTen = intent.getStringExtra("hoTen");
-//        diaChi = intent.getStringExtra("diaChi");
-//        ngaySinh = intent.getStringExtra("ngaySinh");
         getProfile();
         editProfile();
 
@@ -83,7 +76,6 @@ public class KhachHangActivity extends AppCompatActivity {
     public void getProfile(){
         khachHang = new KhachHang();
         khachHang = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());
-        Toast.makeText(this, ""+khachHang.getAvatar(), Toast.LENGTH_SHORT).show();
         Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0, khachHang.getAvatar().length);
         img_avt.setImageBitmap(bitmap);
         txt_userName.setText(khachHang.getUserName());
@@ -140,14 +132,14 @@ public class KhachHangActivity extends AppCompatActivity {
             hoTen = data.getStringExtra("hoTen");
             diaChi = data.getStringExtra("diaChi");
             ngaySinh = data.getStringExtra("ngaySinh");
-            byte[] avatarByteArray = getIntent().getByteArrayExtra("avatarByteArray");
+            byte[] avatarByteArray = data.getByteArrayExtra("imageInfo");
             txt_email.setText(email);
             txt_userName.setText(userName);
             txt_hoTen.setText(hoTen);
             txt_ngaySinh.setText(ngaySinh);
             txt_diaChi.setText(diaChi);
             if (avatarByteArray != null) {
-                setImageUsingGlide(avatarByteArray);
+                setImageUsingManualDecoding(avatarByteArray);
             }
         }
     }

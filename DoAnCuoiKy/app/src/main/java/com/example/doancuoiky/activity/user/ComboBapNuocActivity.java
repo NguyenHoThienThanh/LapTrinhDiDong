@@ -160,9 +160,6 @@ public class ComboBapNuocActivity extends AppCompatActivity {
                 intent.putExtra("totalPrice", totalPrice);
                 intent.putExtra("total", total);
 
-                Toast.makeText(ComboBapNuocActivity.this, "a" +maPhongChieu + gioChieu + ngayChieu, Toast.LENGTH_LONG).show();
-
-
                 intent.putExtra("maSuatChieu", maSuatChieu);
                 intent.putExtra("maPhongChieu", maPhongChieu);
                 intent.putExtra("gioChieu", gioChieu);

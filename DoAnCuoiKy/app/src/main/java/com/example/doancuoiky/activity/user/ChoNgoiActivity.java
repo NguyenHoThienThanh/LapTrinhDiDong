@@ -158,7 +158,6 @@ public class ChoNgoiActivity extends AppCompatActivity {
                 }
                 Intent intent = new Intent(ChoNgoiActivity.this, ComboBapNuocActivity.class);
                 // Gửi danh sách ghế đã chọn qua Intent
-                Toast.makeText(ChoNgoiActivity.this, "a" + gioChieu + ngayChieu, Toast.LENGTH_SHORT).show();
 
                 intent.putStringArrayListExtra("selectedSeats", (ArrayList<String>) seatSelected);
                 intent.putStringArrayListExtra("maChoNgoiList", (ArrayList<String>) maChoNgoiList);

@@ -20,7 +20,6 @@ import com.example.doancuoiky.dao.TaiKhoanDAO;
 import com.example.doancuoiky.model.TaiKhoan;
 
 public class LoginActivity extends AppCompatActivity {
-
     EditText edtUsername, edtPassword;
     Button btnLogin;
     private static TaiKhoan taiKhoan;
@@ -112,12 +111,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
     private void mapping() {
         edtUsername = findViewById(R.id.edtUserName);
         edtPassword = findViewById(R.id.edtPassworrd);
         btnLogin = findViewById(R.id.btnLogin);
+        edtUsername.setText("");
+        edtPassword.setText("");
     }
 
     public static TaiKhoan getTaiKhoan() {

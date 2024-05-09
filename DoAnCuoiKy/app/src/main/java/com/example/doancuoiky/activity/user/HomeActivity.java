@@ -1,6 +1,7 @@
 package com.example.doancuoiky.activity.user;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
     PhimDAO phimDao;
 
     // Bottom Navigation Bar
-    ImageView imgLichSuGiaoDich, imgProfile;
+    ImageView imgLichSuGiaoDich, imgProfile, imgLogout;
 
 
     @Override
@@ -90,6 +92,39 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        imgLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOut();
+            }
+        });
+    }
+
+    private void logOut() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận đăng xuất");
+        builder.setMessage("Bạn có chắc chắn muốn đăng xuất?");
+
+        // Thiết lập nút tích cực (OK)
+        builder.setPositiveButton("Đăng xuất", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Thực hiện đăng xuất khi người dùng nhấn nút "Đăng xuất"
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        // Hiển thị hộp thoại cảnh báo
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void loadTop5PhimMovie() {
@@ -172,6 +207,7 @@ public class HomeActivity extends AppCompatActivity {
 //        loading3 = findViewById(R.id.progressBar4);
         imgLichSuGiaoDich = findViewById(R.id.imgLichSuGiaoDich);
         imgProfile = findViewById(R.id.imgProfile);
+        imgLogout = findViewById(R.id.img_logout);
         searchView = findViewById(R.id.search);
     }
 

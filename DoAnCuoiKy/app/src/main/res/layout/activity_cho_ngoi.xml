@@ -49,8 +49,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv_seat"
             android:layout_width="wrap_content"
-            android:layout_height="425dp"
-            android:layout_marginTop="30dp">
+            android:layout_height="410dp"
+            android:layout_marginTop="20dp">
         </androidx.recyclerview.widget.RecyclerView>/>
     </LinearLayout>
 
