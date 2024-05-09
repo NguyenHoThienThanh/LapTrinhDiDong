@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    } else if (matkhau.length() < 5 || matkhau.length() > 10) {
+                    } else if (matkhau.length() < 5 || matkhau.length() > 15) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                         builder.setMessage("Mật khẩu phải có từ 5 đến 10 ký tự!")
                                 .setTitle("Lỗi đăng ký")
