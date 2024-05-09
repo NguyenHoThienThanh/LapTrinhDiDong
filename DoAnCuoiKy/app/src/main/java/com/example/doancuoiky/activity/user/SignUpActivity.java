@@ -80,8 +80,20 @@ public class SignUpActivity extends AppCompatActivity {
                                 });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    }
-                    else{
+                    } else if (matkhau.length() < 5 || matkhau.length() > 10) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+                        builder.setMessage("Mật khẩu phải có từ 5 đến 10 ký tự!")
+                                .setTitle("Lỗi đăng ký")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                        return;
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    } else {
                         KhachHang kh = new KhachHang();
                         kh.setHoTen(hoTen);
                         kh.setSoDienThoai(sdt);
@@ -94,7 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         boolean res_kh = khDao.insert(kh);
                         boolean res_tk = tkDao.register(tk);
-                        if (res_tk && res_kh){
+                        if (res_tk && res_kh) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
                             builder.setMessage("Đăng ký thành công!")
                                     .setTitle("Success")
@@ -102,6 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             // Xử lý sự kiện khi người dùng nhấn nút OK
                                             dialog.dismiss(); // Đóng hộp thoại
+                                            clearText();
                                             return;
                                         }
                                     });
@@ -145,5 +158,12 @@ public class SignUpActivity extends AppCompatActivity {
         if (sdt.equals("") || email.equals("") || hoTen.equals("") || matkhau.equals(""))
             return true;
         return false;
+    }
+
+    private void clearText(){
+        edtSoDienThoai.setText("");
+        edtEmail.setText("");
+        edtHoTen.setText("");
+        edtMatKhau.setText("");
     }
 }
