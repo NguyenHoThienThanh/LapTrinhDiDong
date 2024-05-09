@@ -136,8 +136,26 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
     private void updateProfile() {
         khachHang = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());
         TaiKhoan taiKhoan = taiKhoanDAO.findOneByTaiKhoan(khachHang.getSoDienThoai().trim());
-        taiKhoan.setMatKhau(edt_password.getText().toString().trim());
-        taiKhoanDAO.update(taiKhoan);
+        if(edt_password.getText().toString().trim().equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Lỗi")
+                    .setMessage("Password không được để trống")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+        else if(!checkPassword(edt_password.getText().toString().trim())){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Lỗi")
+                    .setMessage("Password chỉ được tối đa 10 kí tự và chỉ gồm chữ cái và số")
+                    .setPositiveButton("OK", null)
+                    .show();
+            return;
+        }
+        else{
+            taiKhoan.setMatKhau(edt_password.getText().toString().trim());
+            taiKhoanDAO.update(taiKhoan);
+        }
 
         if (!isValidUsername(edt_userName.getText().toString())) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -228,6 +246,26 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    public boolean checkPassword(String password) {
+        // Kiểm tra xem chuỗi mật khẩu có ít nhất 10 kí tự hoặc số không
+        if (password == null || password.length() < 10) {
+            return false;
+        }
+        // Biến đếm số kí tự hoặc số
+        int count = 0;
+        // Lặp qua từng kí tự trong chuỗi mật khẩu
+        for (int i = 0; i < password.length(); i++) {
+            char ch = password.charAt(i);
+            // Kiểm tra xem kí tự có phải là kí tự hoặc số không
+            if (Character.isLetterOrDigit(ch)) {
+                count++;
+            }
+        }
+        // Trả về true nếu có ít nhất 10 kí tự hoặc số, ngược lại trả về false
+        return count <= 15;
+    }
+
 
     private void editProfile(){
         KhachHang kh = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());

@@ -169,6 +169,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="32dp"
+                            android:layout_marginLeft="50dp"
                             android:text="Nữ"
                             android:textColor="#8692F7"
                             android:textSize="20dp"

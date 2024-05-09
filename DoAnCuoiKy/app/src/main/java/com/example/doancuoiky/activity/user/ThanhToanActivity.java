@@ -201,7 +201,6 @@ public class ThanhToanActivity extends AppCompatActivity {
 
                     // Gán ngày định dạng vào biến ngayLapHoaDon
                     ngayLapHoaDon = dateFormat.format(currentDate);
-                    Toast.makeText(this, "" + maHoaDon, Toast.LENGTH_SHORT).show();
                     HoaDon hd = new HoaDon(maHoaDon, maSuatChieu, maKhachHang, maCombo, total + totalPrice, ngayLapHoaDon, maGhe);
                     boolean res = hoaDonDAO.insertHoaDon(hd);
 
