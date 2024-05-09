@@ -50,6 +50,23 @@ public class TaiKhoanDAO {
         return true;
     }
 
+    public boolean register(TaiKhoan tk){
+        try {
+            sqlDB = helper.getReadableDatabase();
+            sqlDB = helper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("taiKhoan", tk.getTaiKhoan());
+            values.put("matKhau", tk.getMatKhau());
+            values.put("roleId", tk.getRoleId());
+            long res = sqlDB.insert("TaiKhoan", null, values);
+            return res != -1;
+        }
+        catch (Exception e){
+
+        }
+        return false;
+    }
+
     public TaiKhoan login(String soDT, String matKhau){
         sqlDB = helper.getReadableDatabase();
         TaiKhoan taiKhoan = null;

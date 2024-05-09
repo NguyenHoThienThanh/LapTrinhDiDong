@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +23,7 @@ import com.example.doancuoiky.model.TaiKhoan;
 public class LoginActivity extends AppCompatActivity {
     EditText edtUsername, edtPassword;
     Button btnLogin;
+    TextView txtSignUp;
     private static TaiKhoan taiKhoan;
     TaiKhoanDAO tkDao;
     Context context;
@@ -73,6 +75,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        txtSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void showSuccessDialog() {
@@ -119,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         edtUsername.setText("");
         edtPassword.setText("");
+        txtSignUp = findViewById(R.id.txtSignUp);
     }
 
     public static TaiKhoan getTaiKhoan() {
