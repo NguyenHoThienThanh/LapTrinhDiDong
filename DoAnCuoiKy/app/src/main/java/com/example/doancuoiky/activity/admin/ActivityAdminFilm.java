@@ -1,8 +1,10 @@
 package com.example.doancuoiky.activity.admin;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,11 +19,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.activity.user.MainActivity;
+import com.example.doancuoiky.activity.user.SignUpActivity;
 import com.example.doancuoiky.adapter.AdminFilmAdapter;
 import com.example.doancuoiky.dao.PhimDAO;
 import com.example.doancuoiky.model.Phim;
@@ -35,8 +39,10 @@ public class ActivityAdminFilm extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     EditText edtMaPhim, edtTenPhim, edtThoiLuong, edtDoTuoi, edtMoTa,
             edtDienVien, edtGiaVe, edtTheLoai, edtQuocGia;
-    Button btnThem, btnXoa, btnSua, btnXem;
+    Button btnThem, btnXoa, btnSua, btnXem, btn_them_phim_toggle;
     ListView lvPhim;
+
+    LinearLayout layout_them_phim;
     ArrayList<Phim> arrPhim;
     AdminFilmAdapter adapter;
     Context context;
@@ -50,10 +56,23 @@ public class ActivityAdminFilm extends AppCompatActivity {
         context = this;
         phimDao = new PhimDAO(context);
         mapping();
+        toolBar();
         events();
     }
 
     private void events() {
+        btn_them_phim_toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Chuyển đổi giữa VISIBLE và GONE
+                if (layout_them_phim.getVisibility() == View.GONE) {
+                    layout_them_phim.setVisibility(View.VISIBLE);
+                } else {
+                    layout_them_phim.setVisibility(View.GONE);
+                }
+            }
+        });
+
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +85,114 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String giaVe = edtGiaVe.getText().toString();
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
+
+                if (checkEmptyInput()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                    return;
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                try {
+                    int i = Integer.parseInt(thoiLuong);
+                    if (i <= 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                        builder.setMessage("Thời lượng phim phải là số nguyên dương!")
+                                .setTitle("Fail")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Thời lượng phim phải là số nguyên dương!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
+
+                try {
+                    int i = Integer.parseInt(doTuoi);
+                    if (i <= 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                        builder.setMessage("Độ tuổi phải là số nguyên dương!")
+                                .setTitle("Fail")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Độ tuổi phải là số nguyên dương!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
+
+                try {
+                    float i = Float.parseFloat(giaVe);
+                    if (i <= 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                        builder.setMessage("Giá vé phải là số dương!")
+                                .setTitle("Fail")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Giá vé phải là số dương!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
 
                 Phim phim = new Phim();
                 phim.setMaPhim(maPhim);
@@ -125,6 +252,114 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
 
+                if (checkEmptyInput()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                    return;
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+
+                try {
+                    int i = Integer.parseInt(thoiLuong);
+                    if (i <= 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                        builder.setMessage("Thời lượng phim phải là số nguyên dương!")
+                                .setTitle("Fail")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Thời lượng phim phải là số nguyên dương!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
+
+                try {
+                    int i = Integer.parseInt(doTuoi);
+                    if (i <= 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                        builder.setMessage("Độ tuổi phải là số nguyên dương!")
+                                .setTitle("Fail")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Độ tuổi phải là số nguyên dương!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
+
+                try {
+                    float i = Float.parseFloat(giaVe);
+                    if (i <= 0){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                        builder.setMessage("Giá vé phải là số dương!")
+                                .setTitle("Fail")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        // Xử lý sự kiện khi người dùng nhấn nút OK
+                                        dialog.dismiss(); // Đóng hộp thoại
+                                    }
+                                });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                        return;
+                    }
+                }catch (Exception e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Giá vé phải là số dương!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
+
                 Phim phim = new Phim();
                 phim.setMaPhim(maPhim);
                 phim.setTenPhim(tenPhim);
@@ -153,6 +388,20 @@ public class ActivityAdminFilm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String maPhim = edtMaPhim.getText().toString();
+                if (maPhim.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
+                    builder.setMessage("Vui lòng chọn phim để xóa!")
+                            .setTitle("Fail")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Xử lý sự kiện khi người dùng nhấn nút OK
+                                    dialog.dismiss(); // Đóng hộp thoại
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
                 builder.setTitle("Cảnh báo");
                 builder.setMessage("Bạn có chắc muốn xóa phim này không");
@@ -198,12 +447,13 @@ public class ActivityAdminFilm extends AppCompatActivity {
         edtGiaVe = findViewById(R.id.edtGiaVe);
         edtTheLoai = findViewById(R.id.edtTheLoai);
         edtQuocGia = findViewById(R.id.edtQuocGia);
+        btn_them_phim_toggle = findViewById(R.id.btn_them_phim_toggle);
         btnThem = findViewById(R.id.btnThemPhim);
         btnXoa = findViewById(R.id.btnXoaPhim);
         btnSua = findViewById(R.id.btnSuaPhim);
         btnXem = findViewById(R.id.btnHienThiPhim);
         imgPhim = findViewById(R.id.imgPhim);
-
+        layout_them_phim = findViewById(R.id.layout_them_phim);
         lvPhim = findViewById(R.id.lvPhim);
         arrPhim = phimDao.findAllPhim();
         adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
@@ -250,5 +500,34 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void toolBar() {
+        Toolbar toolbar = findViewById(R.id.toolbar_Phim);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    private boolean checkEmptyInput(){
+        int childCount = layout_them_phim.getChildCount();
+        for (int i=0; i<childCount; i++){
+            View view = layout_them_phim.getChildAt(i);
+            if (view instanceof  EditText){
+                EditText edt = (EditText) view;
+                if (edt.getText().toString().equals("")){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
