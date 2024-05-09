@@ -53,7 +53,7 @@ public class AdminFilmAdapter extends ArrayAdapter<Phim> {
         txtTenPhim.setText(phim.getTenPhim());
         txtThoiLuong.setText(String.valueOf(phim.getThoiLuong()));
         txtDoTuoi.setText(String.valueOf(phim.getGioiHanDoTuoi()));
-        txtMoTa.setText(phim.getMoTaPhim().substring(0,100)+"...");
+        txtMoTa.setText(phim.getMoTaPhim().length() <= 100 ? phim.getMoTaPhim() : phim.getMoTaPhim().substring(0,100)+"...");
         txtDienVien.setText(phim.getDienVien());
         txtGiaVe.setText(String.valueOf(phim.getGiaVe()));
         txtTheLoai.setText(phim.getTheLoai());

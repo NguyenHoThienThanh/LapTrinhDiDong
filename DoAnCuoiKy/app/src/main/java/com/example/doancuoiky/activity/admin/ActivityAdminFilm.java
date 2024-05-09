@@ -93,6 +93,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 // Chuyển đổi giữa VISIBLE và GONE
                 if (layout_them_phim.getVisibility() == View.GONE) {
                     layout_them_phim.setVisibility(View.VISIBLE);
+                    edtMaPhim.setEnabled(false);
                 } else {
                     layout_them_phim.setVisibility(View.GONE);
                 }
@@ -112,7 +113,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
 
-                if (checkEmptyInput()){
+                if (checkEmptyInput(edtMaPhim)){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
                     builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                             .setTitle("Fail")
@@ -232,19 +233,33 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 phim.setQuocGia(quocGia);
 
                 // Cập nhật hình ảnh từ ImageView
-                ImageView img_picture = findViewById(R.id.fandb_image);
-                if (img_picture.getDrawable() == null){
-                    Toast.makeText(ActivityAdminFilm.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+                ImageView img_picture = findViewById(R.id.imgPhim);
+                try {
+                    if (img_picture.getDrawable() == null) {
+                        Toast.makeText(ActivityAdminFilm.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace(); // Log lỗi nếu có
+                    Toast.makeText(ActivityAdminFilm.this, "Lỗi xảy ra khi kiểm tra hình ảnh", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
                 if (drawable != null && drawable instanceof BitmapDrawable) {
                     Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                    phim.setTrailer(bitmapToByteArray(bitmap)); // Chuyển Bitmap thành mảng byte
+                    try {
+                        phim.setTrailer(bitmapToByteArray(bitmap)); // Chuyển Bitmap thành mảng byte
+                    } catch (Exception e) {
+                        e.printStackTrace(); // Log lỗi nếu có
+                        Toast.makeText(ActivityAdminFilm.this, "Lỗi xảy ra khi chuyển đổi hình ảnh", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 } else {
-                    Toast.makeText(ActivityAdminFilm.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivityAdminFilm.this, "Hình ảnh không hợp lệ", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
 
                 boolean res = phimDao.insert(phim);
 
@@ -255,9 +270,10 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 else{
                     Toast.makeText(ActivityAdminFilm.this, "Insert thất bại", Toast.LENGTH_SHORT).show();
                 }
-                layout_them_phim = findViewById(R.id.layout_them_phim);
+                layout_them_phim.setVisibility(View.GONE);
                 arrPhim = phimDao.findAllPhim();
                 adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
+                lvPhim.setAdapter(adapter);
                 clearText();
             }
         });
@@ -282,7 +298,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
 
-                if (checkEmptyInput()){
+                if (checkEmptyInput(edtMaPhim)){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
                     builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                             .setTitle("Fail")
@@ -401,6 +417,34 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 phim.setTheLoai(theLoai);
                 phim.setQuocGia(quocGia);
 
+                // Cập nhật hình ảnh từ ImageView
+                ImageView img_picture = findViewById(R.id.imgPhim);
+                try {
+                    if (img_picture.getDrawable() == null) {
+                        Toast.makeText(ActivityAdminFilm.this, "Chưa có hình ảnh", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace(); // Log lỗi nếu có
+                    Toast.makeText(ActivityAdminFilm.this, "Lỗi xảy ra khi kiểm tra hình ảnh", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Drawable drawable = img_picture.getDrawable(); // Lấy Drawable từ ImageView
+                if (drawable != null && drawable instanceof BitmapDrawable) {
+                    Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                    try {
+                        phim.setTrailer(bitmapToByteArray(bitmap)); // Chuyển Bitmap thành mảng byte
+                    } catch (Exception e) {
+                        e.printStackTrace(); // Log lỗi nếu có
+                        Toast.makeText(ActivityAdminFilm.this, "Lỗi xảy ra khi chuyển đổi hình ảnh", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                } else {
+                    Toast.makeText(ActivityAdminFilm.this, "Hình ảnh không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 boolean res = phimDao.update(phim);
 
                 if (res){
@@ -410,12 +454,10 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 else{
                     Toast.makeText(ActivityAdminFilm.this, "Update thất bại", Toast.LENGTH_SHORT).show();
                 }
-                layout_them_phim = findViewById(R.id.layout_them_phim);
+                layout_them_phim.setVisibility(View.GONE);
                 arrPhim = phimDao.findAllPhim();
                 adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
-                layout_them_phim = findViewById(R.id.layout_them_phim);
-                arrPhim = phimDao.findAllPhim();
-                adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
+                lvPhim.setAdapter(adapter);
                 clearText();
             }
         });
@@ -461,9 +503,9 @@ public class ActivityAdminFilm extends AppCompatActivity {
                     }
                 });
                 builder.create().show();
-                layout_them_phim = findViewById(R.id.layout_them_phim);
                 arrPhim = phimDao.findAllPhim();
                 adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
+                lvPhim.setAdapter(adapter);
                 clearText();
             }
         });
@@ -560,13 +602,13 @@ public class ActivityAdminFilm extends AppCompatActivity {
         });
     }
 
-    private boolean checkEmptyInput(){
+    private boolean checkEmptyInput(EditText edtMaPhim){
         int childCount = layout_them_phim.getChildCount();
         for (int i=0; i<childCount; i++){
             View view = layout_them_phim.getChildAt(i);
             if (view instanceof  EditText){
                 EditText edt = (EditText) view;
-                if (edt.getText().toString().equals("")){
+                if (edt.getText().toString().equals("") && view != edtMaPhim){
                     return true;
                 }
             }
