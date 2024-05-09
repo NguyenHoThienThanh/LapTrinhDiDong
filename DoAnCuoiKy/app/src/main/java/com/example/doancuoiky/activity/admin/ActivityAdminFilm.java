@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -61,6 +62,24 @@ public class ActivityAdminFilm extends AppCompatActivity {
     }
 
     private void events() {
+        lvPhim.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Phim phim = arrPhim.get(position);
+                edtMaPhim.setText(String.valueOf(phim.getMaPhim()));
+                edtTenPhim.setText(String.valueOf(phim.getTenPhim()));
+                edtThoiLuong.setText(String.valueOf(phim.getThoiLuong()));
+                edtDoTuoi.setText(String.valueOf(phim.getGioiHanDoTuoi()));
+                edtMoTa.setText(String.valueOf(phim.getMoTaPhim()));
+                edtDienVien.setText(String.valueOf(phim.getDienVien()));
+                edtGiaVe.setText(String.valueOf(phim.getGiaVe()));
+                edtTheLoai.setText(String.valueOf(phim.getTheLoai()));
+                edtQuocGia.setText(String.valueOf(phim.getQuocGia()));
+//                edtMaPhim, edtTenPhim, edtThoiLuong, edtDoTuoi, edtMoTa,
+//                        edtDienVien, edtGiaVe, edtTheLoai, edtQuocGia;
+            }
+        });
+
         btn_them_phim_toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
