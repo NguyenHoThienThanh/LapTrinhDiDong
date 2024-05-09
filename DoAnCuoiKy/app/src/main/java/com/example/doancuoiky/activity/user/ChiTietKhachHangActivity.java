@@ -300,8 +300,17 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
         edt_email.setText(kh.getEmail());
         edt_diaChi.setText(kh.getDiaChi());
         edt_userName.setText(kh.getUserName());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(kh.getAvatar(), 0, kh.getAvatar().length);
-        img_khachhang.setImageBitmap(bitmap);
+        byte[] avatarData = kh.getAvatar();
+        Bitmap defaultBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bhd_icon); // default_avatar là tên của hình ảnh mặc định
+
+        if (avatarData != null && avatarData.length > 0) {
+            // Nếu có dữ liệu ảnh, giải mã và hiển thị ảnh
+            Bitmap bitmap = BitmapFactory.decodeByteArray(avatarData, 0, avatarData.length);
+            img_khachhang.setImageBitmap(bitmap);
+        } else {
+            // Nếu không có dữ liệu ảnh, hiển thị hình ảnh mặc định
+            img_khachhang.setImageBitmap(defaultBitmap);
+        }
     }
 
     public static boolean isValidFullName(String fullName) {

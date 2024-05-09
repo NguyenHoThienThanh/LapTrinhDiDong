@@ -76,13 +76,16 @@ public class KhachHangActivity extends AppCompatActivity {
     public void getProfile(){
         khachHang = new KhachHang();
         khachHang = khachHangDAO.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan());
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-        if(khachHang.getAvatar() == null){
+        byte[] avatarData = khachHang.getAvatar();
+        Bitmap defaultBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bhd_icon); // default_avatar là tên của hình ảnh mặc định
 
-        }
-        else{
-            Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0, khachHang.getAvatar().length);
+        if (avatarData != null && avatarData.length > 0) {
+            // Nếu có dữ liệu ảnh, giải mã và hiển thị ảnh
+            Bitmap bitmap = BitmapFactory.decodeByteArray(avatarData, 0, avatarData.length);
             img_avt.setImageBitmap(bitmap);
+        } else {
+            // Nếu không có dữ liệu ảnh, hiển thị hình ảnh mặc định
+            img_avt.setImageBitmap(defaultBitmap);
         }
 
         txt_userName.setText(khachHang.getUserName());
