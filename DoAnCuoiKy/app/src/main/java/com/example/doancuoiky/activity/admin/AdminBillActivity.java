@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.adapter.AdminBillAdapter;
+import com.example.doancuoiky.adapter.AdminFilmAdapter;
 import com.example.doancuoiky.dao.HoaDonDAO;
 import com.example.doancuoiky.model.HoaDon;
 
@@ -26,8 +27,7 @@ import java.util.ArrayList;
 
 public class AdminBillActivity extends AppCompatActivity {
 
-    EditText edtMaHoaDon, edtMaSuatChieu, edtMaKhachHang, edtMaCombo, edtTongTien;
-    Button btnXoa, btnXem;
+
     ListView lvHoaDon;
     LinearLayout layout_HoaDon;
     ArrayList<HoaDon> arrHoaDon;
@@ -47,49 +47,17 @@ public class AdminBillActivity extends AppCompatActivity {
     }
 
     private void events() {
-        lvHoaDon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvHoaDon.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 HoaDon hd = arrHoaDon.get(position);
-                edtMaHoaDon.setText(String.valueOf(hd.getMaHoaDon()));
-                edtMaKhachHang.setText(String.valueOf(hd.getMaKhachHang()));
-                edtMaSuatChieu.setText(String.valueOf(hd.getMaSuatChieu()));
-                edtMaCombo.setText(String.valueOf(hd.getMaCombo()));
-                edtTongTien.setText(String.valueOf(hd.getTongTien()));
-            }
-        });
-        btnXem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearText();
-            }
-        });
-
-        btnXoa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String maHoaDon = edtMaHoaDon.getText().toString();
-                if (maHoaDon.equals("")){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AdminBillActivity.this);
-                    builder.setMessage("Vui lòng chọn hóa đơn để xóa!")
-                            .setTitle("Fail")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // Xử lý sự kiện khi người dùng nhấn nút OK
-                                    dialog.dismiss(); // Đóng hộp thoại
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    return;
-                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(AdminBillActivity.this);
                 builder.setTitle("Cảnh báo");
                 builder.setMessage("Bạn có chắc muốn xóa hóa đơn này không");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        boolean res = hoaDonDao.delete(maHoaDon);
+                        boolean res = hoaDonDao.delete(hd.getMaHoaDon());
                         if (res){
                             Toast.makeText(AdminBillActivity.this, "Delete thành công", Toast.LENGTH_SHORT).show();
                             adapter.notifyDataSetChanged();
@@ -107,24 +75,19 @@ public class AdminBillActivity extends AppCompatActivity {
                 });
                 builder.create().show();
                 arrHoaDon = hoaDonDao.getListHoaDon();
-                adapter = new AdminBillAdapter(AdminBillActivity.this, R.layout.item_bill_admin, arrHoaDon);
+                adapter = new AdminBillAdapter(AdminBillActivity.this, R.layout.item_phim, arrHoaDon);
                 lvHoaDon.setAdapter(adapter);
                 clearText();
+                return true;
             }
         });
+
     }
 
     private void clearText() {
     }
 
     private void mapping() {
-        edtMaHoaDon = findViewById(R.id.edtMaHoaDon);
-        edtMaSuatChieu = findViewById(R.id.edtMaSuatChieu);
-        edtMaKhachHang = findViewById(R.id.edtMaKhachHang);
-        edtMaCombo = findViewById(R.id.edtMaCombo);
-        edtTongTien = findViewById(R.id.edtTongTien);
-        btnXoa = findViewById(R.id.btnXoaHoaDon);
-        btnXem = findViewById(R.id.btnHienThiHoaDon);
         layout_HoaDon = findViewById(R.id.layout_HoaDon);
         lvHoaDon = findViewById(R.id.lvHoaDon);
         arrHoaDon = hoaDonDao.getListHoaDon();
