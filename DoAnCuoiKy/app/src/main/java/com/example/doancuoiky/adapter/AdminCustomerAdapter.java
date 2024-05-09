@@ -48,8 +48,16 @@ public class AdminCustomerAdapter extends ArrayAdapter<KhachHang> {
         tv_maKhachHang.setText(khachHang.getMaKhachHang());
         tv_diaChi.setText(khachHang.getDiaChi());
         tv_ngaySinh.setText(khachHang.getNgaySinh());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(khachHang.getAvatar(), 0, khachHang.getAvatar().length);
-        img.setImageBitmap(bitmap);
+        byte[] avatarData = khachHang.getAvatar();
+        Bitmap defaultBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bhd_icon); // default_avatar là tên của hình ảnh mặc định
+
+        if (avatarData != null && avatarData.length > 0) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(avatarData, 0, avatarData.length);
+            img.setImageBitmap(bitmap);
+        } else {
+            img.setImageBitmap(defaultBitmap); // Thiết lập hình ảnh mặc định
+        }
+
         return convertView;
     }
 

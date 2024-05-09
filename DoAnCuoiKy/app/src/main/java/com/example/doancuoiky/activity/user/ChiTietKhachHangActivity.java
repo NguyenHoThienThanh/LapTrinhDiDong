@@ -1,6 +1,7 @@
 package com.example.doancuoiky.activity.user;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.doancuoiky.R;
+import com.example.doancuoiky.activity.admin.AdminStaffActivity;
 import com.example.doancuoiky.dao.KhachHangDAO;
 import com.example.doancuoiky.dao.TaiKhoanDAO;
 import com.example.doancuoiky.model.KhachHang;
@@ -28,6 +31,8 @@ import com.example.doancuoiky.model.TaiKhoan;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class ChiTietKhachHangActivity extends AppCompatActivity {
 
@@ -66,6 +71,29 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
         txt_userName = findViewById(R.id.txt_userName);
         txt_email = findViewById(R.id.txt_email);
         img_khachhang = findViewById(R.id.img_khachhang);
+        edt_ngaySinh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                // Tạo DatePickerDialog
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        ChiTietKhachHangActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int day) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                                Calendar selectedDate = Calendar.getInstance();
+                                selectedDate.set(year, month, day);
+                                edt_ngaySinh.setText(sdf.format(selectedDate.getTime()));
+                            }
+                        }, year, month, day
+                );
+                datePickerDialog.show();
+            }
+        });
     }
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -184,14 +212,7 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
             return;
         }
 
-        if (!isValidDateFormat(edt_ngaySinh.getText().toString())) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Lỗi")
-                    .setMessage("Ngày sinh phải có định dạng dd-MM-yyyy và là ngày hợp lệ.")
-                    .setPositiveButton("OK", null)
-                    .show();
-            return;
-        }
+
 
         khachHang.setEmail(edt_email.getText().toString().trim());
         khachHang.setHoTen(edt_hoTen.getText().toString());
@@ -207,7 +228,7 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
 
         boolean result = khachHangDAO.update(khachHang);
         if (result) {
-            Toast.makeText(ChiTietKhachHangActivity.this, "Update success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChiTietKhachHangActivity.this, "Chỉnh sửa thành công", Toast.LENGTH_SHORT).show();
             edt_email.setText(khachHang.getEmail());
             edt_password.setText(taiKhoan.getMatKhau());
             edt_diaChi.setText(khachHang.getDiaChi());
@@ -279,14 +300,8 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
         edt_email.setText(kh.getEmail());
         edt_diaChi.setText(kh.getDiaChi());
         edt_userName.setText(kh.getUserName());
-        if(kh.getAvatar() == null){
-
-        }
-        else{
-            Bitmap bitmap = BitmapFactory.decodeByteArray(kh.getAvatar(), 0, kh.getAvatar().length);
-            img_khachhang.setImageBitmap(bitmap);
-        }
-
+        Bitmap bitmap = BitmapFactory.decodeByteArray(kh.getAvatar(), 0, kh.getAvatar().length);
+        img_khachhang.setImageBitmap(bitmap);
     }
 
     public static boolean isValidFullName(String fullName) {
