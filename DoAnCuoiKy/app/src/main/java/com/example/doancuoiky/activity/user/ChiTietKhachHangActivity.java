@@ -249,7 +249,7 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
 
     public boolean checkPassword(String password) {
         // Kiểm tra xem chuỗi mật khẩu có ít nhất 5 kí tự hoặc số và tối đa 10 kí tự hoặc số không
-        if (password == null || password.length() < 5 || password.length() > 10) {
+        if (password == null || password.length() < 5 || password.length() > 15) {
             return false;
         }
         // Biến đếm số kí tự hoặc số
@@ -263,7 +263,7 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
             }
         }
         // Trả về true nếu có ít nhất 5 và tối đa 10 kí tự hoặc số, ngược lại trả về false
-        return count >= 5 && count <= 10;
+        return count >= 5 && count <= 15;
     }
 
 
@@ -279,8 +279,14 @@ public class ChiTietKhachHangActivity extends AppCompatActivity {
         edt_email.setText(kh.getEmail());
         edt_diaChi.setText(kh.getDiaChi());
         edt_userName.setText(kh.getUserName());
-        Bitmap bitmap = BitmapFactory.decodeByteArray(kh.getAvatar(), 0, kh.getAvatar().length);
-        img_khachhang.setImageBitmap(bitmap);
+        if(kh.getAvatar() == null){
+
+        }
+        else{
+            Bitmap bitmap = BitmapFactory.decodeByteArray(kh.getAvatar(), 0, kh.getAvatar().length);
+            img_khachhang.setImageBitmap(bitmap);
+        }
+
     }
 
     public static boolean isValidFullName(String fullName) {

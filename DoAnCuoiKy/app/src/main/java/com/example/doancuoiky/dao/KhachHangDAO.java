@@ -102,6 +102,7 @@ public class KhachHangDAO {
         values.put("ngaySinh", khachHang.getNgaySinh());
         values.put("diaChi", khachHang.getDiaChi());
         values.put("email", khachHang.getEmail());
+        values.put("soDienThoai", khachHang.getSoDienThoai());
         values.put("userName", khachHang.getUserName());
         values.put("avatar", khachHang.getAvatar());
         try {
