@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Layout;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,7 +82,7 @@ public class AdminStaffActivity extends AppCompatActivity {
         btn_them_nv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkNull()&&isValidPhoneNumber()&&isValidEmail()&isValidBirthdate()){
+                if(checkNull()&&isValidPhoneNumber()&&isValidEmail()&&isValidBirthdate()){
                     insert();
                     clear();
                 }
@@ -99,8 +101,17 @@ public class AdminStaffActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clear();
-                btn_sua_nv = findViewById(R.id.btn_sua_nv);
-                btn_sua_nv.setVisibility(View.INVISIBLE);
+                // Khi nút hủy được nhấn, đặt lại trạng thái của nút sửa và thêm
+                Button btn_sua_nv = findViewById(R.id.btn_sua_nv);
+                Button btn_them_nv = findViewById(R.id.btn_them_nv);
+
+                btn_sua_nv.setVisibility(View.INVISIBLE); // Ẩn nút sửa
+                btn_them_nv.setVisibility(View.VISIBLE); // Hiển thị nút thêm
+
+                // Đặt lại và ẩn layout thêm nhân viên nếu đang hiển thị
+                if (layout_themnv.getVisibility() == View.VISIBLE) {
+                    layout_themnv.setVisibility(View.GONE);
+                }
             }
         });
         btn_sua_nv = findViewById(R.id.btn_sua_nv);
@@ -115,6 +126,7 @@ public class AdminStaffActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         update();
+                        clear();
                     }
                 });
 
@@ -192,46 +204,38 @@ public class AdminStaffActivity extends AppCompatActivity {
         EditText edt_ngay_sinh = findViewById(R.id.edt_ngay_sinh);
         RadioGroup rg_gender = findViewById(R.id.radio_gender);
 
-
         String hoTen = edt_ho_ten.getText().toString().trim();
         String diaChi = edt_dia_chi.getText().toString().trim();
         String email = edt_email.getText().toString().trim();
         String soDt = edt_so_dt.getText().toString().trim();
         String ngaySinh = edt_ngay_sinh.getText().toString().trim();
 
-        if (hoTen.isEmpty()) {
-            Toast.makeText(this, "Họ tên không được để trống", Toast.LENGTH_SHORT).show();
+        Log.d("checkNull", "Họ tên: " + hoTen);
+        Log.d("checkNull", "Địa chỉ: " + diaChi);
+        Log.d("checkNull", "Email: " + email);
+        Log.d("checkNull", "Số điện thoại: " + soDt);
+        Log.d("checkNull", "Ngày sinh: " + ngaySinh);
+
+        if (hoTen.isEmpty() || diaChi.isEmpty() || email.isEmpty() || soDt.isEmpty() || ngaySinh.isEmpty()) {
+            Log.d("checkNull", "Một hoặc nhiều trường bị để trống.");
+            Toast.makeText(this, "Các trường không được để trống", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (diaChi.isEmpty()) {
-            Toast.makeText(this, "Địa chỉ không được để trống", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (email.isEmpty()) {
-            Toast.makeText(this, "Email không được để trống", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (soDt.isEmpty()) {
-            Toast.makeText(this, "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (ngaySinh.isEmpty()) {
-            Toast.makeText(this, "Ngày sinh không được để trống", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        // Kiểm tra giới tính có được chọn hay không
+
         int selectedGenderId = rg_gender.getCheckedRadioButtonId();
+        Log.d("checkNull", "ID giới tính đã chọn: " + selectedGenderId);
         if (selectedGenderId == -1) {
             Toast.makeText(this, "Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
+
     public boolean isValidPhoneNumber() {
         EditText edt_so_dt = findViewById(R.id.edt_so_dt);
         String soDt = edt_so_dt.getText().toString().trim();
 
-        if (!soDt.matches("\\d{10,11}")) { // Kiểm tra xem số điện thoại có 10-11 chữ số
+        if (!soDt.matches("\\d{10}")) {
             Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -306,7 +310,11 @@ public class AdminStaffActivity extends AppCompatActivity {
     private void showUpdateDialog() {
         if (nhanVienSelected != null) {
             Button btn_sua_nv = findViewById(R.id.btn_sua_nv);
+            Button btn_them_nv = findViewById(R.id.btn_them_nv);
+
             btn_sua_nv.setVisibility(View.VISIBLE);
+            btn_them_nv.setVisibility(View.GONE); // Ẩn nút thêm nhân viên khi đang sửa thông tin
+            layout_themnv.setVisibility(View.VISIBLE);
 
             EditText edt_ho_ten = findViewById(R.id.edt_ho_ten);
             EditText edt_dia_chi = findViewById(R.id.edt_dia_chi);
@@ -328,24 +336,40 @@ public class AdminStaffActivity extends AppCompatActivity {
                 rg_gender.check(R.id.rb_nu);
             }
 
-            edt_ngay_sinh.setText(nhanVienSelected.getNgaySinh());
+            // Định dạng lại ngày sinh từ NhanVien để hiển thị
+            String ngaySinh = nhanVienSelected.getNgaySinh();
+            SimpleDateFormat sdfInput = new SimpleDateFormat("yyyy-MM-dd");  // Giả sử ngày sinh lưu trong DB là định dạng này
+            SimpleDateFormat sdfOutput = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng bạn muốn hiển thị
+
+            try {
+                Date ngaySinhDate = sdfInput.parse(ngaySinh); // Phân tích chuỗi ngày sinh từ định dạng lưu trữ
+                String ngaySinhFormatted = sdfOutput.format(ngaySinhDate); // Chuyển đổi sang định dạng mới để hiển thị
+                edt_ngay_sinh.setText(ngaySinhFormatted); // Đặt vào EditText
+            } catch (ParseException e) {
+                Toast.makeText(AdminStaffActivity.this, "Lỗi định dạng ngày sinh", Toast.LENGTH_SHORT).show();
+            }
             btn_sua_nv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    nhanVienSelected.setHoTen(edt_ho_ten.getText().toString());
-                    nhanVienSelected.setDiaChi(edt_dia_chi.getText().toString());
-                    nhanVienSelected.setEmail(edt_email.getText().toString());
-                    nhanVienSelected.setSoDienThoai(edt_so_dt.getText().toString());
-                    nhanVienSelected.setGioiTinh(rg_gender.getCheckedRadioButtonId() == R.id.rb_nam);
-                    nhanVienSelected.setNgaySinh(edt_ngay_sinh.getText().toString());
+                    // Định dạng ngày sinh với SimpleDateFormat
+                    String ngaySinhRaw = edt_ngay_sinh.getText().toString();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        Date ngaySinhDate = sdf.parse(ngaySinhRaw);  // Chuyển đổi chuỗi ngày sinh sang đối tượng Date
+                        String ngaySinhFormatted = sdf.format(ngaySinhDate);  // Định dạng lại để chắc chắn đúng "dd/MM/yyyy"
+                        nhanVienSelected.setNgaySinh(ngaySinhFormatted);
 
-                    boolean isUpdated = nhanVienDAO.update(nhanVienSelected);
-
-                    if (isUpdated) {
-                        Toast.makeText(AdminStaffActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                        staffAdapter();
-                    } else {
-                        Toast.makeText(AdminStaffActivity.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
+                        if (checkNull() && isValidPhoneNumber() && isValidEmail() && isValidBirthdate()) {
+                            boolean isUpdated = nhanVienDAO.update(nhanVienSelected);
+                            if (isUpdated) {
+                                Toast.makeText(AdminStaffActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                staffAdapter();
+                            } else {
+                                Toast.makeText(AdminStaffActivity.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } catch (ParseException e) {
+                        Toast.makeText(AdminStaffActivity.this, "Định dạng ngày sinh không hợp lệ", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

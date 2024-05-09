@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:hint="Mã nhân viên"
             android:textColor="#000000"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:enabled="false"/>
 
         <EditText
             android:id="@+id/edt_ho_ten"
@@ -27,7 +28,8 @@
             android:hint="Họ tên"
             android:textColor="#000000"
             android:textSize="18sp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:enabled="false"/>
 
         <EditText
             android:id="@+id/edt_dia_chi"
@@ -36,7 +38,8 @@
             android:hint="Địa chỉ"
             android:textColor="#000000"
             android:textSize="18sp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:enabled="false"/>
 
         <EditText
             android:id="@+id/edt_email"
@@ -45,7 +48,8 @@
             android:hint="Email"
             android:textColor="#000000"
             android:textSize="18sp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:enabled="false"/>
 
         <EditText
             android:id="@+id/edt_so_dt"
@@ -55,7 +59,8 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:inputType="phone"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:enabled="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,13 +85,15 @@
                     android:id="@+id/rb_nam"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nam"/>
+                    android:text="Nam"
+                    android:enabled="false"/>
 
                 <RadioButton
                     android:id="@+id/rb_nu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nữ"/>
+                    android:text="Nữ"
+                    android:enabled="false"/>
 
             </RadioGroup>
         </LinearLayout>
@@ -99,6 +106,6 @@
             android:textColor="#000000"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
-            android:focusable="false" /> <!-- Ngăn người dùng nhập trực tiếp -->
+            android:focusable="false" /> <!-- Đã ngăn người dùng nhập trực tiếp -->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

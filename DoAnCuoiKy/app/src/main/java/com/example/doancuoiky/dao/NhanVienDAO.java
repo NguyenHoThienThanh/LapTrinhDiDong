@@ -61,16 +61,16 @@ public class NhanVienDAO {
         values.put("diaChi", nhanVien.getDiaChi());
         values.put("email", nhanVien.getEmail());
         values.put("soDienThoai", nhanVien.getSoDienThoai());
-        values.put("gioiTinh", nhanVien.isGioiTinh() ? 1 : 0); // Lưu giới tính dưới dạng 0 hoặc 1
+        values.put("gioiTinh", nhanVien.isGioiTinh() ? 1 : 0);
         values.put("ngaySinh", nhanVien.getNgaySinh()); // Lưu ngày sinh dưới dạng chuỗi định dạng "dd/MM/yyyy"
         try {
             sqlDB = helper.getWritableDatabase();
             int result = sqlDB.update("NhanVien", values, "maNhanVien = ?", new String[]{nhanVien.getMaNhanVien()});
 
-            return result > 0; // Trả về true nếu cập nhật thành công
+            return result > 0;
         } catch (Exception ex) {
-            ex.printStackTrace(); // Xử lý ngoại lệ
-            return false; // Trả về false nếu có lỗi
+            ex.printStackTrace();
+            return false;
         }
     }
 

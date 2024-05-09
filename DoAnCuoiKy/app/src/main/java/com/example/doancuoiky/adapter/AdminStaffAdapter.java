@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import com.example.doancuoiky.R;
 import com.example.doancuoiky.model.NhanVien;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -46,18 +47,29 @@ public class AdminStaffAdapter extends ArrayAdapter<NhanVien> {
 
         NhanVien nhanVien = arrayNhanVien.get(position);
 
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = nhanVien.getNgaySinh();
+
+        try {
+            formattedDate = outputFormat.format(inputFormat.parse(nhanVien.getNgaySinh()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         tv_ma_nv.setText(nhanVien.getMaNhanVien());
         tv_ho_ten.setText(nhanVien.getHoTen());
         tv_dia_chi.setText(nhanVien.getDiaChi());
         tv_email.setText(nhanVien.getEmail());
         tv_so_dt.setText(nhanVien.getSoDienThoai());
-        tv_ngay_sinh.setText(nhanVien.getNgaySinh());
+        tv_ngay_sinh.setText(formattedDate);
 
         if (nhanVien.isGioiTinh()) {
             rg_gioi_tinh.check(R.id.rb_nam);
         } else {
             rg_gioi_tinh.check(R.id.rb_nu);
         }
+
         return convertView;
     }
 }
