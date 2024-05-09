@@ -125,7 +125,7 @@ public class AdminSuatChieuActivity extends AppCompatActivity {
                         dialog.show();
                 }
                 else{
-                    ChiTietSuatChieu ct = new ChiTietSuatChieu(maPhongChieu, maPhim, ngayChieu, gioChieu);
+                    ChiTietSuatChieu ct = new ChiTietSuatChieu("", maPhongChieu, maPhim, ngayChieu, gioChieu);
                     boolean res = scDao.insert(ct);
                     if (res){
                         Toast.makeText(AdminSuatChieuActivity.this, "Insert thành công", Toast.LENGTH_SHORT).show();
