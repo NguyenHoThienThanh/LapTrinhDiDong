@@ -75,7 +75,7 @@ public class AdminBillActivity extends AppCompatActivity {
                 });
                 builder.create().show();
                 arrHoaDon = hoaDonDao.getListHoaDon();
-                adapter = new AdminBillAdapter(AdminBillActivity.this, R.layout.item_phim, arrHoaDon);
+                adapter = new AdminBillAdapter(AdminBillActivity.this, R.layout.item_bill_admin, arrHoaDon);
                 lvHoaDon.setAdapter(adapter);
                 clearText();
                 return true;

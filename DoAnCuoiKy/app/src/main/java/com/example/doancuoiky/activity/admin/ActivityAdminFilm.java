@@ -298,7 +298,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
 
-                if (checkEmptyInput()){
+                if (!checkEmptyInput()){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
                     builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                             .setTitle("Fail")
