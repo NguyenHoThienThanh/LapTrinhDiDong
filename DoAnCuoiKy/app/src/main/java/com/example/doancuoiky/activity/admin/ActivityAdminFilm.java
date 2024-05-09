@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -75,8 +76,8 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 edtGiaVe.setText(String.valueOf(phim.getGiaVe()));
                 edtTheLoai.setText(String.valueOf(phim.getTheLoai()));
                 edtQuocGia.setText(String.valueOf(phim.getQuocGia()));
-//                edtMaPhim, edtTenPhim, edtThoiLuong, edtDoTuoi, edtMoTa,
-//                        edtDienVien, edtGiaVe, edtTheLoai, edtQuocGia;
+                imgPhim.setImageBitmap(byteArrayToBitmap(phim.getTrailer()));
+
             }
         });
 
@@ -515,6 +516,10 @@ public class ActivityAdminFilm extends AppCompatActivity {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
         return baos.toByteArray();
+    }
+
+    private Bitmap byteArrayToBitmap(byte[] byteArray) {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
     }
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
