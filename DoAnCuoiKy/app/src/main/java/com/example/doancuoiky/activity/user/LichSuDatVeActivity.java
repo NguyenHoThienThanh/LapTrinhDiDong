@@ -21,6 +21,7 @@ import com.example.doancuoiky.dao.KhachHangDAO;
 import com.example.doancuoiky.model.HoaDon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class LichSuDatVeActivity extends AppCompatActivity {
 
@@ -68,7 +69,7 @@ public class LichSuDatVeActivity extends AppCompatActivity {
 
 
         arrHoaDon = hdDao.findHoaDonByMaKhachHang((khDao.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan())).getMaKhachHang());
-        String maKhachHang = (khDao.findOneBySoDienThoai(LoginActivity.getTaiKhoan().getTaiKhoan())).getMaKhachHang();
+        Collections.reverse(arrHoaDon);
         adapter.setData(arrHoaDon);
         rcv.setAdapter(adapter);
     }

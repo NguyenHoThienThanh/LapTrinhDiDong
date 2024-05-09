@@ -28,6 +28,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HoaDonActivity extends AppCompatActivity {
@@ -160,6 +161,9 @@ public class HoaDonActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
-        tv_tongtien.setText(String.valueOf(total + totalPrice));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String formattedTongTien = decimalFormat.format(total + totalPrice);
+        tv_tongtien.setText(formattedTongTien + "đ");
+
     }
 }

@@ -24,6 +24,7 @@ import com.example.doancuoiky.activity.user.LichSuDatVeActivity;
 import com.example.doancuoiky.model.HoaDon;
 import com.example.doancuoiky.model.Phim;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class LichSuDatVeAdapter extends RecyclerView.Adapter<LichSuDatVeAdapter.
         this.hoaDonList = list;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public LishSuDatVeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,7 +56,9 @@ public class LichSuDatVeAdapter extends RecyclerView.Adapter<LichSuDatVeAdapter.
         holder.maHoaDon.setText(hoaDon.getMaHoaDon());
         holder.maSuatChieu.setText(hoaDon.getMaSuatChieu());
         holder.maCombo.setText(hoaDon.getMaCombo());
-        holder.tongTien.setText(String.valueOf(hoaDon.getTongTien()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String formattedTongTien = decimalFormat.format(hoaDon.getTongTien());
+        holder.tongTien.setText(formattedTongTien + "đ");
         holder.ngayDatVe.setText(hoaDon.getNgayLapHoaDon());
 
         if (position % 2 == 0) {

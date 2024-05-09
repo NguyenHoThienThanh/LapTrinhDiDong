@@ -26,6 +26,8 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.text.DecimalFormat;
+
 public class DetailTicket extends AppCompatActivity {
 
     String maHoaDon;
@@ -97,6 +99,8 @@ public class DetailTicket extends AppCompatActivity {
         }catch (WriterException e){
             throw new RuntimeException(e);
         }
-        tv_tongtien.setText(String.valueOf(chiTietVe.getTongTien()));
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String formattedTongTien = decimalFormat.format(chiTietVe.getTongTien());
+        tv_tongtien.setText(formattedTongTien + "đ");
     }
 }
