@@ -604,14 +604,14 @@ public class ActivityAdminFilm extends AppCompatActivity {
     }
 
     private boolean checkEmptyInput() {
-        if (edtQuocGia.getText().toString().equals("") ||
-                edtTheLoai.getText().toString().equals("") ||
-                edtGiaVe.getText().toString().equals("") ||
-                edtMoTa.getText().toString().equals("") ||
-                edtDienVien.getText().toString().equals("") ||
-                edtDoTuoi.getText().toString().equals("") ||
-                edtTenPhim.getText().toString().equals("") ||
-                edtThoiLuong.getText().toString().equals("")) {
+        if (edtQuocGia.getText().toString().isEmpty() ||
+                edtTheLoai.getText().toString().isEmpty() ||
+                edtGiaVe.getText().toString().isEmpty() ||
+                edtMoTa.getText().toString().isEmpty() ||
+                edtDienVien.getText().toString().isEmpty() ||
+                edtDoTuoi.getText().toString().isEmpty() ||
+                edtTenPhim.getText().toString().isEmpty() ||
+                edtThoiLuong.getText().toString().isEmpty()) {
             return false;
         }
         return true;
