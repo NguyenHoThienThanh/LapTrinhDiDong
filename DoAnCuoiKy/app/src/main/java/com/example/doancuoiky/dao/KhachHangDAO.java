@@ -93,6 +93,26 @@ public class KhachHangDAO {
         return khachHang;
     }
 
+    public boolean insert(KhachHang khachHang) {
+        sqlDB = helper.getReadableDatabase();
+        sqlDB = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("maKhachHang", khachHang.getMaKhachHang());
+        values.put("hoTen", khachHang.getHoTen());
+        values.put("ngaySinh", khachHang.getNgaySinh());
+        values.put("diaChi", khachHang.getDiaChi());
+        values.put("email", khachHang.getEmail());
+        values.put("userName", khachHang.getUserName());
+        values.put("avatar", khachHang.getAvatar());
+        try {
+            if (sqlDB.insert("KhachHang", null, values) < 0) {
+                return false;
+            }
+        } catch (Exception ex) {
+        }
+        return true;
+    }
+
     public boolean update(KhachHang khachHang) {
         sqlDB = helper.getReadableDatabase();
         sqlDB = helper.getWritableDatabase();
