@@ -113,7 +113,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
 
-                if (checkEmptyInput(edtMaPhim)){
+                if (checkEmptyInput()){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
                     builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                             .setTitle("Fail")
@@ -298,7 +298,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                 String theLoai = edtTheLoai.getText().toString();
                 String quocGia = edtQuocGia.getText().toString();
 
-                if (checkEmptyInput(edtMaPhim)){
+                if (checkEmptyInput()){
                     AlertDialog.Builder builder = new AlertDialog.Builder(ActivityAdminFilm.this);
                     builder.setMessage("Vui lòng nhập đầy đủ thông tin!")
                             .setTitle("Fail")
@@ -503,6 +503,7 @@ public class ActivityAdminFilm extends AppCompatActivity {
                     }
                 });
                 builder.create().show();
+                layout_them_phim.setVisibility(View.GONE);
                 arrPhim = phimDao.findAllPhim();
                 adapter = new AdminFilmAdapter(ActivityAdminFilm.this, R.layout.item_phim, arrPhim);
                 lvPhim.setAdapter(adapter);
@@ -602,17 +603,17 @@ public class ActivityAdminFilm extends AppCompatActivity {
         });
     }
 
-    private boolean checkEmptyInput(EditText edtMaPhim){
-        int childCount = layout_them_phim.getChildCount();
-        for (int i=0; i<childCount; i++){
-            View view = layout_them_phim.getChildAt(i);
-            if (view instanceof  EditText){
-                EditText edt = (EditText) view;
-                if (edt.getText().toString().equals("") && view != edtMaPhim){
-                    return true;
-                }
-            }
+    private boolean checkEmptyInput() {
+        if (edtQuocGia.getText().toString().equals("") ||
+                edtTheLoai.getText().toString().equals("") ||
+                edtGiaVe.getText().toString().equals("") ||
+                edtMoTa.getText().toString().equals("") ||
+                edtDienVien.getText().toString().equals("") ||
+                edtDoTuoi.getText().toString().equals("") ||
+                edtTenPhim.getText().toString().equals("") ||
+                edtThoiLuong.getText().toString().equals("")) {
+            return false;
         }
-        return false;
+        return true;
     }
 }

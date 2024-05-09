@@ -110,8 +110,8 @@ public class SuatChieuDao {
             if (c != null) {
                 c.close();
             }
-            return list;
         }
+        return list;
     }
 
     public boolean insert(ChiTietSuatChieu suatChieu) {
