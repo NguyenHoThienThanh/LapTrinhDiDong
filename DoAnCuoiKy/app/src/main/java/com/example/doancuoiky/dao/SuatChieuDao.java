@@ -94,16 +94,16 @@ public class SuatChieuDao {
         ArrayList<ChiTietSuatChieu> list = new ArrayList<>();
         Cursor c = sqlDB.query("SuatChieu", null, null, null, null, null, null);
 
-        while(c != null && c.moveToFirst()){
-            ChiTietSuatChieu ct = new ChiTietSuatChieu();
-            ct.setMaSuatChieu(c.getString(0));
-            ct.setMaPhongChieu(c.getString(1));
-            ct.setMaPhim(c.getString(2));
-            ct.setNgayChieu(c.getString(4));
-            ct.setGioChieu(c.getString(3));
-
-            list.add(ct);
-            c.moveToNext();
+       if (c != null && c.moveToFirst()){
+           do{
+               ChiTietSuatChieu ct = new ChiTietSuatChieu();
+               ct.setMaSuatChieu(c.getString(0));
+               ct.setMaPhongChieu(c.getString(1));
+               ct.setMaPhim(c.getString(2));
+               ct.setNgayChieu(c.getString(4));
+               ct.setGioChieu(c.getString(3));
+               list.add(ct);
+           }while(c.moveToNext());
         }
         if (c!= null){
             c.close();
