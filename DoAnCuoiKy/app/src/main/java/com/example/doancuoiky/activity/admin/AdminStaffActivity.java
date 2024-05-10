@@ -126,10 +126,8 @@ public class AdminStaffActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         update();
-                        clear();
                     }
                 });
-
                 builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -204,26 +202,35 @@ public class AdminStaffActivity extends AppCompatActivity {
         EditText edt_ngay_sinh = findViewById(R.id.edt_ngay_sinh);
         RadioGroup rg_gender = findViewById(R.id.radio_gender);
 
+
         String hoTen = edt_ho_ten.getText().toString().trim();
         String diaChi = edt_dia_chi.getText().toString().trim();
         String email = edt_email.getText().toString().trim();
         String soDt = edt_so_dt.getText().toString().trim();
         String ngaySinh = edt_ngay_sinh.getText().toString().trim();
 
-        Log.d("checkNull", "Họ tên: " + hoTen);
-        Log.d("checkNull", "Địa chỉ: " + diaChi);
-        Log.d("checkNull", "Email: " + email);
-        Log.d("checkNull", "Số điện thoại: " + soDt);
-        Log.d("checkNull", "Ngày sinh: " + ngaySinh);
-
-        if (hoTen.isEmpty() || diaChi.isEmpty() || email.isEmpty() || soDt.isEmpty() || ngaySinh.isEmpty()) {
-            Log.d("checkNull", "Một hoặc nhiều trường bị để trống.");
-            Toast.makeText(this, "Các trường không được để trống", Toast.LENGTH_SHORT).show();
+        if (hoTen.isEmpty()) {
+            Toast.makeText(this, "Họ tên không được để trống", Toast.LENGTH_SHORT).show();
             return false;
         }
-
+        if (diaChi.isEmpty()) {
+            Toast.makeText(this, "Địa chỉ không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Email không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (soDt.isEmpty()) {
+            Toast.makeText(this, "Số điện thoại không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (ngaySinh.isEmpty()) {
+            Toast.makeText(this, "Ngày sinh không được để trống", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        // Kiểm tra giới tính có được chọn hay không
         int selectedGenderId = rg_gender.getCheckedRadioButtonId();
-        Log.d("checkNull", "ID giới tính đã chọn: " + selectedGenderId);
         if (selectedGenderId == -1) {
             Toast.makeText(this, "Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
             return false;
@@ -330,24 +337,23 @@ public class AdminStaffActivity extends AppCompatActivity {
             edt_email.setText(nhanVienSelected.getEmail());
             edt_so_dt.setText(nhanVienSelected.getSoDienThoai());
 
-            if (nhanVienSelected.isGioiTinh()) {
+            if (nhanVienSelected.isGioiTinh()==true) {
                 rg_gender.check(R.id.rb_nam);
             } else {
                 rg_gender.check(R.id.rb_nu);
             }
-
-            // Định dạng lại ngày sinh từ NhanVien để hiển thị
-            String ngaySinh = nhanVienSelected.getNgaySinh();
-            SimpleDateFormat sdfInput = new SimpleDateFormat("yyyy-MM-dd");  // Giả sử ngày sinh lưu trong DB là định dạng này
-            SimpleDateFormat sdfOutput = new SimpleDateFormat("dd/MM/yyyy"); // Định dạng bạn muốn hiển thị
-
-            try {
-                Date ngaySinhDate = sdfInput.parse(ngaySinh); // Phân tích chuỗi ngày sinh từ định dạng lưu trữ
-                String ngaySinhFormatted = sdfOutput.format(ngaySinhDate); // Chuyển đổi sang định dạng mới để hiển thị
-                edt_ngay_sinh.setText(ngaySinhFormatted); // Đặt vào EditText
-            } catch (ParseException e) {
-                Toast.makeText(AdminStaffActivity.this, "Lỗi định dạng ngày sinh", Toast.LENGTH_SHORT).show();
-            }
+            rg_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    // Kiểm tra nút radio nào được chọn và cập nhật giới tính của nhanVienSelected
+                    if (checkedId == R.id.rb_nam) {
+                        nhanVienSelected.setGioiTinh(true); // true cho nam
+                    } else if (checkedId == R.id.rb_nu) {
+                        nhanVienSelected.setGioiTinh(false); // false cho nữ
+                    }
+                }
+            });
+            edt_ngay_sinh.setText(nhanVienSelected.getNgaySinh());
             btn_sua_nv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
