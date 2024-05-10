@@ -5,7 +5,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -353,6 +355,58 @@ public class AdminStaffActivity extends AppCompatActivity {
                     }
                 }
             });
+            edt_ho_ten.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    nhanVienSelected.setHoTen(s.toString());
+                }
+            });
+
+            edt_dia_chi.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    nhanVienSelected.setDiaChi(s.toString());
+                }
+            });
+
+            edt_email.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    nhanVienSelected.setEmail(s.toString());
+                }
+            });
+
+            edt_so_dt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    nhanVienSelected.setSoDienThoai(s.toString());
+                }
+            });
+
             edt_ngay_sinh.setText(nhanVienSelected.getNgaySinh());
             btn_sua_nv.setOnClickListener(new View.OnClickListener() {
                 @Override
